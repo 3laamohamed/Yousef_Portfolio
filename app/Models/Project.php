@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
+    protected $table ='project';
+    protected $guarded = [];
+
+    public function Group()
+    {
+        return $this->belongsTo('App\Models\Group','group_id','id');
+    }
 }

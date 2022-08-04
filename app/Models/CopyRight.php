@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class CopyRight extends Model
 {
     use HasFactory;
+    protected $table ='copyright';
+    protected $guarded = [];
 }
