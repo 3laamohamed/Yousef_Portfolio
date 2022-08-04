@@ -15,7 +15,7 @@ class Group extends Migration
     {
         Schema::create('group', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('group');
+            $table->string('group')->default(' ');
             $table->timestamps();
         });
     }

@@ -13,7 +13,12 @@ class About extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('about', function (Blueprint $table) {
+            $table->bigIncrements('name');
+            $table->string('disc')->default(' ');
+            $table->string('image')->default(' ');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class About extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('about');
     }
 }
