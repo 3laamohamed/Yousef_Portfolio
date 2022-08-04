@@ -15,13 +15,21 @@
           <div class="mb-3">
               @csrf
               <label for="brand_name" class="form-label">Brand Name</label>
-              <input type="text" value='{{$data[0]->name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
+              <?php
+                 $name = '';
+                 $disc = '';
+                 $image = '';
+                if(isset($data[0]->name)){$name = $data[0]->name;}
+                if(isset($data[0]->disc)){$name = $data[0]->disc;}
+                if(isset($data[0]->image)){$name = $data[0]->image;}
+              ?>
+              <input type="text" value='{{$name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
           </div>
         </div>
         <div class="col-md-6">
           <div class="mb-3">
             <label for="group_name" class="form-label">Discibtion</label>
-            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$data[0]->disc}}</textarea>
+            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$disc}}</textarea>
           </div>
         </div>
         <div class="col-md-6">
