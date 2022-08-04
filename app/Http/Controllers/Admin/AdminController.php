@@ -33,8 +33,12 @@ class AdminController extends Controller
         return view('admin.general');
     }
     public function group(){
+        $counter = 1;
         $groups = Group::get()->All();
-        return view('admin.group',compact('groups'));
+        if(!empty($groups)){
+          $counter = Group::max('id') + 1;
+        }
+        return view('admin.group',compact('groups','counter'));
     }
     public function project(){
         return view('admin.project');
@@ -113,5 +117,10 @@ class AdminController extends Controller
             'disc' =>$request->disc,
         ]);
         if($save){return $this->ReturnSucsess('true', 'Saved About');}
+    }
+
+    ################################ SAve Project ################################
+    public function save_project(Request $request){
+      return $request;
     }
 }

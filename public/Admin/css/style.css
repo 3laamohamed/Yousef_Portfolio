@@ -86,7 +86,7 @@ button.clicked:active {
 .file-image {
   display: inline-block;
   position: relative;
-  margin-top: calc(1.5rem + 32px);
+  margin-top: calc(1.5rem + 15px);
 }
 .file-image input {
   position: absolute;

@@ -10,8 +10,8 @@
     <div class="col-md-10 offset-md-1">
     <form id="form_save_item" action=" " method="POST" multiple enctype="multipart/form-data">
       @csrf
-      <div class="row">
-       <div class="col-md-6">
+      <div class="row align-items-center">
+        <div class="col-md-6">
           <div class="mb-3">
               @csrf
               <label for="brand_name" class="form-label">Brand Name</label>
@@ -25,8 +25,6 @@
               ?>
               <input type="text" value='{{$name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
           </div>
-        </div>
-        <div class="col-md-6">
           <div class="mb-3">
             <label for="group_name" class="form-label">Discibtion</label>
             <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$disc}}</textarea>
@@ -53,7 +51,7 @@
   </div>
 </div>
 <script>
-    // let _token           = $('input[name="_token"]').val(); 
+    // let _token           = $('input[name="_token"]').val();
     $('#save_copy_right').on('click', function() {
         let formData      = new FormData($('#form_save_item')[0]);
         $.ajax({

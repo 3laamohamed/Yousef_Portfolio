@@ -5,6 +5,7 @@ $title = 'Group';
 @extends('layouts.app')
 @section('content')
 <div class="container">
+    <div class="d-none" id='counter_group' value='{{$counter}}'></div>
     <h2 class="title">group</h2>
     <div class="row mt-5">
         <div class="col-md-6 offset-md-3">
@@ -26,14 +27,14 @@ $title = 'Group';
                 </thead>
                 <tbody class="table-light">
                     @foreach($groups as $group)
-                    <tr>
+                    <tr id="{{$group->id}}">
                         <td>{{$group->id}}</td>
                         <td>{{$group->group}}</td>
                         <td>
-                            <button class="table-buttons">
+                            <button class="table-buttons" onclick="getRow({{$group->id}})">
                                 <ion-icon class="text-primary" name="create-outline"></ion-icon>
                             </button>
-                            <button class="table-buttons">
+                            <button class="table-buttons" id='delete_group'>
                                 <ion-icon class="text-danger" name="trash-outline"></ion-icon>
                             </button>
                         </td>
@@ -47,10 +48,11 @@ $title = 'Group';
 <script>
     let _token           = $('input[name="_token"]').val();
     let action = '';
+    let mood = 'create';
 
-    $('#save_group').on('click', function() {
+    $('body').on('click', '#save_group',function() {
         let groupName =$('#group_name').val();
-        let rowLength = $('tbody').children().length;
+        let groupId = $("#counter_group").attr('value');
         action = 'save';
         let html = $('tbody').html();
         $.ajax({
@@ -69,30 +71,31 @@ $title = 'Group';
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
-                  title: 'Your work has been saved',
+                  title: data.msg,
                   showConfirmButton: false,
                   timer: 1500
                 })
-                  html += `<tr id="group_${rowLength + 1}">
-                              <td>${rowLength + 1}</td>
+                  html += `<tr id="${groupId}">
+                              <td>${groupId}</td>
                               <td>${groupName}</td>
                               <td>
-                                  <button class="table-buttons">
+                                  <button class="table-buttons" onclick="getRow(${groupId})">
                                       <ion-icon class="text-primary" name="create-outline"></ion-icon>
                                   </button>
                                   <button class="table-buttons" id='delete_group'>
                                       <ion-icon class="text-danger" name="trash-outline"></ion-icon>
                                   </button>
                               </td>
-                          </tr>`
+                          </tr>`;
+                  $("#counter_group").attr('value', +groupId+1)
                   $('tbody').html(html);
+                  $('#group_name').val('')
               }
             }
         });
     });
-    $('#update_group').on('click', function() {
-        let groupId =$('#group_name').val();
-        let groupName =$('#group_name').val();
+    $('body').on('click', '#update_group', function() {
+        let groupName = $('#group_name');
         action = 'update';
         $.ajax({
             url     :"{{route('admin.save.group')}}",
@@ -101,20 +104,33 @@ $title = 'Group';
             data:
             {
               _token,
-              groupId,
-              groupName,
+              groupId: groupName.attr('row'),
+              groupName: groupName.val(),
               action
             },
             success: function (data)
             {
-
+              console.log(data)
+              if(data.status == 'true') {
+                  Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: data.msg,
+                  showConfirmButton: false,
+                  timer: 1500
+                  })
+                $(`tr#${groupName.attr('row')}`).find('td:nth-child(2)').text(groupName.val())
+                mood = 'create'
+                $('#update_group').html(mood === 'create' ? 'Save' : 'Update').removeClass('btn-primary').addClass('btn-success').attr('id', 'save_group')
+                groupName.val('')
+              }
             }
         });
     });
-    $('#delete_group').on('click', function() {
-        let groupId =$('#group_name').val();
+    $('body').on('click','#delete_group', function() {
         action = 'del';
-        let rowId = $(this).parents('tr').attr('id');
+        let groupId = $(this).parents('tr').attr('id');
+        console.log(groupId)
 
         Swal.fire({
           title: 'Are you sure?',
@@ -122,8 +138,8 @@ $title = 'Group';
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
+          cancelButtonColor: 'e#d33',
+          confirmButtonText: 'Yes, dlete it!'
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
@@ -137,11 +153,24 @@ $title = 'Group';
                   action
                 },
                 success: function (data) {
-                  $(this).parents('tr').remove()
+                  $(`tr#${groupId}`).remove();
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: data.msg,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 }
             });
           }
         });
     });
+    function getRow(id) {
+      let groupName = $(`tr#${id}`).find('td:nth-child(2)').text();
+      $('#group_name').val(groupName).focus().attr('row', id);
+      mood = 'update'
+      $('#save_group').html(mood === 'update' ? 'Update' : 'Save').addClass('btn-primary').removeClass('btn-success').attr('id', 'update_group')
+    }
 </script>
 @stop
