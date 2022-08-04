@@ -47,13 +47,20 @@ $title = 'Group';
     let saveButton = document.getElementById('save_group');
     saveButton.addEventListener('click', function () {
         if (groupName.value.trim() !== "") {
-            console.log(groupName.value);
-            groupName.value = ''
-            let rq = new XMLHttpRequest()
-            rq.open('GET', 'https://api.github.com/users');
-            rq.send()
-            console.log(rq)
+          groupName.value = ''
+          sendRequest()
         }
     });
+    function sendRequest() {
+      let rq = new XMLHttpRequest();
+      rq.open('GET', 'Admin/save_group');
+      rq.send()
+      rq.onreadystatechange = function() {
+        if(rq.readyState === 4 && rq.status === 200) {
+          console.log(JSON.parse(rq.response))
+        }
+      }
+      // let reponse = JSON.parse(rq.responseText)
+    }
 </script>
 @stop
