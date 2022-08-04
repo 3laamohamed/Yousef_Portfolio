@@ -9,6 +9,7 @@ $title = 'Group';
     <div class="row mt-5">
         <div class="col-md-6 offset-md-3">
             <div class="mb-3">
+                @csrf
                 <label for="group_name" class="form-label">Group Name</label>
                 <input type="text" class="form-control" id="group_name" placeholder="Please Enter Group Name">
             </div>
@@ -24,9 +25,10 @@ $title = 'Group';
                     </tr>
                 </thead>
                 <tbody class="table-light">
+                    @foreach($groups as $group)
                     <tr>
-                        <td>1</td>
-                        <td>Group 1</td>
+                        <td>{{$group->id}}</td>
+                        <td>{{$group->group}}</td>
                         <td>
                             <button class="table-buttons">
                                 <ion-icon class="text-primary" name="create-outline"></ion-icon>
@@ -36,18 +38,74 @@ $title = 'Group';
                             </button>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <script>
-    'use strict';
-    let groupName = document.getElementById('group_name');
-    let saveButton = document.getElementById('save_group');
-
+    let _token           = $('input[name="_token"]').val(); 
+    let action = '';
+   
     $('#save_group').on('click', function() {
-      console.log('hi')
+        let groupName =$('#group_name').val();
+        action = 'save';
+        $.ajax({
+            url     :"{{route('admin.save.group')}}",
+            method  : 'post',
+            enctype : "multipart/form-data",
+            data:
+            {
+               _token,
+               groupName,
+               action  
+            },
+            success: function (data)
+            {
+
+            }
+        });
+    });
+    $('#update_group').on('click', function() {
+        let groupId =$('#group_name').val();
+        let groupName =$('#group_name').val();
+        action = 'update';
+        $.ajax({
+            url     :"{{route('admin.save.group')}}",
+            method  : 'post',
+            enctype : "multipart/form-data",
+            data:
+            {
+               _token,
+               groupId,
+               groupName,
+               action  
+            },
+            success: function (data)
+            {
+
+            }
+        });
+    });
+    $('#delete_group').on('click', function() {
+        let groupId =$('#group_name').val();
+        action = 'del';
+        $.ajax({
+            url     :"{{route('admin.save.group')}}",
+            method  : 'post',
+            enctype : "multipart/form-data",
+            data:
+            {
+               _token,
+               groupId,
+               action  
+            },
+            success: function (data)
+            {
+
+            }
+        });
     });
 </script>
 @stop

@@ -32,14 +32,17 @@ Route::get('/Project'  , [App\Http\Controllers\Main\MainController::class, 'proj
 Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
 {
 
-    Route::get('/About'    , [App\Http\Controllers\Admin\AdminController::class, 'about'])     ->name('admin.about');
+    Route::get('/View_About'    , [App\Http\Controllers\Admin\AdminController::class, 'viewabout'])     ->name('admin.about');
+        Route::post('/save_about', [App\Http\Controllers\Admin\AdminController::class,'save_about']) ->name('admin.save.about');
+
     Route::get('/Clients'  , [App\Http\Controllers\Admin\AdminController::class, 'clients'])   ->name('admin.clients');
     Route::get('/CopyRight', [App\Http\Controllers\Admin\AdminController::class, 'copyright']) ->name('admin.copyright');
+        Route::post('/save_copyright', [App\Http\Controllers\Admin\AdminController::class,'save_copy']) ->name('admin.save.copyright');
+
     Route::get('/General'  , [App\Http\Controllers\Admin\AdminController::class, 'general'])   ->name('admin.general');
 
     Route::get('/Group'    , [App\Http\Controllers\Admin\AdminController::class, 'group'])   ->name('admin.group');
         Route::post('/save_group', [App\Http\Controllers\Admin\AdminController::class,'save_group']) ->name('admin.save.group');
-        
 
     Route::get('/Project'  , [App\Http\Controllers\Admin\AdminController::class, 'project'])   ->name('admin.project');
     Route::get('/Contact'  , [App\Http\Controllers\Admin\AdminController::class, 'contact'])   ->name('admin.contact');

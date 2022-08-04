@@ -14,8 +14,7 @@ class Copyright extends Migration
     public function up()
     {
         Schema::create('copyright', function (Blueprint $table) {
-            $table->bigIncrements('name');
-            $table->string('image')->default(' ');
+            $table->text('name');
             $table->timestamps();
         });
     }
