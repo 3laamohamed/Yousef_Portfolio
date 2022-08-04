@@ -13,7 +13,11 @@ class Copyright extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('copyright', function (Blueprint $table) {
+            $table->bigIncrements('name');
+            $table->string('image')->default(' ');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ class Copyright extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('copyright');
     }
 }

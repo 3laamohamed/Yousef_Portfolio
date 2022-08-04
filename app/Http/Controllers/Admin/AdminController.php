@@ -11,7 +11,6 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
-
     public function about(){
         return view('admin.about');
     }
@@ -35,5 +34,10 @@ class AdminController extends Controller
     }
     public function reg(){
         return view('auth.register');
+    }
+
+    #################### Group Page ###########################
+    public function save_group(Request $request){
+        return $request;
     }
 }
