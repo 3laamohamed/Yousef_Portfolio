@@ -45,25 +45,48 @@ $title = 'Group';
     </div>
 </div>
 <script>
-    let _token           = $('input[name="_token"]').val(); 
+    let _token           = $('input[name="_token"]').val();
     let action = '';
-   
+
     $('#save_group').on('click', function() {
         let groupName =$('#group_name').val();
+        let rowLength = $('tbody').children().length;
         action = 'save';
+        let html = $('tbody').html();
         $.ajax({
             url     :"{{route('admin.save.group')}}",
             method  : 'post',
             enctype : "multipart/form-data",
             data:
             {
-               _token,
-               groupName,
-               action  
+              _token,
+              groupName,
+              action
             },
             success: function (data)
             {
-
+              if (data.status == 'true') {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Your work has been saved',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                  html += `<tr id="group_${rowLength + 1}">
+                              <td>${rowLength + 1}</td>
+                              <td>${groupName}</td>
+                              <td>
+                                  <button class="table-buttons">
+                                      <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                                  </button>
+                                  <button class="table-buttons" id='delete_group'>
+                                      <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                                  </button>
+                              </td>
+                          </tr>`
+                  $('tbody').html(html);
+              }
             }
         });
     });
@@ -77,10 +100,10 @@ $title = 'Group';
             enctype : "multipart/form-data",
             data:
             {
-               _token,
-               groupId,
-               groupName,
-               action  
+              _token,
+              groupId,
+              groupName,
+              action
             },
             success: function (data)
             {
@@ -91,20 +114,33 @@ $title = 'Group';
     $('#delete_group').on('click', function() {
         let groupId =$('#group_name').val();
         action = 'del';
-        $.ajax({
-            url     :"{{route('admin.save.group')}}",
-            method  : 'post',
-            enctype : "multipart/form-data",
-            data:
-            {
-               _token,
-               groupId,
-               action  
-            },
-            success: function (data)
-            {
+        let rowId = $(this).parents('tr').attr('id');
 
-            }
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't delete this group",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+                url     :"{{route('admin.save.group')}}",
+                method  : 'post',
+                enctype : "multipart/form-data",
+                data:
+                {
+                  _token,
+                  groupId,
+                  action
+                },
+                success: function (data) {
+                  $(this).parents('tr').remove()
+                }
+            });
+          }
         });
     });
 </script>
