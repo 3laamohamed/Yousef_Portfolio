@@ -45,22 +45,9 @@ $title = 'Group';
     'use strict';
     let groupName = document.getElementById('group_name');
     let saveButton = document.getElementById('save_group');
-    saveButton.addEventListener('click', function () {
-        if (groupName.value.trim() !== "") {
-          groupName.value = ''
-          sendRequest()
-        }
+
+    $('#save_group').on('click', function() {
+      console.log('hi')
     });
-    function sendRequest() {
-      let rq = new XMLHttpRequest();
-      rq.open('GET', 'Admin/save_group');
-      rq.send()
-      rq.onreadystatechange = function() {
-        if(rq.readyState === 4 && rq.status === 200) {
-          console.log(JSON.parse(rq.response))
-        }
-      }
-      // let reponse = JSON.parse(rq.responseText)
-    }
 </script>
 @stop
