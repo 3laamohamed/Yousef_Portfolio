@@ -165,3 +165,42 @@ button.clicked:active {
 == End Custom FrameWork ==
 ==========================
 */
+
+/*
+======================
+== Start Cards Page ==
+======================
+*/
+.card {
+  position: relative;
+}
+.card .icon-back {
+  position: absolute;
+  top: 25%;
+  right: -20px;
+  font-size: 7em;
+  transform: translateX(-50%);
+  color: var(--bs-success);
+  transform-origin: left;
+  opacity: 0.3;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.card-body > div {
+  gap: 20px;
+}
+.cards-grid button {
+  font-size: 1.5em;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background: var(--bs-danger);
+}
+/*
+======================
+== End Cards Page ==
+======================
+*/

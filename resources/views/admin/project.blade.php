@@ -48,7 +48,7 @@
                 <div id="album_container" class="d-flex flex-wrap" style="gap: 10px">
                   <!-- Upload Image -->
                   <div class='text-center'>
-                    <i class="file-image">
+                    <i class="file-image m-0">
                       <input multiple autocomplete="off" id="album" type="file" onchange="createAlbum(this, document.getElementById('album_container'))" title="" />
                       <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
                       <div id='item-image'>

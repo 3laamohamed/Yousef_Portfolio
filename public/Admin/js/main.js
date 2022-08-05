@@ -27,7 +27,11 @@ function createAlbum(input, parent) {
               `;
             parent.innerHTML += image;
           } else {
-            let video = `<video controls="controls" src=" ${picFile.result} " type="video/mp4" width="400px" height="200px"></video>`;
+            let video = `<div class='video-container'>
+                <i class="resetvideo" onclick="deleteImage(this.previousElementSibling)"></i>
+                <video controls="controls" src=" ${picFile.result} " type="video/mp4" width="400px" height="200px"></video>
+              </div>
+              `;
             parent.innerHTML += video;
           }
         });
