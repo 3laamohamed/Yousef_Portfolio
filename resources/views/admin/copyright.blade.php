@@ -6,10 +6,10 @@
 @section('content')
   <div class="container">
       <h2 class="title">CopyRight<h2>
-      <div class="row mt-5">
+      <div class="row mt-3">
           <div class="col-md-6 offset-md-3">
           <?php
-                 $name = '';
+                $name = '';
                 if(isset($data[0]->name)){$name = $data[0]->name;}
               ?>
               <div class="mb-3">
@@ -23,7 +23,7 @@
       </div>
   </div>
   <script>
-    let _token           = $('input[name="_token"]').val(); 
+    let _token           = $('input[name="_token"]').val();
     $('#save_copy_right').on('click', function() {
         let copy =$('#copy_right').val();
         $.ajax({
@@ -32,8 +32,8 @@
             enctype : "multipart/form-data",
             data:
             {
-               _token,
-               copy,
+              _token,
+              copy,
             },
             success: function (data)
             {

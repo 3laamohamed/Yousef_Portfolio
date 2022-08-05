@@ -6,19 +6,19 @@
 @section('content')
 <div class="container">
   <h2 class="title">About<h2>
-  <div class="row mt-5">
+  <div class="row mt-3">
     <div class="col-md-10 offset-md-1">
     <form id="form_save_item" action=" " method="POST" multiple enctype="multipart/form-data">
       @csrf
-      <div class="row align-items-center">
+      <div class="row align-items-start about">
         <div class="col-md-6">
           <div class="mb-3">
               @csrf
               <label for="brand_name" class="form-label">Brand Name</label>
               <?php
-                 $name = '';
-                 $disc = '';
-                 $image = '';
+                $name = '';
+                $disc = '';
+                $image = '';
                 if(isset($data[0]->name)){$name = $data[0]->name;}
                 if(isset($data[0]->disc)){$name = $data[0]->disc;}
                 if(isset($data[0]->image)){$name = $data[0]->image;}
@@ -53,20 +53,17 @@
 <script>
     // let _token           = $('input[name="_token"]').val();
     $('#save_copy_right').on('click', function() {
-        let formData      = new FormData($('#form_save_item')[0]);
-        $.ajax({
-          url:"{{route('admin.save.about')}}",
-          method:'post',
-          enctype:"multipart/form-data",
-          processData:false,
-          cache : false,
-          contentType:false,
-          'data' : formData,
-          success: function (data)
-          {
-
-          }
-        });
+      let formData      = new FormData($('#form_save_item')[0]);
+      $.ajax({
+        url:"{{route('admin.save.about')}}",
+        method:'post',
+        enctype:"multipart/form-data",
+        processData:false,
+        cache : false,
+        contentType:false,
+        'data' : formData,
+        success: function (data) {}
+      });
     });
 </script>
 @stop

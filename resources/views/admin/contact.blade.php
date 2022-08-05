@@ -6,7 +6,7 @@
 @section('content')
 <div class="container">
   <h2 class="title"> Contact </h2>
-  <div class="cards-grid mt-4">
+  <div class="cards-grid mt-3">
     @foreach($contacts as $contact)
     <div class="card shadow" cardId="{{$contact->id}}">
       <ion-icon class="icon-back"  name="chatbubbles-outline"></ion-icon>
@@ -29,7 +29,7 @@
   </div>
 </div>
 <script>
-  $('#del-mesg').on('click', function () {
+  $('body').on('click','#del-mesg', function () {
     let card = $(this).parents('.card');
     let _token           = $('input[name="_token"]').val();
     Swal.fire({

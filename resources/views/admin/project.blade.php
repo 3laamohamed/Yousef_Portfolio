@@ -7,7 +7,7 @@
 <div class="container">
     {{-- <div class="d-none" id='counter_group' value='{{$counter}}'></div> --}}
     <h2 class="title">Projects</h2>
-    <div class="row mt-5">
+    <div class="row mt-3 project">
         <div class="col-md-10 offset-md-1">
             <form  id="project_form" action=" " method="POST" multiple enctype="multipart/form-data">
               <div class="row">
