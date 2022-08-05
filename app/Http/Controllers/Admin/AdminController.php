@@ -9,6 +9,8 @@ use App\Models\CopyRight;
 use App\Models\About;
 use App\Models\Project;
 use App\Models\Contact;
+use App\Models\Section;
+use App\Models\Details;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 
@@ -57,7 +59,12 @@ class AdminController extends Controller
     }
     public function details(){
         $projects = Project::select(['id','title'])->get()->all();
-        return view('admin.details_project',compact('projects'));
+        if(!empty($projects)){
+            $sections = Section::where('project_id',$projects[0]->id)->select(['id','name'])->get();
+        }else{
+            $sections = [];
+        }
+        return view('admin.details_project',compact('projects','sections'));
     }
     
     public function reg(){
@@ -192,5 +199,45 @@ class AdminController extends Controller
     public function delete_contact(Request $request){
         $contacts = Contact::where('id', $request->cardId)->delete();
         if($contacts){return $this->ReturnSucsess('true', 'Deleted Message');}
+    }
+
+    ######################### save_details_project #########################
+    public function save_details_project(Request $request){
+        // Save Section
+        $section = Section::create([
+            'name' =>$request->label,
+            'project_id'=>$request->project,
+        ]);
+        if($section){
+            foreach($request->images as $image){
+                $file = new Filesystem;
+                $file = $this->saveimage($image, 'Admin/Details');
+                $details = Details::create([
+                    'image' =>$file,
+                    'section_id'=>$section->id,
+                ]);
+            }
+            if($details){return $this->ReturnSucsess('true', $section->id);}
+        }
+    }
+
+    ########################### admin.search.all.section ##########################
+    public function search_all_section(Request $request){
+        $sections = Section::where('project_id',$request->project)->select(['id','name'])->get();
+        return $this->ReturnSucsess('true', $sections);
+    }
+
+    ####################### Delete Section ####################################
+    public function delete_section(Request $request){
+        $sections = Details::where(['section_id'=>$request->section])->select(['image'])->get();
+        foreach($sections as $section){
+            $image_path = 'Admin/Details/'. $section->image;
+            if(File::exists($image_path)){
+                File::delete($image_path);
+            }
+        }
+        $del_details  = Details::where(['section_id'=>$request->section])->delete();
+        $del_sections = Section::where(['id'=>$request->section])->delete();
+        if($del_details && $del_sections){return $this->ReturnSucsess('true', 'Deleted Section');}
     }
 }
