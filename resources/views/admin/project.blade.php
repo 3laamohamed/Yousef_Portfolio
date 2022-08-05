@@ -28,8 +28,8 @@
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label for="Discibtion" class="form-label">Discibtion</label>
-                    <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" required style="min-height: 250px;height: 250px"></textarea>
+                    <label for="description" class="form-label">description</label>
+                    <textarea class="form-control" name='disc' placeholder="Write Your Discribtion" id="discribtion" required style="min-height: 250px;height: 250px"></textarea>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -48,6 +48,7 @@
             </form>
             <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-success clicked" id="save_project" type="button">Save</button>
+                <button class="btn btn-primary clicked d-none" id="update_project" type="button">Update</button>
             </div>
             <table class="table mt-4 text-center shadow-lg">
                 <thead class="table-dark">
@@ -78,31 +79,52 @@
     </div>
 </div>
 <script>
-  let _token           = $('input[name="_token"]').val();
+  let _token = $('input[name="_token"]').val();
   $('#save_project').on('click', function(e) {
     e.preventDefault();
-    let formData      = new FormData($('#project_form')[0]);
-        $.ajax({
-          url:"{{route('admin.save.project')}}",
-          method:'post',
-          enctype:"multipart/form-data",
-          processData:false,
-          cache : false,
-          contentType:false,
-          'data' : formData,
-          success: function (data)
-          {
-            if(data.status == 'true') {
-              Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: data.msg,
-              showConfirmButton: false,
-              timer: 1500
-              })
-            }
-          }
-        });
+    let formData = new FormData($('#project_form')[0]);
+    let projectId = 1;
+    let html= $('tbody').html();
+    let thisBtn = $(this);
+    $.ajax({
+      url:"{{route('admin.save.project')}}",
+      method:'post',
+      enctype:"multipart/form-data",
+      processData:false,
+      cache : false,
+      contentType:false,
+      'data' : formData,
+      success: function (data)
+      {
+        if(data.status == 'true') {
+          html += `<tr id="${projectId}">
+                      <td>${projectId}</td>
+                      <td>${$('#project_name').val()}</td>
+                      <td>
+                          <button class="table-buttons" onclick="getRow(${projectId})">
+                              <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                          </button>
+                          <button class="table-buttons" id='delete_group'>
+                              <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                          </button>
+                      </td>
+                  </tr>
+          `;
+          $('tbody').html(html);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: data.msg,
+            showConfirmButton: false,
+            timer: 1500
+          });
+          document.getElementById('project_form').reset();
+          $('.reset').click();
+          $('#update_project').addClass('d-none');
+          thisBtn.removeClass('d-none')
+        }
+      }
+    });
   });
   $('#update_project').on('click', function(e) {
     e.preventDefault();
@@ -163,42 +185,45 @@
       });
   });
   $('body').on('click','#delete_project', function() {
-        let project = $(this).parents('tr').attr('id');
-        console.log(project)
-        Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't delete this group",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: 'e#d33',
-          confirmButtonText: 'Yes, dlete it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-                url     :"{{route('admin.del.project')}}",
-                method  : 'post',
-                enctype : "multipart/form-data",
-                data:
-                {
-                  _token,
-                  project,
-                },
-                success: function (data) {
-                  if(data.status = 'true'){
-                    $(`tr#${project}`).remove();
-                    Swal.fire({
-                      position: 'center',
-                      icon: 'success',
-                      title: data.msg,
-                      showConfirmButton: false,
-                      timer: 1500
-                    })
-                  }
-                }
-            });
-          }
+    let project = $(this).parents('tr').attr('id');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't delete this group",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: 'e#d33',
+      confirmButtonText: 'Yes, dlete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+            url     :"{{route('admin.del.project')}}",
+            method  : 'post',
+            enctype : "multipart/form-data",
+            data:
+            {
+              _token,
+              project,
+            },
+            success: function (data) {
+              if(data.status = 'true'){
+                $(`tr#${project}`).remove();
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: data.msg,
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+            }
         });
+      }
     });
+  });
+  function getRow(id) {
+    $('#save_project').addClass('d-none');
+    $('#update_project').removeClass('d-none')
+  }
 </script>
 @stop

@@ -86,7 +86,7 @@ button.clicked:active {
 .file-image {
   display: inline-block;
   position: relative;
-  margin-top: calc(1.5rem + 15px);
+  margin-top: calc(1rem + 15px);
 }
 .file-image input {
   position: absolute;
@@ -204,3 +204,11 @@ button.clicked:active {
 == End Cards Page ==
 ======================
 */
+.album-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.album-container img {
+  width: 200px;
+  height: 200px;
+}

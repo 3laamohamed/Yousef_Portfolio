@@ -26,7 +26,7 @@
               <input type="text" value='{{$name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
           </div>
           <div class="mb-3">
-            <label for="group_name" class="form-label">Discibtion</label>
+            <label for="group_name" class="form-label">description</label>
             <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$disc}}</textarea>
           </div>
         </div>
