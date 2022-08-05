@@ -45,7 +45,11 @@ class AdminController extends Controller
     }
     public function project(){
         $groups = Group::get()->all();
-        $projects = Project::where('groupid',$groups[0]->id)->select(['id','title'])->get();
+        if(!empty($groups)){
+            $projects = Project::where('groupid',$groups[0]->id)->select(['id','title'])->get();
+        }else{
+            $projects =[];
+        }
         return view('admin.project',compact('groups','projects'));
 
     }
