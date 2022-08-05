@@ -7,7 +7,7 @@ $title = 'Group';
 <div class="container">
     <div class="d-none" id='counter_group' value='{{$counter}}'></div>
     <h2 class="title">group</h2>
-    <div class="row mt-5">
+    <div class="row mt-3">
         <div class="col-md-6 offset-md-3">
             <div class="mb-3">
                 @csrf
