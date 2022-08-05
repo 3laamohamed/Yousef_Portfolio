@@ -54,5 +54,7 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
     Route::get('/Details'  , [App\Http\Controllers\Admin\AdminController::class, 'details'])   ->name('admin.details');
 
     Route::get('/Contact'  , [App\Http\Controllers\Admin\AdminController::class, 'contact'])   ->name('admin.contact');
+            Route::post('/delete_contact', [App\Http\Controllers\Admin\AdminController::class,'delete_contact']) ->name('admin.delete.contact');
+
     Route::get('/Register' , [App\Http\Controllers\Admin\AdminController::class, 'reg'])   ->name('admin.reg');
 });

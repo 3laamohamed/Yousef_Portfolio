@@ -13,7 +13,14 @@ class Contact extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->text('disc');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +30,6 @@ class Contact extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('contacts');
     }
 }

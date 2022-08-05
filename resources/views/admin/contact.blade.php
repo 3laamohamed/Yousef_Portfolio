@@ -7,29 +7,31 @@
 <div class="container">
   <h2 class="title"> Contact </h2>
   <div class="cards-grid mt-4">
-    <div class="card shadow" cardId="1">
+    @foreach($contacts as $contact)
+    <div class="card shadow" cardId="{{$contact->id}}">
       <ion-icon class="icon-back"  name="chatbubbles-outline"></ion-icon>
       <div class="card-header d-flex align-items-center justify-content-between">
-        <small class="text-muted">8/10/2022</small>
+        <small class="text-muted">{{$contact->created_at}}</small>
         <button id="del-mesg" class="d-flex align-items-center justify-content-center p-2">
           <ion-icon class="text-white" name="trash-outline"></ion-icon>
         </button>
       </div>
       <div class="card-body">
-        <h3 class="card-title">Ibrahim Fares</h3>
-        <h5>ibrahimfares511@gmail.com</h5>
-        <h5>01007218535</h5>
+        <h3 class="card-title">{{$contact->name}}</h3>
+        <h5>{{$contact->email}}</h5>
+        <h5>{{$contact->phone}}</h5>
         <blockquote class="blockquote mb-0">
-          <p class="blockquote-footer mt-2">انا عايزك ضرورى جداا فى شغل ياريت تتصل عليا وتتواصل معايا عشان محتاجك اوى اوى اوى اوى اوى وربنا يصلح لينا الحال</p>
+        <p class="blockquote-footer mt-2">{{$contact->disc}}</p>
         </blockquote>
       </div>
     </div>
+    @endforeach
   </div>
 </div>
 <script>
   $('#del-mesg').on('click', function () {
     let card = $(this).parents('.card');
-
+    let _token           = $('input[name="_token"]').val();
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't delete this Message",
@@ -41,7 +43,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-            url     :"{{route('admin.save.group')}}",
+            url     :"{{route('admin.delete.contact')}}",
             method  : 'post',
             enctype : "multipart/form-data",
             data:

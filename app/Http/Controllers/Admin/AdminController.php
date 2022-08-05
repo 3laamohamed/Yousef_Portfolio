@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\CopyRight;
 use App\Models\About;
 use App\Models\Project;
+use App\Models\Contact;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 
@@ -26,7 +27,8 @@ class AdminController extends Controller
         return view('admin.clients');
     }
     public function contact(){
-        return view('admin.contact');
+        $contacts = Contact::orderBy('id', 'DESC')->get()->all();
+        return view('admin.contact',compact('contacts'));
     }
     public function copyright(){
         $data = CopyRight::get()->all();
@@ -183,6 +185,12 @@ class AdminController extends Controller
             File::delete($image_path);
         }
         $save = Project::where(['id'=>$request->project])->delete();
-        if($save){return $this->ReturnSucsess('true', 'Delete Project');}
+        if($save){return $this->ReturnSucsess('true', 'Deleted Project');}
+    }
+
+    ######################### Delete Contact ############################
+    public function delete_contact(Request $request){
+        $contacts = Contact::where('id', $request->cardId)->delete();
+        if($contacts){return $this->ReturnSucsess('true', 'Deleted Message');}
     }
 }
