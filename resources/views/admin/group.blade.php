@@ -110,7 +110,6 @@ $title = 'Group';
             },
             success: function (data)
             {
-              console.log(data)
               if(data.status == 'true') {
                   Swal.fire({
                   position: 'center',

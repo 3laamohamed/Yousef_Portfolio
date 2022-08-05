@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\CopyRight;
 use App\Models\About;
+use App\Models\Project;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
+
 
 class AdminController extends Controller
 {
@@ -41,8 +44,16 @@ class AdminController extends Controller
         return view('admin.group',compact('groups','counter'));
     }
     public function project(){
-        return view('admin.project');
+        $groups = Group::get()->all();
+        $projects = Project::where('groupid',$groups[0]->id)->select(['id','title'])->get();
+        return view('admin.project',compact('groups','projects'));
+
     }
+    public function details(){
+        $projects = Project::select(['id','title'])->get()->all();
+        return view('admin.details_project',compact('projects'));
+    }
+    
     public function reg(){
         return view('auth.register');
     }
@@ -121,6 +132,53 @@ class AdminController extends Controller
 
     ################################ SAve Project ################################
     public function save_project(Request $request){
-      return $request;
+        // get Group
+        $group = Group::where(['id'=>$request->group])->first();
+        if ($request->thumbnail != null) {
+            $file = new Filesystem;
+            $file = $this->saveimage($request->thumbnail, 'Admin/Projects');
+        }
+        $save_project = Project::create([
+            'title'     => $request->label,
+            'disc'      => $request->disc,
+            'groupid'   => $group->id,
+            'groupname' => $group->group,
+            'image'     => $file
+        ]);
+        if($save_project){
+            return $this->ReturnSucsess('true', 'Saved Project');
+        }
+    }
+    #################### Search Project ##########################
+    public function save_all_search(Request $request){
+        $projects = Project::where('groupid',$request->group)->select(['id','title'])->get();
+        return $this->ReturnSucsess('true', $projects);
+    }
+
+    ########################## Update Project ######################
+    public function update_project(Request $request){
+        $group = Group::where(['id'=>$request->group])->first();
+        if ($request->thumbnail != null) {
+            $file = new Filesystem;
+            $file = $this->saveimage($request->thumbnail, 'Admin/Projects');
+        }else{
+            $save_project = Project::create([
+                'title'     => $request->label,
+                'disc'      => $request->disc,
+                'groupid'   => $group->id,
+                'groupname' => $group->group,
+                'image'     => $file
+            ]);
+        }
+    }
+    ######################## Delete Project #########################
+    public function delete_project(Request $request){
+        $project = Project::where(['id'=>$request->project])->select(['image'])->first();
+        $image_path = 'Admin/Projects/'. $project->image;
+        if(File::exists($image_path)){
+            File::delete($image_path);
+        }
+        $save = Project::where(['id'=>$request->project])->delete();
+        if($save){return $this->ReturnSucsess('true', 'Delete Project');}
     }
 }

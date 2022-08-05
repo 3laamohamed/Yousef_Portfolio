@@ -4,6 +4,8 @@ function createAlbum(input, parent) {
     if (window.File && window.FileReader && window.FileList && window.Blob) {
       //CHECK IF FILE API IS SUPPORTED
       const files = input.files; //FILE LIST OBJECT CONTAINING UPLOADED FILES
+      input.previousElementSibling.value = files.length
+      // console.log(input.previousElementSibling)
       for (let i = 0; i < files.length; i++) {
         // LOOP THROUGH THE FILE LIST OBJECT
 

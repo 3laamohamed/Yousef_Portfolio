@@ -21,9 +21,9 @@
                 <div class="col-md-6">
                   <label for="group" class="form-label">Select Group</label>
                   <select class="form-select" id='group' name="group" required>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    @foreach($groups as $group)
+                    <option value="{{$group->id}}">{{$group->group}}</option>
+                    @endforeach
                   </select>
                 </div>
                 <div class="col-md-6">
@@ -44,19 +44,6 @@
                     </i>
                   </div>
                 </div>
-                <hr>
-                <div id="album_container" class="d-flex flex-wrap" style="gap: 10px">
-                  <!-- Upload Image -->
-                  <div class='text-center'>
-                    <i class="file-image">
-                      <input multiple autocomplete="off" id="album" type="file" onchange="createAlbum(this, document.getElementById('album_container'))" title="" />
-                      <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
-                      <div id='item-image'>
-                        <label for="album" class="image" data-label="Add Album"></label>
-                      </div>
-                    </i>
-                  </div>
-                </div>
               </div>
             </form>
             <div class="d-grid gap-2 col-6 mx-auto">
@@ -66,17 +53,32 @@
                 <thead class="table-dark">
                     <tr>
                         <th>ID</th>
-                        <th>Group Name</th>
+                        <th>Title</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-light">
+                  @foreach($projects as $project)
+                  <tr id="{{$project->id}}">
+                        <td>{{$project->id}}</td>
+                        <td>{{$project->title}}</td>
+                        <td>
+                            <button class="table-buttons" onclick="getRow({{$project->id}})">
+                                <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                            </button>
+                            <button class="table-buttons" id='delete_project'>
+                                <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                            </button>
+                        </td>
+                    </tr>
+                  @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <script>
+  let _token           = $('input[name="_token"]').val();
   $('#save_project').on('click', function(e) {
     e.preventDefault();
     let formData      = new FormData($('#project_form')[0]);
@@ -90,9 +92,113 @@
           'data' : formData,
           success: function (data)
           {
-            console.log(data)
+            if(data.status == 'true') {
+              Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: data.msg,
+              showConfirmButton: false,
+              timer: 1500
+              })
+            }
           }
         });
   });
+  $('#update_project').on('click', function(e) {
+    e.preventDefault();
+    let formData      = new FormData($('#project_form')[0]);
+        $.ajax({
+          url:"{{route('admin.update.project')}}",
+          method:'post',
+          enctype:"multipart/form-data",
+          processData:false,
+          cache : false,
+          contentType:false,
+          'data' : formData,
+          success: function (data)
+          {
+            if(data.status == 'true') {
+              Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: data.msg,
+              showConfirmButton: false,
+              timer: 1500
+              })
+            }
+          }
+        });
+  });
+  $('#group').on('change',function (){
+    let group = $('#group').val();
+    $.ajax({
+        url     :"{{route('admin.all.search.project')}}",
+        method  : 'post',
+        enctype : "multipart/form-data",
+        data:
+        {
+          _token,
+          group
+        },
+        success: function (data){
+          if (data.status == 'true') {
+            let html = '';
+            for(var count = 0 ; count < data.msg.length ; count ++)
+            {
+              html+=`<tr id="${data.msg[count].id}">
+                <td>${data.msg[count].id}</td>
+                <td>${data.msg[count].title}</td>
+                <td>
+                    <button class="table-buttons" onclick="getRow(${data.msg[count].id})">
+                        <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                    </button>
+                    <button class="table-buttons" id='delete_project'>
+                        <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                    </button>
+                </td>
+              </tr>`
+            }$('tbody').html(html)
+          }
+        }
+      });
+  });
+  $('body').on('click','#delete_project', function() {
+        let project = $(this).parents('tr').attr('id');
+        console.log(project)
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't delete this group",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: 'e#d33',
+          confirmButtonText: 'Yes, dlete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+                url     :"{{route('admin.del.project')}}",
+                method  : 'post',
+                enctype : "multipart/form-data",
+                data:
+                {
+                  _token,
+                  project,
+                },
+                success: function (data) {
+                  if(data.status = 'true'){
+                    $(`tr#${project}`).remove();
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: data.msg,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                  }
+                }
+            });
+          }
+        });
+    });
 </script>
 @stop

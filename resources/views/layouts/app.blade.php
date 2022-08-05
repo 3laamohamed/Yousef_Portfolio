@@ -42,6 +42,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{Route('admin.project')}}"> projects </a>
+                <a class="navbar-brand" href="{{Route('admin.details')}}"> details </a>
                 <a class="navbar-brand" href="{{Route('admin.group')}}"> group </a>
                 <a class="navbar-brand" href="{{Route('admin.clients')}}"> clients </a>
                 <a class="navbar-brand" href="{{Route('admin.contact')}}"> contact </a>

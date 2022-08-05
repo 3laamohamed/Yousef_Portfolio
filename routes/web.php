@@ -46,6 +46,12 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
 
     Route::get('/Project'  , [App\Http\Controllers\Admin\AdminController::class, 'project'])   ->name('admin.project');
             Route::post('/save_project', [App\Http\Controllers\Admin\AdminController::class,'save_project']) ->name('admin.save.project');
+            Route::post('/update_project', [App\Http\Controllers\Admin\AdminController::class,'update_project']) ->name('admin.update.project');
+            Route::post('/delete_project', [App\Http\Controllers\Admin\AdminController::class,'delete_project']) ->name('admin.del.project');
+            Route::post('/save_all_search', [App\Http\Controllers\Admin\AdminController::class,'save_all_search']) ->name('admin.all.search.project');
+
+    
+    Route::get('/Details'  , [App\Http\Controllers\Admin\AdminController::class, 'details'])   ->name('admin.details');
 
     Route::get('/Contact'  , [App\Http\Controllers\Admin\AdminController::class, 'contact'])   ->name('admin.contact');
     Route::get('/Register' , [App\Http\Controllers\Admin\AdminController::class, 'reg'])   ->name('admin.reg');
