@@ -49,6 +49,7 @@
                 <a class="navbar-brand" href="{{Route('admin.copyright')}}"> copyright </a>
                 <a class="navbar-brand" href="{{Route('admin.general')}}"> Social </a>
                 <a class="navbar-brand" href="{{Route('admin.about')}}"> about </a>
+                <a class="navbar-brand" href="{{Route('admin.services')}}"> services </a>
                 <a class="navbar-brand" href="{{Route('admin.reg')}}"> register </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

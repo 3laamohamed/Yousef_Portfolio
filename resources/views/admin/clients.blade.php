@@ -9,6 +9,7 @@
   <div class="row mt-3">
     <div class="col-md-6 offset-md-3">
       <form id="form_save_client" action=" " method="POST" multiple enctype="multipart/form-data"class="mb-3">
+        @csrf
         <!-- Upload Image -->
           <div class='text-center'>
             <i class="file-image">
@@ -33,15 +34,17 @@
                 </tr>
             </thead>
             <tbody class="table-light">
-                <tr id="1">
-                    <td>1</td>
-                    <td> <img width="200" src="{{asset('Admin/projects/165971974965.png')}}" alt=""> </td>
+              @foreach($clients as $client)
+                <tr id="{{$client->id}}">
+                    <td>{{$client->id}}</td>
+                    <td> <img width="200" src="{{asset('Admin/Clients/' . $client->image)}}" alt=""> </td>
                     <td>
                       <button class="table-buttons" id='delete_client'>
                         <ion-icon class="text-danger" name="trash-outline"></ion-icon>
                       </button>
                     </td>
                 </tr>
+              @endforeach
             </tbody>
         </table>
     </div>
@@ -51,7 +54,7 @@
   $('#save_client').on('click', function() {
     let formData = new FormData($('#form_save_client')[0]);
     $.ajax({
-      url:"{{route('admin.save.about')}}",
+      url:"{{route('admin.save.client')}}",
       method:'post',
       enctype:"multipart/form-data",
       processData:false,
@@ -59,11 +62,22 @@
       contentType:false,
       'data' : formData,
       success: function (data) {
+        if(data.status == 'true'){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data.msg,
+                showConfirmButton: false,
+                timer: 1500
+              })
+          }
       }
     });
   });
   $('body').on('click','#delete_client', function () {
     let _token = $('input[name="_token"]').val();
+    let client = $(this).parents('tr').attr('id');
+
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't delete this Client",
@@ -75,14 +89,16 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-            url     :"{{route('admin.delete.contact')}}",
+            url     :"{{route('admin.delete.client')}}",
             method  : 'post',
             enctype : "multipart/form-data",
             data:
             {
               _token,
+              client,
             },
             success: function (data) {
+              $(`tr#${client}`).remove();
               Swal.fire({
                 position: 'center',
                 icon: 'success',
