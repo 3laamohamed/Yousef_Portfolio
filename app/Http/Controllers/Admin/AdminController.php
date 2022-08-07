@@ -108,7 +108,7 @@ class AdminController extends Controller
                 $save = Group::create([
                     'group'=>$request->groupName,
                 ]);
-                if($save){return $this->ReturnSucsess('true', 'Saved Ggroup');}
+                if($save){return $this->ReturnSucsess('true', $save->id);}
             }break;
             case 'update':{
                 $save = Group::where(['id'=>$request->groupId])->update([
@@ -173,7 +173,7 @@ class AdminController extends Controller
             'image'     => $file
         ]);
         if($save_project){
-            return $this->ReturnSucsess('true', 'Saved Project');
+            return $this->ReturnSucsess('true', $save_project->id);
         }
     }
     #################### Search Project ##########################
@@ -287,7 +287,7 @@ class AdminController extends Controller
             $save = Client::create([
                 'image' => $file,
             ]);
-            if($save){return $this->ReturnSucsess('true', 'Saved Client');}
+            if($save){return $this->ReturnSucsess('true', $save->id);}
         }
     }
     ###################### Delete Client #######################
@@ -311,7 +311,7 @@ class AdminController extends Controller
             'title'  =>$request->name,
             'disc'  =>$request->disc,
         ]);
-        if($save){return $this->ReturnSucsess('true', 'Saved Service');}
+        if($save){return $this->ReturnSucsess('true', $save->id);}
     }
 
     ###################### Delete Service ###############################

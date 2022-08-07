@@ -114,7 +114,7 @@
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: data.msg,
+            title: 'Saved Project',
             showConfirmButton: false,
             timer: 1500
           });

@@ -71,7 +71,7 @@ $title = 'Group';
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
-                  title: data.msg,
+                  title: 'Saved Group',
                   showConfirmButton: false,
                   timer: 1500
                 })

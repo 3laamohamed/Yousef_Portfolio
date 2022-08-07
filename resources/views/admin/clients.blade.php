@@ -66,7 +66,7 @@
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: data.msg,
+                title: 'saved Client',
                 showConfirmButton: false,
                 timer: 1500
               })
