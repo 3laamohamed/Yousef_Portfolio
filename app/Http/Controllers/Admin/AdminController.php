@@ -9,6 +9,11 @@ use App\Models\CopyRight;
 use App\Models\About;
 use App\Models\Project;
 use App\Models\Contact;
+use App\Models\Section;
+use App\Models\Details;
+use App\Models\Social;
+use App\Models\Client;
+use App\Models\Services;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 
@@ -20,11 +25,12 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
     public function viewabout(){
-        $data = About::get()->all();
+        $data = About::get()->first();
         return view('admin.about',compact('data'));
     }
     public function clients(){
-        return view('admin.clients');
+        $clients = Client::orderBy('id', 'DESC')->get()->all();
+        return view('admin.clients',compact('clients'));
     }
     public function contact(){
         $contacts = Contact::orderBy('id', 'DESC')->get()->all();
@@ -35,7 +41,12 @@ class AdminController extends Controller
         return view('admin.copyright',compact(['data']));
     }
     public function general(){
-        return view('admin.general');
+        if(Social::get()->count() > 0){
+            $social = Social::get()->first();
+        }else{
+            $social = [];
+        }
+        return view('admin.general',compact('social'));
     }
     public function group(){
         $counter = 1;
@@ -57,11 +68,21 @@ class AdminController extends Controller
     }
     public function details(){
         $projects = Project::select(['id','title'])->get()->all();
-        return view('admin.details_project',compact('projects'));
+        if(!empty($projects)){
+            $sections = Section::where('project_id',$projects[0]->id)->select(['id','name'])->get();
+        }else{
+            $sections = [];
+        }
+        return view('admin.details_project',compact('projects','sections'));
     }
     
     public function reg(){
         return view('auth.register');
+    }
+
+    public function services(){
+        $services = Services::orderBy('id', 'DESC')->get()->all();
+        return view('Admin.services',compact('services'));
     }
 
     function ReturnSucsess($status , $msg){
@@ -87,7 +108,7 @@ class AdminController extends Controller
                 $save = Group::create([
                     'group'=>$request->groupName,
                 ]);
-                if($save){return $this->ReturnSucsess('true', 'Saved Ggroup');}
+                if($save){return $this->ReturnSucsess('true', $save->id);}
             }break;
             case 'update':{
                 $save = Group::where(['id'=>$request->groupId])->update([
@@ -152,7 +173,7 @@ class AdminController extends Controller
             'image'     => $file
         ]);
         if($save_project){
-            return $this->ReturnSucsess('true', 'Saved Project');
+            return $this->ReturnSucsess('true', $save_project->id);
         }
     }
     #################### Search Project ##########################
@@ -192,5 +213,115 @@ class AdminController extends Controller
     public function delete_contact(Request $request){
         $contacts = Contact::where('id', $request->cardId)->delete();
         if($contacts){return $this->ReturnSucsess('true', 'Deleted Message');}
+    }
+
+    ######################### save_details_project #########################
+    public function save_details_project(Request $request){
+        // Save Section
+        $section = Section::create([
+            'name' =>$request->label,
+            'project_id'=>$request->project,
+        ]);
+        if($section){
+            foreach($request->images as $image){
+                $file = new Filesystem;
+                $file = $this->saveimage($image, 'Admin/Details');
+                $details = Details::create([
+                    'image' =>$file,
+                    'section_id'=>$section->id,
+                ]);
+            }
+            if($details){return $this->ReturnSucsess('true', $section->id);}
+        }
+    }
+
+    ########################### admin.search.all.section ##########################
+    public function search_all_section(Request $request){
+        $sections = Section::where('project_id',$request->project)->select(['id','name'])->get();
+        return $this->ReturnSucsess('true', $sections);
+    }
+
+    ####################### Delete Section ####################################
+    public function delete_section(Request $request){
+        $sections = Details::where(['section_id'=>$request->section])->select(['image'])->get();
+        foreach($sections as $section){
+            $image_path = 'Admin/Details/'. $section->image;
+            if(File::exists($image_path)){
+                File::delete($image_path);
+            }
+        }
+        $del_details  = Details::where(['section_id'=>$request->section])->delete();
+        $del_sections = Section::where(['id'=>$request->section])->delete();
+        if($del_details && $del_sections){return $this->ReturnSucsess('true', 'Deleted Section');}
+    }
+
+    ############################# Save And Update Social Media #####################
+    public function save_social(Request $request){
+        if($data = Social::get()->count() >  0){
+            $data = Social::get()->first();
+            $update = Social::where(['id'=>$data->id])->update([
+                'facebook'  =>$request->facebook,
+                'gmail'     =>$request->gmail,
+                'linkedin'  =>$request->linked_in,
+                'whats'     =>$request->whatsapp,
+                'twitter'   =>$request->twitter,
+            ]);
+            if($update){return $this->ReturnSucsess('true', 'Saved Social');}
+        }else{
+            $save = Social::create([
+                'facebook'  =>$request->facebook,
+                'gmail'     =>$request->gmail,
+                'linkedin'  =>$request->linked_in,
+                'whats'     =>$request->whatsapp,
+                'twitter'   =>$request->twitter,
+            ]);
+            if($save){return $this->ReturnSucsess('true', 'Saved Social');}
+        }
+    }
+
+    ########################## Save Client ######################
+    public function save_client(Request $request){
+        if($request->client != null){
+            $file = new Filesystem;
+            $file = $this->saveimage($request->client, 'Admin/Clients');
+            $save = Client::create([
+                'image' => $file,
+            ]);
+            if($save){return $this->ReturnSucsess('true', $save->id);}
+        }
+    }
+    ###################### Delete Client #######################
+    public function delete_client(Request $request){
+        $client = Client::where(['id'=>$request->client])->first();
+        $image_path = 'Admin/Clients/'. $client->image;
+        if(File::exists($image_path)){
+            File::delete($image_path);
+            $delclient = Client::where(['id'=>$request->client])->delete();
+            if($delclient){return $this->ReturnSucsess('true', 'Deleted Client');}
+
+        }
+        
+    }
+    ########################## Save Service ###################
+    public function save_service(Request $request){
+        $file = new Filesystem;
+        $file = $this->saveimage($request->image, 'Admin/Services');
+        $save = Services::create([
+            'image' => $file,
+            'title'  =>$request->name,
+            'disc'  =>$request->disc,
+        ]);
+        if($save){return $this->ReturnSucsess('true', $save->id);}
+    }
+
+    ###################### Delete Service ###############################
+    public function delete_service(Request $request){
+        $service = Services::where(['id'=>$request->service])->first();
+        $image_path = 'Admin/Services/'. $service->image;
+        if(File::exists($image_path)){
+            File::delete($image_path);
+            $delclient = Services::where(['id'=>$request->service])->delete();
+            if($delclient){return $this->ReturnSucsess('true', 'Deleted service');}
+        }
     }
 }

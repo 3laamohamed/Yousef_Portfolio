@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Services extends Migration
+class CreateSocialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class Services extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('socials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title')->nullable();
-            $table->string('image')->nullable();
-            $table->text('disc')->nullable();
+            $table->string('facebook')->default(' ');
+            $table->string('gmail')->default(' ');
+            $table->string('linkedin')->default(' ');
+            $table->string('whats')->default(' ');
+            $table->string('twitter')->default(' ');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class Services extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('socials');
     }
 }

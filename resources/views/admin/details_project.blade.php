@@ -42,34 +42,35 @@
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Project Name</th>
                 <th>Section</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="table-light">
-            <tr id="1">
-                <td>1</td>
-                <td>Drone 356</td>
-                <td>Sec1</td>
+          @foreach($sections as $section)
+            <tr id="{{$section->id}}">
+                <td>{{$section->id}}</td>
+                <td>{{$section->name}}</td>
                 <td>
-                    <button class="table-buttons" onclick="getRow()">
+                    <button class="table-buttons" onclick="getRow({{$section->id}})">
                         <ion-icon class="text-primary" name="create-outline"></ion-icon>
                     </button>
-                    <button class="table-buttons" id='delete_group'>
+                    <button class="table-buttons" id='delete_section'>
                         <ion-icon class="text-danger" name="trash-outline"></ion-icon>
                     </button>
                 </td>
             </tr>
+          @endforeach
         </tbody>
     </table>
 </div>
 <script>
+  let _token = $('input[name="_token"]').val();
   $('#save_details').on('click', function(e) {
     e.preventDefault();
     let formData = new FormData($('#details_form')[0]);
     $.ajax({
-      url:"{{route('admin.save.project')}}",
+      url:"{{route('admin.save.details.project')}}",
       method:'post',
       enctype:"multipart/form-data",
       processData:false,
@@ -82,11 +83,84 @@
           Swal.fire({
           position: 'center',
           icon: 'success',
-          title: data.msg,
+          title: 'Saved Section',
           showConfirmButton: false,
           timer: 1500
           })
         }
+      }
+    });
+  });
+
+  
+  $('#project').on('change',function (){
+    let project = $('#project').val();
+    $.ajax({
+        url     :"{{route('admin.search.all.section')}}",
+        method  : 'post',
+        enctype : "multipart/form-data",
+        data:
+        {
+          _token,
+          project
+        },
+        success: function (data){
+          if (data.status == 'true') {
+            let html = '';
+            for(var count = 0 ; count < data.msg.length ; count ++)
+            {
+              html+=`<tr id="${data.msg[count].id}">
+                <td>${data.msg[count].id}</td>
+                <td>${data.msg[count].name}</td>
+                <td>
+                    <button class="table-buttons" onclick="getRow(${data.msg[count].id})">
+                        <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                    </button>
+                    <button class="table-buttons" id='delete_section'>
+                        <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                    </button>
+                </td>
+              </tr>`
+            }$('tbody').html(html)
+          }
+        }
+      });
+  });
+
+  $('body').on('click','#delete_section', function() {
+    let section = $(this).parents('tr').attr('id');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't delete this section",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: 'e#d33',
+      confirmButtonText: 'Yes, dlete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+            url     :"{{route('admin.del.section')}}",
+            method  : 'post',
+            enctype : "multipart/form-data",
+            data:
+            {
+              _token,
+              section,
+            },
+            success: function (data) {
+              if(data.status = 'true'){
+                $(`tr#${section}`).remove();
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: data.msg,
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+            }
+        });
       }
     });
   });

@@ -35,11 +35,16 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
     Route::get('/View_About'    , [App\Http\Controllers\Admin\AdminController::class, 'viewabout'])     ->name('admin.about');
         Route::post('/save_about', [App\Http\Controllers\Admin\AdminController::class,'save_about']) ->name('admin.save.about');
 
-    Route::get('/Clients'  , [App\Http\Controllers\Admin\AdminController::class, 'clients'])   ->name('admin.clients');
+    Route::get('/View_Clients'  , [App\Http\Controllers\Admin\AdminController::class, 'clients'])   ->name('admin.clients');
+        Route::post('/save_client', [App\Http\Controllers\Admin\AdminController::class,'save_client']) ->name('admin.save.client');
+        Route::post('/delete_client', [App\Http\Controllers\Admin\AdminController::class,'delete_client']) ->name('admin.delete.client');
+
     Route::get('/CopyRight', [App\Http\Controllers\Admin\AdminController::class, 'copyright']) ->name('admin.copyright');
         Route::post('/save_copyright', [App\Http\Controllers\Admin\AdminController::class,'save_copy']) ->name('admin.save.copyright');
 
-    Route::get('/General'  , [App\Http\Controllers\Admin\AdminController::class, 'general'])   ->name('admin.general');
+    Route::get('/Social'  , [App\Http\Controllers\Admin\AdminController::class, 'general'])   ->name('admin.general');
+        Route::post('/save_social', [App\Http\Controllers\Admin\AdminController::class,'save_social']) ->name('admin.save.social');
+
 
     Route::get('/Group'    , [App\Http\Controllers\Admin\AdminController::class, 'group'])   ->name('admin.group');
         Route::post('/save_group', [App\Http\Controllers\Admin\AdminController::class,'save_group']) ->name('admin.save.group');
@@ -51,10 +56,23 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
             Route::post('/save_all_search', [App\Http\Controllers\Admin\AdminController::class,'save_all_search']) ->name('admin.all.search.project');
 
     
-    Route::get('/Details'  , [App\Http\Controllers\Admin\AdminController::class, 'details'])   ->name('admin.details');
+    Route::get('/ViewDetails'  , [App\Http\Controllers\Admin\AdminController::class, 'details'])   ->name('admin.details');
+            Route::post('/save_details_project', [App\Http\Controllers\Admin\AdminController::class,'save_details_project']) ->name('admin.save.details.project');
+            Route::post('/search_all_section', [App\Http\Controllers\Admin\AdminController::class,'search_all_section']) ->name('admin.search.all.section');
+            Route::post('/delete_section', [App\Http\Controllers\Admin\AdminController::class,'delete_section']) ->name('admin.del.section');
+
+
+
 
     Route::get('/Contact'  , [App\Http\Controllers\Admin\AdminController::class, 'contact'])   ->name('admin.contact');
             Route::post('/delete_contact', [App\Http\Controllers\Admin\AdminController::class,'delete_contact']) ->name('admin.delete.contact');
 
     Route::get('/Register' , [App\Http\Controllers\Admin\AdminController::class, 'reg'])   ->name('admin.reg');
+
+
+    Route::get('/View_services'    , [App\Http\Controllers\Admin\AdminController::class, 'services'])     ->name('admin.services');
+        Route::post('/delete_service', [App\Http\Controllers\Admin\AdminController::class,'delete_service']) ->name('admin.delete.service');
+        Route::post('/save_service', [App\Http\Controllers\Admin\AdminController::class,'save_service']) ->name('admin.save.service');
+
+
 });

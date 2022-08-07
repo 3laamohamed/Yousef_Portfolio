@@ -15,19 +15,19 @@
           <div class="mb-3">
               @csrf
               <label for="brand_name" class="form-label">Brand Name</label>
-              <?php
-                $name = '';
-                $disc = '';
-                $image = '';
-                if(isset($data[0]->name)){$name = $data[0]->name;}
-                if(isset($data[0]->disc)){$name = $data[0]->disc;}
-                if(isset($data[0]->image)){$name = $data[0]->image;}
-              ?>
-              <input type="text" value='{{$name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
+              @if(isset($data->name))
+              <input type="text" value='{{$data->name}}' class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
+              @else
+              <input type="text"  class="form-control" name='brand' id="brand_name" placeholder="Please Enter Brand Name">
+              @endif
           </div>
           <div class="mb-3">
             <label for="group_name" class="form-label">description</label>
-            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$disc}}</textarea>
+            @if(isset($data->disc))
+            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px">{{$data->disc}}</textarea>
+            @else
+            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px"></textarea>
+            @endif
           </div>
         </div>
         <div class="col-md-6">
@@ -37,7 +37,7 @@
               <input autocomplete="off" id="image" name="image" type="file" onchange="readImage(this)" title="" />
               <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
               <div id='item-image'>
-                <label for="image" class="image" data-label="Add Image"></label>
+                <label for="image" class="image"  data-label="Add Image"></label>
               </div>
             </i>
           </div>
@@ -62,7 +62,17 @@
         cache : false,
         contentType:false,
         'data' : formData,
-        success: function (data) {}
+        success: function (data) {
+          if(data.status == 'true'){
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data.msg,
+                showConfirmButton: false,
+                timer: 1500
+              })
+          }
+        }
       });
     });
 </script>
