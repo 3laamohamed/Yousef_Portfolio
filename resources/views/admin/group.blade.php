@@ -5,7 +5,6 @@ $title = 'Group';
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <div class="d-none" id='counter_group' value='{{$counter}}'></div>
     <h2 class="title">group</h2>
     <div class="row mt-3">
         <div class="col-md-6 offset-md-3">
@@ -46,53 +45,51 @@ $title = 'Group';
     </div>
 </div>
 <script>
-    let _token           = $('input[name="_token"]').val();
+    let _token = $('input[name="_token"]').val();
     let action = '';
     let mood = 'create';
 
     $('body').on('click', '#save_group',function() {
-        let groupName =$('#group_name').val();
-        let groupId = $("#counter_group").attr('value');
-        action = 'save';
-        let html = $('tbody').html();
-        $.ajax({
-            url     :"{{route('admin.save.group')}}",
-            method  : 'post',
-            enctype : "multipart/form-data",
-            data:
-            {
-              _token,
-              groupName,
-              action
-            },
-            success: function (data)
-            {
-              if (data.status == 'true') {
-                Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  title: 'Saved Group',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-                  html += `<tr id="${groupId}">
-                              <td>${groupId}</td>
-                              <td>${groupName}</td>
-                              <td>
-                                  <button class="table-buttons" onclick="getRow(${groupId})">
-                                      <ion-icon class="text-primary" name="create-outline"></ion-icon>
-                                  </button>
-                                  <button class="table-buttons" id='delete_group'>
-                                      <ion-icon class="text-danger" name="trash-outline"></ion-icon>
-                                  </button>
-                              </td>
-                          </tr>`;
-                  $("#counter_group").attr('value', +groupId+1)
-                  $('tbody').html(html);
-                  $('#group_name').val('')
-              }
-            }
-        });
+      let groupName =$('#group_name').val();
+      action = 'save';
+      let html = $('tbody').html();
+      $.ajax({
+        url     :"{{route('admin.save.group')}}",
+        method  : 'post',
+        enctype : "multipart/form-data",
+        data:
+        {
+          _token,
+          groupName,
+          action
+        },
+        success: function (data)
+        {
+          if (data.status == 'true') {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Saved Group',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            html += `<tr id="${data.msg}">
+                        <td>${data.msg}</td>
+                        <td>${groupName}</td>
+                        <td>
+                            <button class="table-buttons" onclick="getRow(${data.msg})">
+                                <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                            </button>
+                            <button class="table-buttons" id='delete_group'>
+                                <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                            </button>
+                        </td>
+                    </tr>`;
+            $('tbody').html(html);
+            $('#group_name').val('')
+          }
+        }
+      });
     });
     $('body').on('click', '#update_group', function() {
         let groupName = $('#group_name');
@@ -129,8 +126,6 @@ $title = 'Group';
     $('body').on('click','#delete_group', function() {
         action = 'del';
         let groupId = $(this).parents('tr').attr('id');
-        console.log(groupId)
-
         Swal.fire({
           title: 'Are you sure?',
           text: "You won't delete this group",

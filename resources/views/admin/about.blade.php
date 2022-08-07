@@ -34,10 +34,14 @@
           <!-- Upload Image -->
           <div class='text-center'>
             <i class="file-image">
-              <input autocomplete="off" id="image" name="image" type="file" onchange="readImage(this)" title="" />
+              <input autocomplete="off" id="image" name="image" type="file" onchange="readImage(this)" title="{{$data->image}}" />
               <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
               <div id='item-image'>
+                @if(isset($data->image))
+                <label for="image" class="image unvisibile"  data-label="Add Image" style="background-image: url({{ URL::asset('Admin/About/' . $data->image) }})"></label>
+                @else
                 <label for="image" class="image"  data-label="Add Image"></label>
+                @endif
               </div>
             </i>
           </div>

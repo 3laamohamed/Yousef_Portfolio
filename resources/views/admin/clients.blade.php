@@ -7,7 +7,7 @@
 <div class="container">
   <h2 class="title">Client</h2>
   <div class="row mt-3">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-10 offset-md-1">
       <form id="form_save_client" action=" " method="POST" multiple enctype="multipart/form-data"class="mb-3">
         @csrf
         <!-- Upload Image -->
@@ -37,7 +37,7 @@
               @foreach($clients as $client)
                 <tr id="{{$client->id}}">
                     <td>{{$client->id}}</td>
-                    <td> <img width="200" src="{{asset('Admin/Clients/' . $client->image)}}" alt=""> </td>
+                    <td> <img width="100" height="100" src="{{asset('Admin/Clients/' . $client->image)}}" alt=""> </td>
                     <td>
                       <button class="table-buttons" id='delete_client'>
                         <ion-icon class="text-danger" name="trash-outline"></ion-icon>
@@ -53,6 +53,7 @@
 <script>
   $('#save_client').on('click', function() {
     let formData = new FormData($('#form_save_client')[0]);
+    let html = $('tbody').html();
     $.ajax({
       url:"{{route('admin.save.client')}}",
       method:'post',
@@ -62,15 +63,26 @@
       contentType:false,
       'data' : formData,
       success: function (data) {
-        if(data.status == 'true'){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'saved Client',
-                showConfirmButton: false,
-                timer: 1500
-              })
-          }
+        if(data.status == 'true') {
+          let title = $("#client").attr("title")
+          html += `<tr id="${data.msg}">
+              <td>${data.msg}</td>
+              <td> <img width="100" height='100' src="{{asset('Admin/Clients/${title}')}}"></td>
+              <td>
+                <button class="table-buttons" id='delete_client'>
+                  <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                </button>
+              </td>
+          </tr>`;
+          $('tbody').html(html);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'saved Client',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
       }
     });
   });
