@@ -46,7 +46,7 @@ $title = 'Group';
     </div>
 </div>
 <script>
-    let _token           = $('input[name="_token"]').val();
+    let _token = $('input[name="_token"]').val();
     let action = '';
     let mood = 'create';
 
