@@ -13,12 +13,12 @@
       <div class="row align-items-start about">
         <div class="col-md-6">
           <div class="mb-3">
-              <label for="brand_name" class="form-label">Service Name</label>
-              <input type="text"  class="form-control" name='name' id="name" placeholder="Please Enter Brand Name">
+              <label for="service_name" class="form-label">Service Name</label>
+              <input type="text"  class="form-control" name='name' id="service_name" placeholder="Please Enter Brand Name">
           </div>
           <div class="mb-3">
-            <label for="group_name" class="form-label">description</label>
-            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discribtion" id="discribtion" style="min-height: 250px;height: 250px"></textarea>
+            <label for="discription" class="form-label">description</label>
+            <textarea class="form-control mt-3" name='disc' placeholder="Write Your Discription" id="discription" style="min-height: 250px;height: 250px"></textarea>
           </div>
         </div>
         <div class="col-md-6">
@@ -37,35 +37,40 @@
     </form>
       <div class="d-grid gap-2 col-6 mx-auto mt-4">
         <button class="btn btn-success clicked" id="save_service" type="button">Save</button>
+        <button class="btn btn-primary clicked d-none" id="update_service" type="button">Update</button>
       </div>
-      <table class="table mt-4 text-center shadow-lg">
+      <table class="table mt-4 text-center shadow-lg" style="font-size: 1rem;">
         <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Service</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody class="table-light">
-                @foreach($services as $service)
-                <tr id="{{$service->id}}">
-                    <td>{{$service->id}}</td>
-                    <td>{{$service->title}}</td>
-                    <td>
-                        <button class="table-buttons" id='delete_service'>
-                            <ion-icon class="text-danger" name="trash-outline"></ion-icon>
-                        </button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+          <tr>
+            <th>ID</th>
+            <th>Service</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-light">
+          @foreach($services as $service)
+          <tr id="{{$service->id}}">
+            <td>{{$service->id}}</td>
+            <td>{{$service->title}}</td>
+            <td>
+              <button class="table-buttons" onclick="getRow({{$service->id}})">
+                <ion-icon class="text-primary" name="create-outline"></ion-icon>
+              </button>
+              <button class="table-buttons" id='delete_service'>
+                <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+              </button>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 <script>
-      $('#save_service').on('click', function() {
+  $('#save_service').on('click', function() {
     let formData = new FormData($('#form_save_service')[0]);
+      let html = $('tbody').html();
     $.ajax({
       url:"{{route('admin.save.service')}}",
       method:'post',
@@ -75,22 +80,36 @@
       contentType:false,
       'data' : formData,
       success: function (data) {
-        if(data.status == 'true'){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Saved Service',
-                showConfirmButton: false,
-                timer: 1500
-              })
-          }
+        if(data.status == 'true') {
+          html += `<tr id="${data.msg}">
+              <td>${data.msg}</td>
+              <td>${$('#service_name').val()}</td>
+              <td>
+                  <button class="table-buttons" onclick="getRow(${data.msg})">
+                      <ion-icon class="text-primary" name="create-outline"></ion-icon>
+                  </button>
+                  <button class="table-buttons" id='delete_service'>
+                      <ion-icon class="text-danger" name="trash-outline"></ion-icon>
+                  </button>
+              </td>
+          </tr>`;
+          $('tbody').html(html);
+          document.getElementById('form_save_service').reset();
+          $('.reset').click();
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Saved Service',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       }
     });
   });
   $('body').on('click','#delete_service', function () {
     let _token = $('input[name="_token"]').val();
     let service = $(this).parents('tr').attr('id');
-
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't delete this service",

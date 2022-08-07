@@ -75,7 +75,7 @@ class AdminController extends Controller
         }
         return view('admin.details_project',compact('projects','sections'));
     }
-    
+
     public function reg(){
         return view('auth.register');
     }
@@ -182,13 +182,18 @@ class AdminController extends Controller
         return $this->ReturnSucsess('true', $projects);
     }
 
+    ################################### Get Update Project #######################
+    public function get_update_project(Request $request){
+      $project = Project::limit(1)->where('id',$request->id)->first();
+      if($project){return $this->ReturnSucsess('true',$project);}
+    }
+
     ########################## Update Project ######################
     public function update_project(Request $request){
         $group = Group::where(['id'=>$request->group])->first();
         if ($request->thumbnail != null) {
             $file = new Filesystem;
             $file = $this->saveimage($request->thumbnail, 'Admin/Projects');
-        }else{
             $save_project = Project::create([
                 'title'     => $request->label,
                 'disc'      => $request->disc,
@@ -196,7 +201,16 @@ class AdminController extends Controller
                 'groupname' => $group->group,
                 'image'     => $file
             ]);
-        }
+        }else{
+            $save_project = Project::create([
+                'title'     => $request->label,
+                'disc'      => $request->disc,
+                'groupid'   => $group->id,
+                'groupname' => $group->group,
+            ]);
+          }
+          if($save_project){return $this->ReturnSucsess('true','Updated Project');}
+
     }
     ######################## Delete Project #########################
     public function delete_project(Request $request){
@@ -300,7 +314,7 @@ class AdminController extends Controller
             if($delclient){return $this->ReturnSucsess('true', 'Deleted Client');}
 
         }
-        
+
     }
     ########################## Save Service ###################
     public function save_service(Request $request){
