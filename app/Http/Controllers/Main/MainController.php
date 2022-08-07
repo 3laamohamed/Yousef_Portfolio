@@ -18,9 +18,31 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function home(){
-        $about = About::get()->first();
+        $about    = About::get()->first();
+        $services = Services::get()->all();
+        $groups   = Group::get()->all();
+        $clients  = Client::get()->all();
+        $copyright= CopyRight::get()->first();
+        $social   = Social::get()->first();
         return view('main.home',compact([
-            'about'
+            'about',
+            'services',
+            'groups',
+            'clients',
+            'copyright',
+            'social',
         ]));
+    }
+
+    public function save_message(Request $request){
+        $data = Contact::create([
+            'name'  => $request->name,   
+            'email' => $request->email, 
+            'phone' => $request->phone,
+            'disc'  => $request->message,
+        ]);
+        if($data){
+            return response()->json(['status'=>'true']);
+        }
     }
 }

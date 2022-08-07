@@ -22,11 +22,8 @@ Route::get('/home'     , [App\Http\Controllers\Admin\AdminController::class, 'pr
 Auth::routes();
 
 Route::get('/'         , [App\Http\Controllers\Main\MainController::class, 'home'])      ->name('home');
-Route::get('/About'    , [App\Http\Controllers\Main\MainController::class, 'about'])     ->name('about');
-Route::get('/Clients'  , [App\Http\Controllers\Main\MainController::class, 'clients'])   ->name('clients');
-Route::get('/Contact'  , [App\Http\Controllers\Main\MainController::class, 'contact'])   ->name('contact');
-Route::get('/CopyRight', [App\Http\Controllers\Main\MainController::class, 'copyright']) ->name('copyright');
-Route::get('/Project'  , [App\Http\Controllers\Main\MainController::class, 'project'])   ->name('project');
+Route::post('/save_message', [App\Http\Controllers\Main\MainController::class,'save_message']) ->name('save.message');
+
 
 
 Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
