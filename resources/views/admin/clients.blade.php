@@ -65,9 +65,9 @@
       success: function (data) {
         if(data.status == 'true') {
           let title = $("#client").attr("title")
-          html += `<tr id="${data.msg}">
-              <td>${data.msg}</td>
-              <td> <img width="100" height='100' src="{{asset('Admin/Clients/${title}')}}"></td>
+          html += `<tr id="${data.id}">
+              <td>${data.id}</td>
+              <td> <img width="100" height='100' src="{{asset('Admin/Clients/${data.image}')}}"></td>
               <td>
                 <button class="table-buttons" id='delete_client'>
                   <ion-icon class="text-danger" name="trash-outline"></ion-icon>

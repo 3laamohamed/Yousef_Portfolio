@@ -58,6 +58,8 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
             Route::post('/save_details_project', [App\Http\Controllers\Admin\AdminController::class,'save_details_project']) ->name('admin.save.details.project');
             Route::post('/search_all_section', [App\Http\Controllers\Admin\AdminController::class,'search_all_section']) ->name('admin.search.all.section');
             Route::post('/delete_section', [App\Http\Controllers\Admin\AdminController::class,'delete_section']) ->name('admin.del.section');
+            Route::post('/get_data_details', [App\Http\Controllers\Admin\AdminController::class,'get_data_details']) ->name('admin.get.update.details');
+            Route::post('/del_image_details', [App\Http\Controllers\Admin\AdminController::class,'del_image_details']) ->name('admin.del.image.details');
 
 
 

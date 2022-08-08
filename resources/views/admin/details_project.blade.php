@@ -36,6 +36,7 @@
       </form>
       <div class="d-grid gap-2 col-6 mx-auto">
           <button class="btn btn-success clicked" id="save_details" type="button">Save</button>
+          <button class="btn btn-primary clicked d-none" id="update_details" type="button">Update</button>
       </div>
     </div>
     <table class="table mt-4 text-center shadow-lg">
@@ -66,6 +67,7 @@
 </div>
 <script>
   let _token = $('input[name="_token"]').val();
+  let rowId;
   $('#project').on('change',function (){
     let project = $('#project').val();
     $.ajax({
@@ -178,5 +180,56 @@
       }
     });
   });
+  function getRow(id) {
+    let imagesCont = '';
+    $.ajax({
+      url     :"{{route('admin.get.update.details')}}",
+      method  : 'post',
+      enctype : "multipart/form-data",
+      data: {
+        _token,
+        id
+      },
+      success: function(data) {
+        if(data.status === "true") {
+          rowId = id;
+          $('#save_details').addClass('d-none');
+          $('#update_details').removeClass('d-none');
+          data.images.forEach(img => {
+            imagesCont += `<div class='text-center'>
+                  <i class="file-image">
+                    <input autocomplete="off" type="file" title="${img.image}" />
+                    <i class="reset" onclick="delDetailsImg('${img.image}')"></i>
+                    <div id='item-image'>
+                      <label for="image" class="image unvisibile" style="background-image: url({{ URL::asset('Admin/Details/${img.image}') }})"></label>
+                    </div>
+                  </i>
+                </div>`
+          });
+          $('#preview').html(imagesCont);
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      },
+    });
+  }
+  function delDetailsImg(imgLabel) {
+    console.log($(this))
+    console.log(imgLabel)
+    $.ajax({
+      url     :"{{route('admin.del.image.details')}}",
+      method  : 'post',
+      enctype : "multipart/form-data",
+      data: {
+        _token,
+        id
+      },
+      success: function(data) {
+
+      }
+    });
+  }
 </script>
 @stop

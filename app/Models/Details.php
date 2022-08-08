@@ -11,8 +11,5 @@ class Details extends Model
     protected $table ='details_project';
     protected $guarded = [];
 
-    public function Group()
-    {
-        return $this->belongsTo('App\Models\Project','project_id','id');
-    }
+
 }
