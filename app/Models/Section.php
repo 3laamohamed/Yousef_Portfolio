@@ -15,4 +15,8 @@ class Section extends Model
     {
         return $this->hasMany('App\Models\Project','group_id','id');
     }
+    public function images()
+    {
+        return $this->hasMany('App\Models\Details','section_id','id');
+    }
 }

@@ -15,4 +15,8 @@ class Project extends Model
     {
         return $this->belongsTo('App\Models\Group','group_id','id');
     }
+    public function sections()
+    {
+        return $this->hasMany('App\Models\Section','project_id','id');
+    }
 }

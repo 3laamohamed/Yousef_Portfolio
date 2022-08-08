@@ -249,6 +249,25 @@ class AdminController extends Controller
         }
     }
 
+    ########################## get_data_details #######################
+    public function get_data_details(Request $request){
+        $sections = Details::where(['section_id'=>$request->id])->get();
+        return response()->json([
+            'images'=>$sections,
+            'status'=>'true'
+        ]);
+    }
+
+    #################### del_image_details ####################
+    public function del_image_details(Request $request){
+        $del = Details::where(['image'=>$request->image])->delete();
+        $image_path = 'Admin/Details/'. $project->image;
+        if(File::exists($image_path)){
+            File::delete($image_path);
+        }
+        if($del){return $this->ReturnSucsess('true', 'Deleted One Image');}
+    }
+
     ########################### admin.search.all.section ##########################
     public function search_all_section(Request $request){
         $sections = Section::where('project_id',$request->project)->select(['id','name'])->get();
@@ -301,7 +320,7 @@ class AdminController extends Controller
             $save = Client::create([
                 'image' => $file,
             ]);
-            if($save){return $this->ReturnSucsess('true', $save->id);}
+            if($save){return response()->json(['status'=>'true','id'=>$save->id,'image'=>$file]);}
         }
     }
     ###################### Delete Client #######################
