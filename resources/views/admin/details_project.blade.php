@@ -235,7 +235,16 @@
             image: imgLabel
           },
           success: function(data) {
+            if(data.status = 'true'){
+            Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: data.msg,
+            showConfirmButton: false,
+            timer: 1500
+            })
             imgParent.remove()
+          }
           }
         });
       }

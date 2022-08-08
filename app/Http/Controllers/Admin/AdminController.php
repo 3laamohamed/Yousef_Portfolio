@@ -261,7 +261,7 @@ class AdminController extends Controller
     #################### del_image_details ####################
     public function del_image_details(Request $request){
         $del = Details::where(['image'=>$request->image])->delete();
-        $image_path = 'Admin/Details/'. $project->image;
+        $image_path = 'Admin/Details/'. $request->image;
         if(File::exists($image_path)){
             File::delete($image_path);
         }
