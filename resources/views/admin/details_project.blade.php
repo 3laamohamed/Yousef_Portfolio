@@ -10,7 +10,7 @@
     <div class="row mt-3">
       <form  id="details_form" action=" " method="POST" multiple enctype="multipart/form-data">
         <div class="row align-items-end">
-          <div class="col-md-4">
+          <div class="col-md-4 mt-3">
             <label for="project" class="form-label">Select Project</label>
             <select class="form-select" id='project' name="project" required>
               @foreach($projects as $project)
@@ -18,20 +18,17 @@
               @endforeach
             </select>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mt-3">
             <div>
                 @csrf
                 <label for="project_name" class="form-label">Project Section</label>
                 <input type="text" class="form-control" name="label" id="section_name" placeholder="Please Enter Project Section" required>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mt-3">
             <input multiple id="album" name="images[]" type="file" onchange="previewImages(this, this.parentElement.nextElementSibling)"/>
           </div>
           <div id="preview" class="d-flex flex-wrap mt-3 mb-5" style='gap: 10px'></div>
-          {{-- <div class="album-container">
-            <!-- Upload Image -->
-          </div> --}}
         </div>
       </form>
       <div class="d-grid gap-2 col-6 mx-auto">
@@ -196,10 +193,10 @@
           $('#save_details').addClass('d-none');
           $('#update_details').removeClass('d-none');
           data.images.forEach(img => {
-            imagesCont += `<div class='text-center'>
+            imagesCont += `<div class='text-center flex-grow-1'>
                   <i class="file-image">
                     <input autocomplete="off" type="file" title="${img.image}" />
-                    <i class="reset" onclick="delDetailsImg('${img.image}')"></i>
+                    <i class="reset" onclick="delDetailsImg('${img.image}', ${img.id}, this)"></i>
                     <div id='item-image'>
                       <label for="image" class="image unvisibile" style="background-image: url({{ URL::asset('Admin/Details/${img.image}') }})"></label>
                     </div>
@@ -215,19 +212,32 @@
       },
     });
   }
-  function delDetailsImg(imgLabel) {
-    console.log($(this))
-    console.log(imgLabel)
-    $.ajax({
-      url     :"{{route('admin.del.image.details')}}",
-      method  : 'post',
-      enctype : "multipart/form-data",
-      data: {
-        _token,
-        id
-      },
-      success: function(data) {
+  function delDetailsImg(imgLabel, id, btn) {
+    let imgParent = btn.parentElement.parentElement;
 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't delete this Image",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: 'e#d33',
+      confirmButtonText: 'Yes, dlete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url     :"{{route('admin.del.image.details')}}",
+          method  : 'post',
+          enctype : "multipart/form-data",
+          data: {
+            _token,
+            id,
+            image: imgLabel
+          },
+          success: function(data) {
+            imgParent.remove()
+          }
+        });
       }
     });
   }
