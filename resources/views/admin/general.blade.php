@@ -36,9 +36,9 @@
       <div class="mb-3">
         <label for="whatsapp" class="form-label">whatsapp</label>
         @if(isset($social->whats))
-        <input type="text" value='{{$social->whats}}' class="form-control" id="whatsapp" placeholder="+201000000000">
+        <input type="text" value='{{$social->whats}}' class="form-control" id="whatsapp" placeholder="201000000000">
         @else
-        <input type="text" class="form-control" id="whatsapp" placeholder="+201000000000">
+        <input type="text" class="form-control" id="whatsapp" placeholder="201000000000">
         @endif
       </div>
       <div class="mb-3">

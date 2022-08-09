@@ -208,19 +208,20 @@
   <!-- Start Footer -->
   <footer class="p-4 bg-dark text-center">
     @if(isset($social->facebook))
-    <a href="{{$social->facebook}}"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
+    <a href="{{$social->facebook}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
     @endif
     @if(isset($social->whats))
-    <a href="https://api.whatsapp.com/send?phone={{$social->whats}}"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
+    <a href="https://api.whatsapp.com/send?phone={{$social->whats}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
     @endif
     @if(isset($social->gmail))
-    <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{$social->gmail}}"><i class="fa-solid fa-fw fa-at"></i></a>
+    
+    <a href="mailto:{{$social->gmail}}" class="text-decoration-none"><i class="fa-solid fa-fw fa-at"></i></a>
     @endif
     @if(isset($social->linkedin))
-    <a href="{{$social->linkedin}}"><i class="fa-brands fa-fw fa-linkedin-in"></i></a>
+    <a href="{{$social->linkedin}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-linkedin-in"></i></a>
     @endif
     @if(isset($social->twitter))
-    <a href="{{$social->twitter}}"><i class="fa-brands fa-fw fa-twitter"></i></a>
+    <a href="{{$social->twitter}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-twitter"></i></a>
     @endif
   </footer>
   <!-- End Footer -->
@@ -288,7 +289,7 @@
             let pillList = document.getElementById('details-tab')
             data.sections.forEach(sec => {
               items += `<li class="nav-item">
-                <button class="nav-link" data-id="${sec.id}" type="button">${sec.name}</button>
+                <button class="nav-link" data-id="${sec.id}" type="button"  data-bs-toggle="pill" >${sec.name}</button>
               </li>`;
             });
             pillList.innerHTML = items;
@@ -302,23 +303,29 @@
       let id = $(this).attr('data-id');
       let images = '';
       $.ajax({
-        url     :"{{route('get.sections')}}",
+        url     :"{{route('get.details')}}",
         method  : 'post',
         enctype : "multipart/form-data",
         data:
         {
           _token,
-          id:projectId,
+          id,
         },
         success: function (data) {
           if (data.status === 'true') {
-            images += `<a href="{{asset('Admin/Details/1659811039191.jpg')}}">
-                        <img src="{{asset('Admin/Details/1659811039191.jpg')}}">
+            for(let count= 0 ; count<data.details.length ; count++){
+              images += `<a href="{{asset('Admin/Details/${data.details[count].image}')}}">
+                        <img src="{{asset('Admin/Details/${data.details[count].image}')}}">
             </a>`;
+            }
             $('#lightgallery').html(images);
+            lightGallery(document.getElementById("lightgallery"));
           }
         }
       });
+    });
+    projectModal.addEventListener('hidden.bs.modal', event => {
+      document.getElementById('lightgallery').innerHTML = '';
     });
   </script>
   @stop

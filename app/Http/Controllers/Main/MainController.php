@@ -57,4 +57,14 @@ class MainController extends Controller
             ]);
         }
     }
+
+    public function get_details(Request $request){
+        $details = Details::where(['section_id'=>$request->id])->get();
+        if($details){
+            return response()->json([
+                'status'=>'true',
+                'details'=>$details
+            ]);
+        }
+    }
 }
