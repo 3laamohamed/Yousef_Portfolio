@@ -21,6 +21,7 @@
           <div class="col-md-4 mt-3">
             <div>
                 @csrf
+                <input type="hidden" name="section_id" value="" id='section_id'>
                 <label for="project_name" class="form-label">Project Section</label>
                 <input type="text" class="form-control" name="label" id="section_name" placeholder="Please Enter Project Section" required>
             </div>
@@ -190,8 +191,10 @@
       success: function(data) {
         if(data.status === "true") {
           rowId = id;
+          $('#section_name').val(data.section)
           $('#save_details').addClass('d-none');
           $('#update_details').removeClass('d-none');
+          $('#section_id').val(rowId);
           data.images.forEach(img => {
             imagesCont += `<div class='text-center flex-grow-1'>
                   <i class="file-image">
@@ -237,11 +240,11 @@
           success: function(data) {
             if(data.status = 'true'){
             Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: data.msg,
-            showConfirmButton: false,
-            timer: 1500
+              position: 'center',
+              icon: 'success',
+              title: data.msg,
+              showConfirmButton: false,
+              timer: 1500
             })
             imgParent.remove()
           }
@@ -250,5 +253,34 @@
       }
     });
   }
+  $('body').on('click', '#update_details', function() {
+    let formData = new FormData($('#details_form')[0]);
+    $.ajax({
+      url:"{{route('admin.update.image.details')}}",
+      method:'post',
+      enctype:"multipart/form-data",
+      processData:false,
+      cache : false,
+      contentType:false,
+      'data' : formData,
+      success: function(data) {
+        if(data.status == 'true'){
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: data.msg,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            $(`tr#${rowId}`).find('td:nth-child(2)').html($('#section_name').val());
+            $('#save_details').removeClass('d-none');
+            $('#update_details').addClass('d-none');
+            $('#preview').html('');
+            document.getElementById('details_form').reset();
+          }
+      }
+    });
+
+  });
 </script>
 @stop

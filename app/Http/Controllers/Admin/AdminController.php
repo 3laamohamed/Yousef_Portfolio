@@ -135,24 +135,24 @@ class AdminController extends Controller
 
     #################### About Page ###########################
     public function save_about(Request $request){
-        $data = About::get()->all();
-        $image = '';
         $file  = '';
+        $logo = '';
         if ($request->image != null) {
             $file = new Filesystem;
             $file->cleanDirectory('Admin/About');
             $file = $this->saveimage($request->image, 'Admin/About');
         }
-        if(!empty($data)){
-            $image = $data[0]->image;
-        }else{
-            $image = $file;
+        if ($request->logo != null) {
+            $logo = new Filesystem;
+            $logo = $this->saveimage($request->logo, 'Admin/About');
         }
-        $del = About::truncate();
+
+        $del  = About::truncate();
         $save = About::create([
             'image'=>$file,
             'name' =>$request->brand,
             'disc' =>$request->disc,
+            'logo' =>$logo
         ]);
         if($save){return $this->ReturnSucsess('true', 'Saved About');}
     }
@@ -251,11 +251,32 @@ class AdminController extends Controller
 
     ########################## get_data_details #######################
     public function get_data_details(Request $request){
-        $sections = Details::where(['section_id'=>$request->id])->get();
+        $details = Details::where(['section_id'=>$request->id])->get();
+        $section = Section::limit(1)->where(['id'=>$request->id])->first();
         return response()->json([
-            'images'=>$sections,
-            'status'=>'true'
+            'images'=>$details,
+            'status'=>'true',
+            'section' =>$section->name
         ]);
+    }
+
+    ################# update_image_details ####################
+    public function update_image_details(Request $request){
+        // update Section 
+        $update_section = Section::limit(1)->where(['id'=>$request->section_id])->update([
+            'name'=>$request->label,
+        ]);
+        if(isset($request->images)){
+            foreach($request->images as $image){
+                $file = new Filesystem;
+                $file = $this->saveimage($image, 'Admin/Details');
+                $details = Details::create([
+                    'image' =>$file,
+                    'section_id'=>$request->section_id,
+                ]);
+            }
+        }
+        return $this->ReturnSucsess('true', 'Saved Updated');
     }
 
     #################### del_image_details ####################

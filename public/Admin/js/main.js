@@ -48,10 +48,10 @@ function previewImages(input, preview) {
   }
 }
 
-function deleteImage(img) {
-  img.parentElement.remove();
-  console.log(document.getElementById("album").files);
-}
+// function deleteImage(img) {
+//   img.parentElement.remove();
+//   console.log(document.getElementById("album").files);
+// }
 
 // Create One Image
 function readImage(input) {

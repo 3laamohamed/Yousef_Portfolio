@@ -60,6 +60,7 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
             Route::post('/delete_section', [App\Http\Controllers\Admin\AdminController::class,'delete_section']) ->name('admin.del.section');
             Route::post('/get_data_details', [App\Http\Controllers\Admin\AdminController::class,'get_data_details']) ->name('admin.get.update.details');
             Route::post('/del_image_details', [App\Http\Controllers\Admin\AdminController::class,'del_image_details']) ->name('admin.del.image.details');
+            Route::post('/update_image_details', [App\Http\Controllers\Admin\AdminController::class,'update_image_details']) ->name('admin.update.image.details');
 
 
 

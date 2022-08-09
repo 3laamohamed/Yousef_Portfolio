@@ -17,6 +17,7 @@ class About extends Migration
             $table->string('name')->default(' ');
             $table->text('disc')->default(' ');
             $table->string('image')->default(' ');
+            $table->string('logo')->default(' ');
             $table->timestamps();
         });
     }
