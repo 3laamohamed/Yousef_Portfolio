@@ -66,15 +66,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-5">
-          <div class="row align-items-center">
-            <div class="col-md-6">
-              <div class="discription text-center">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="discription text-center mt-5">
                 <p id="project_disc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
                   dolor accusantium quia quo esse numquam placeat, ducimus dignissimos delectus ea optio molestiae
                   minima beatae inventore quae?</p>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
               <ul class="nav nav-pills mb-3" id="details-tab" role="tablist"></ul>
               <div class="tab-content" id="pills-tabContent">
                 <div class="image-container" id="lightgallery"></div>
@@ -149,7 +149,7 @@
     <div class="container">
       <div class="clients-container">
         @foreach($clients as $client)
-        <img src="{{asset('Admin/Clients/'.$client->image)}}" alt="client1">
+        <img src="{{asset('Admin/Clients/'.$client->image)}}" alt="$client->image">
         @endforeach
       </div>
     </div>
@@ -214,7 +214,7 @@
     <a href="https://api.whatsapp.com/send?phone={{$social->whats}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
     @endif
     @if(isset($social->gmail))
-    
+
     <a href="mailto:{{$social->gmail}}" class="text-decoration-none"><i class="fa-solid fa-fw fa-at"></i></a>
     @endif
     @if(isset($social->linkedin))
@@ -257,10 +257,10 @@
                   showConfirmButton: false,
                   timer: 1500
                 })
-                $('#user_name').val(' ');
-                $('#user_email').val(' ');
-                $('#user_phone').val(' ');
-                $('#message').val(' ');
+                $('#user_name').val('');
+                $('#user_email').val('');
+                $('#user_phone').val('');
+                $('#message').val('');
               }
             }
         });

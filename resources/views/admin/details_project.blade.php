@@ -65,6 +65,7 @@
 </div>
 <script>
   let _token = $('input[name="_token"]').val();
+    let projectId = $('#project').find('option:first-child').attr('value');
   let rowId;
   $('#project').on('change',function (){
     let project = $('#project').val();
@@ -130,6 +131,7 @@
           `;
           $('tbody').html(html);
           document.getElementById('details_form').reset();
+          $('#project').val(projectId).change();
           Swal.fire({
           position: 'center',
           icon: 'success',
@@ -271,7 +273,8 @@
               title: data.msg,
               showConfirmButton: false,
               timer: 1500
-            })
+            });
+            $('#project').val(projectId).change();
             $(`tr#${rowId}`).find('td:nth-child(2)').html($('#section_name').val());
             $('#save_details').removeClass('d-none');
             $('#update_details').addClass('d-none');
