@@ -61,7 +61,4 @@ $(document).ready(function () {
   lightGallery(document.getElementById("lightgallery"));
 });
 
-// const projectModal = document.getElementById("project_modal");
-// projectModal.addEventListener("show.bs.modal", (event) => {
-//   const button = event.relatedTarget;
-// });
+

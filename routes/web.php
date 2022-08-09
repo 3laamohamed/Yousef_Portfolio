@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::get('/'         , [App\Http\Controllers\Main\MainController::class, 'home'])      ->name('home');
 Route::post('/save_message', [App\Http\Controllers\Main\MainController::class,'save_message']) ->name('save.message');
+Route::post('/get_sections', [App\Http\Controllers\Main\MainController::class,'get_sections']) ->name('get.sections');
 
 
 

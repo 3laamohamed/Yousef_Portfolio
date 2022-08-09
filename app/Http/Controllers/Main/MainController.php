@@ -24,6 +24,7 @@ class MainController extends Controller
         $clients  = Client::get()->all();
         $copyright= CopyRight::get()->first();
         $social   = Social::get()->first();
+        $projects = Project::get()->all();
         return view('main.home',compact([
             'about',
             'services',
@@ -31,6 +32,7 @@ class MainController extends Controller
             'clients',
             'copyright',
             'social',
+            'projects',
         ]));
     }
 
@@ -43,6 +45,16 @@ class MainController extends Controller
         ]);
         if($data){
             return response()->json(['status'=>'true']);
+        }
+    }
+
+    public function get_sections(Request $request){
+        $sections = Section::where(['project_id'=>$request->id])->get();
+        if($sections){
+            return response()->json([
+                'status'=>'true',
+                'sections'=>$sections
+            ]);
         }
     }
 }

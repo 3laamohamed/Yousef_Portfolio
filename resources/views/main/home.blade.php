@@ -62,14 +62,14 @@
     <div class="modal-dialog modal-fullscreen-lg-down">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="modal_title"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-5">
           <div class="row align-items-center">
             <div class="col-md-6">
               <div class="discription text-center">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
+                <p id="project_disc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
                   dolor accusantium quia quo esse numquam placeat, ducimus dignissimos delectus ea optio molestiae
                   minima beatae inventore quae?</p>
               </div>
@@ -146,94 +146,27 @@
       <ul class="categories">
         <li class="category active" value='all' data-filter="all">all</li>
         @foreach($groups as $group)
-        <li class="category" value='{{$group->id}}' data-filter="{{$group->group}}">{{$group->group}}</li>
+        @php
+        $newgroup = str_replace(' ','_',$group->group);
+        echo "<li class='category' value='$group->id' data-filter='$newgroup'>$group->group</li>";
+        @endphp
         @endforeach
       </ul>
       <div class="cards-container">
-        <div class="card mt-3 shadow-lg border-0 cards drone" data-bs-toggle="modal" data-bs-target="#project_modal">
+        @foreach($projects as $project)
+        @php
+        $newgroup = str_replace(' ','_',$project->groupname);
+        echo "<div data-id='$project->id' class='card mt-3 shadow-lg border-0 cards $newgroup' data-bs-toggle='modal' data-bs-target='#project_modal'>";
+        @endphp
           <div class="card-image">
-            <img src="./imgs/drone1.jpg" class="card-img-top" alt="drone1">
+            <img src="{{asset('Admin/Projects/' . $project->image)}}" class="card-img-top" alt="{{$project->image}}">
           </div>
           <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
+            <p class="card-text text-white">{{$project->title}}</p>
+            <span class="d-none">{{$project->disc}}</span>
           </div>
         </div>
-        <div class="card mt-3 shadow-lg border-0 cards drone" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/drone2.jpg" class="card-img-top" alt="drone2">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
-        <div class="card mt-3 shadow-lg border-0 cards electric" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/elec1.jpg" class="card-img-top" alt="elec1">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
-        <div class="card mt-3 shadow-lg border-0 cards electric" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/elec2.jpg" class="card-img-top" alt="elec2">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
-        <div class="card mt-3 shadow-lg border-0 cards print" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/print1.jpg" class="card-img-top" alt="print1">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
-        <div class="card mt-3 shadow-lg border-0 cards print" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/print2.jpg" class="card-img-top" alt="print2">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
-        <div class="card mt-3 shadow-lg border-0 cards print" data-bs-toggle="modal" data-bs-target="#project_modal">
-          <div class="card-image">
-            <img src="./imgs/print3.jpg" class="card-img-top" alt="print3">
-          </div>
-          <div class="card-body bg-dark">
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of
-              the
-              card's
-              content.
-            </p>
-          </div>
-        </div>
+        @endforeach
       </div>
     </div>
   </section>
@@ -359,6 +292,29 @@
               }
             }
         });
+    });
+    const projectModal = document.getElementById("project_modal");
+    projectModal.addEventListener("show.bs.modal", (event) => {
+      const button = event.relatedTarget;
+      const projectTitle = button.querySelector('p').textContent;
+      const projectDisc = button.querySelector('span').textContent;
+      const projectId = button.dataset.id
+      document.getElementById('modal_title').textContent = projectTitle
+      document.getElementById('project_disc').textContent = projectDisc;
+      $.ajax({
+        url     :"{{route('get.sections')}}",
+        method  : 'post',
+        enctype : "multipart/form-data",
+        data:
+        {
+          _token,
+          id:projectId,
+        },
+        success: function (data)
+        {
+
+        }
+      });
     });
   </script>
   @stop
