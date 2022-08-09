@@ -135,18 +135,21 @@ class AdminController extends Controller
 
     #################### About Page ###########################
     public function save_about(Request $request){
-        $file  = '';
-        $logo = '';
+        $data = About::get()->first();
+        $file  = $data->image;
+        $logo = $data->logo;
         if ($request->image != null) {
+            $image_path = 'Admin/About/'.$file;
+            File::delete($image_path);
             $file = new Filesystem;
-            $file->cleanDirectory('Admin/About');
             $file = $this->saveimage($request->image, 'Admin/About');
         }
         if ($request->logo != null) {
+            $image_path = 'Admin/About/'.$logo;
+            File::delete($image_path);
             $logo = new Filesystem;
             $logo = $this->saveimage($request->logo, 'Admin/About');
         }
-
         $del  = About::truncate();
         $save = About::create([
             'image'=>$file,
@@ -190,26 +193,27 @@ class AdminController extends Controller
 
     ########################## Update Project ######################
     public function update_project(Request $request){
-        $group = Group::where(['id'=>$request->group])->first();
-        if ($request->thumbnail != null) {
+        $project = Project::limit(1)->where(['id'=>$request->project_id])->first();
+        if($request->thumbnail == null){
+            $update = Project::limit(1)->where(['id'=>$request->project_id])->update([
+                'title' => $request->label,
+                'disc' => $request->disc,
+            ]);
+            if($update){return $this->ReturnSucsess('true', 'Updated Project');}
+        }else{
+            $image_path = 'Admin/Projects/'. $project->image;
+            if(File::exists($image_path)){
+                File::delete($image_path);
+            }
             $file = new Filesystem;
             $file = $this->saveimage($request->thumbnail, 'Admin/Projects');
-            $save_project = Project::create([
-                'title'     => $request->label,
-                'disc'      => $request->disc,
-                'groupid'   => $group->id,
-                'groupname' => $group->group,
-                'image'     => $file
+            $update = Project::limit(1)->where(['id'=>$request->project_id])->update([
+                'title' => $request->label,
+                'disc' => $request->disc,
+                'image' =>$file
             ]);
-        }else{
-            $save_project = Project::create([
-                'title'     => $request->label,
-                'disc'      => $request->disc,
-                'groupid'   => $group->id,
-                'groupname' => $group->group,
-            ]);
-          }
-          if($save_project){return $this->ReturnSucsess('true','Updated Project');}
+            if($update){return $this->ReturnSucsess('true', 'Updated Service');}
+        }
 
     }
     ######################## Delete Project #########################
@@ -377,5 +381,34 @@ class AdminController extends Controller
             $delclient = Services::where(['id'=>$request->service])->delete();
             if($delclient){return $this->ReturnSucsess('true', 'Deleted service');}
         }
+    }
+    ###################### update_service ##################
+    public function update_service(Request $request){
+        $service = Services::limit(1)->where(['id'=>$request->service_id])->first();
+        if($request->image == null){
+            $update = Services::limit(1)->where(['id'=>$request->service_id])->update([
+                'title' => $request->name,
+                'disc' => $request->disc,
+            ]);
+            if($update){return $this->ReturnSucsess('true', 'Updated Service');}
+        }else{
+            $image_path = 'Admin/Services/'. $service->image;
+            if(File::exists($image_path)){
+                File::delete($image_path);
+            }
+            $file = new Filesystem;
+            $file = $this->saveimage($request->image, 'Admin/Services');
+            $update = Services::limit(1)->where(['id'=>$request->service_id])->update([
+                'title' => $request->name,
+                'disc' => $request->disc,
+                'image' =>$file
+            ]);
+            if($update){return $this->ReturnSucsess('true', 'Updated Service');}
+        }
+    }
+    ###################### get_update_service #####################
+    public function get_update_service(Request $request){
+        $service = Services::limit(1)->where(['id'=>$request->id])->first();
+        if($service){return $this->ReturnSucsess('true', $service);}
     }
 }

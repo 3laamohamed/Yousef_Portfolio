@@ -13,6 +13,7 @@
           <div class="col-md-6">
             <div class="mb-3">
                 @csrf
+                <input type="hidden" name="project_id" value="" id='project_id'>
                 <label for="project_name" class="form-label">Project Name</label>
                 <input type="text" class="form-control" name="label" id="project_name" placeholder="Please Enter Project Name" required>
             </div>
@@ -235,6 +236,7 @@
           rowId = id;
           $('#save_project').addClass('d-none');
           $('#update_project').removeClass('d-none');
+          $('#project_id').val(rowId);
           $('#project_name').val(data.msg.title);
           $('#description').val(data.msg.disc);
           $('#image').attr('title', data.msg.image)

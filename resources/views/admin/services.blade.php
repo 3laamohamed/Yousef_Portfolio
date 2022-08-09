@@ -13,6 +13,7 @@
       <div class="row align-items-start about">
         <div class="col-md-6">
           <div class="mb-3">
+              <input type="hidden" name="service_id" value="" id='service_id'>
               <label for="service_name" class="form-label">Service Name</label>
               <input type="text"  class="form-control" name='name' id="service_name" placeholder="Please Enter Brand Name">
           </div>
@@ -69,6 +70,7 @@
 </div>
 <script>
   let rowId;
+  let _token = $('input[name="_token"]').val();
   $('#save_service').on('click', function() {
     let formData = new FormData($('#form_save_service')[0]);
       let html = $('tbody').html();
@@ -187,6 +189,7 @@
           rowId = id;
           $('#save_service').addClass('d-none');
           $('#update_service').removeClass('d-none');
+          $('#service_id').val(rowId)
           $('#service_name').val(data.msg.title);
           $('#discription').val(data.msg.disc);
           $('#image').attr('title', data.msg.image)
