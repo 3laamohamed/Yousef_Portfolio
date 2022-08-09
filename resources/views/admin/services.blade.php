@@ -68,6 +68,7 @@
   </div>
 </div>
 <script>
+  let rowId;
   $('#save_service').on('click', function() {
     let formData = new FormData($('#form_save_service')[0]);
       let html = $('tbody').html();
@@ -143,5 +144,60 @@
       }
     });
   });
+  $('#update_service').on('click', function(e) {
+    e.preventDefault();
+    let formData = new FormData($('#form_save_service')[0]);
+    $.ajax({
+      url:"{{route('admin.update.services')}}",
+      method:'post',
+      enctype:"multipart/form-data",
+      processData:false,
+      cache : false,
+      contentType:false,
+      'data' : formData,
+      success: function (data) {
+        if(data.status === "true") {
+          $(`tr#${rowId}`).find('td:nth-child(2)').text($('#service_name').val());
+          $('#save_service').removeClass('d-none');
+          $('#update_service').addClass('d-none');
+          document.getElementById('form_save_service').reset();
+          $('.reset').click();
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: data.msg,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      }
+    });
+  });
+  function getRow(id) {
+    $.ajax({
+      url     :"{{route('admin.get.update.services')}}",
+      method  : 'post',
+      enctype : "multipart/form-data",
+      data: {
+        _token,
+        id
+      },
+      success: function(data) {
+        if(data.status === "true") {
+          rowId = id;
+          $('#save_service').addClass('d-none');
+          $('#update_service').removeClass('d-none');
+          $('#service_name').val(data.msg.title);
+          $('#discription').val(data.msg.disc);
+          $('#image').attr('title', data.msg.image)
+          $('#item-image').html(`<label for="image" class="image unvisibile" data-label="Add Image" style="background-image:url({{ URL::asset('Admin/Services') }}/${data.msg.image})"></label>`);
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      },
+    });
+  }
 </script>
 @stop

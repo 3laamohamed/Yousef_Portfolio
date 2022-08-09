@@ -21,6 +21,7 @@ body {
 /* Start Components */
 section {
   position: relative;
+  padding-top: 70px;
   counter-increment: sections;
 }
 .special-title {
@@ -36,7 +37,7 @@ section {
 section::after {
   content: "0" counter(sections);
   position: absolute;
-  top: -30px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 7.5em;
@@ -61,16 +62,17 @@ main::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='100%' height='123' preserveAspectRatio='none' viewBox='0 0 1440 123'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1721%26quot%3b)' fill='none'%3e%3cpath d='M 0%2c32 C 72%2c43.2 216%2c83 360%2c88 C 504%2c93 576%2c57.6 720%2c57 C 864%2c56.4 936%2c96.4 1080%2c85 C 1224%2c73.6 1368%2c17 1440%2c0L1440 123L0 123z' fill='rgba(255%2c 255%2c 255%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1721'%3e%3crect width='1440' height='123' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");
   background-position: bottom;
   background-repeat: no-repeat;
+  z-index: 1;
 }
 nav .nav-link {
   color: white;
   font-size: 1.2rem;
 }
 nav.navbar.nav-fixed {
-  background: var(--bs-gray-100);
+  background: var(--bs-dark);
 }
 nav.navbar.nav-fixed .nav-link {
-  color: black;
+  color: white;
 }
 .navbar-nav .nav-link.active,
 .navbar-nav .show > .nav-link,

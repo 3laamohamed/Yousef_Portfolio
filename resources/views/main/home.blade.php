@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <!-- End Navbar -->
-    <header>
+    <header class="check-scroll" id='Home'>
       <div class="container">
         <div class="home-content">
           @if(isset($about->name))
@@ -69,7 +69,7 @@
   </div>
 
   <!-- Start Services -->
-  <section id="services" class="services py-5">
+  <section id="services" class="services pb-5 check-scroll">
     <h2 class="special-title">Services</h2>
     <div class="container">
       <div class="row align-items-center">
@@ -90,7 +90,7 @@
   <!-- End Services -->
 
   <!-- Start Projects -->
-  <section id='projects' class="projects py-5">
+  <section id='projects' class="projects pb-5 check-scroll">
     <h2 class="special-title">Projects</h2>
     <div class="container">
       <ul class="categories">
@@ -190,7 +190,7 @@
   <!-- End Projects -->
 
   <!-- Start Clients -->
-  <section class="clients py-5" id="clients">
+  <section class="clients pb-5 check-scroll" id="clients">
     <h2 class="special-title">Clients</h2>
     <div class="container">
       <div class="clients-container">
@@ -203,7 +203,7 @@
   <!-- End Clients -->
 
   <!-- Start Contact -->
-  <section class="contact py-5 bg-light" id="contact">
+  <section class="contact pb-5 bg-light check-scroll" id="contact">
     <h2 class="special-title">Contact</h2>
     <div class="container">
       <div class="row">
@@ -240,7 +240,8 @@
   </section>
   <!-- End Contact -->
 
-  <section class="copyright py-5" id="copyright">
+  <!-- Start CopyRight -->
+  <section class="copyright pb-5 check-scroll" id="copyright">
     <h2 class="special-title">Copyright</h2>
     <div class="container">
         @if(isset($copyright->name))
@@ -248,8 +249,10 @@
         @endif
     </div>
   </section>
-<!-- Start Footer -->
-    <footer class="p-4 bg-dark text-center">
+  <!-- End CopyRight -->
+
+  <!-- Start Footer -->
+  <footer class="p-4 bg-dark text-center">
     @if(isset($social->facebook))
     <a href="{{$social->facebook}}"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
     @endif
@@ -267,6 +270,7 @@
     @endif
   </footer>
   <!-- End Footer -->
+
   <script>
     let _token = $('input[name="_token"]').val();
     $('body').on('click', '#save_message',function() {

@@ -64,7 +64,6 @@
       'data' : formData,
       success: function (data) {
         if(data.status == 'true') {
-          let title = $("#client").attr("title")
           html += `<tr id="${data.id}">
               <td>${data.id}</td>
               <td> <img width="100" height='100' src="{{asset('Admin/Clients/${data.image}')}}"></td>
@@ -75,6 +74,7 @@
               </td>
           </tr>`;
           $('tbody').html(html);
+          $('.reset').click();
           Swal.fire({
             position: 'center',
             icon: 'success',

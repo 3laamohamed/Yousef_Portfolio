@@ -37,22 +37,22 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" href="#Home" data-scroll="Home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="#services" data-scroll="services">Services</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#projects">Projects</a>
+              <a class="nav-link" href="#projects" data-scroll="projects">Projects</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#clients">Clients</a>
+              <a class="nav-link" href="#clients" data-scroll="clients">Clients</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
+              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#copyright">Copyright</a>
+              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
             </li>
           </ul>
         </div>
