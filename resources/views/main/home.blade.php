@@ -28,10 +28,10 @@
           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="row">
+        <div class="modal-body p-5">
+          <div class="row align-items-center">
             <div class="col-md-6">
-              <div class="discription">
+              <div class="discription text-center">
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
                   dolor accusantium quia quo esse numquam placeat, ducimus dignissimos delectus ea optio molestiae
                   minima beatae inventore quae?</p>
@@ -53,16 +53,29 @@
                 </li>
               </ul>
               <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-sec1" role="tabpanel" tabindex="0"> Sec 1 </div>
-                <div class="tab-pane fade" id="pills-sec2" role="tabpanel" tabindex="0"> Sec 2 </div>
-                <div class="tab-pane fade" id="pills-sec3" role="tabpanel" tabindex="0"> Sec 3 </div>
+                <div class="tab-pane fade show active" id="pills-sec1" role="tabpanel" tabindex="0">
+                  <div class="image-container" id="lightgallery">
+                    <a href="{{asset('Admin/Details/1659811039191.jpg')}}">
+                        <img src="{{asset('Admin/Details/1659811039191.jpg')}}">
+                    </a>
+                    <a href="{{asset('Admin/Details/1659986354987.jpg')}}">
+                        <img src="{{asset('Admin/Details/1659986354987.jpg')}}">
+                    </a>
+                    <a href="{{asset('Admin/Details/1659910817493.jpg')}}">
+                        <img src="{{asset('Admin/Details/1659910817493.jpg')}}">
+                    </a>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-sec2" role="tabpanel" tabindex="0">
+                </div>
+                <div class="tab-pane fade" id="pills-sec3" role="tabpanel" tabindex="0">
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>l,
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -242,10 +255,10 @@
 
   <!-- Start CopyRight -->
   <section class="copyright pb-5 check-scroll" id="copyright">
-    <h2 class="special-title">Copyright</h2>
+    <h2 class="special-title">&copy; Copyright</h2>
     <div class="container">
         @if(isset($copyright->name))
-        <p class="fs-4 text-center lh-lg">{{$copyright->name}}</p>
+        <pre class="fs-5 text-center">{{$copyright->name}}</pre>
         @endif
     </div>
   </section>

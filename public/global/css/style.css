@@ -127,9 +127,20 @@ header .container {
 .home-image {
   position: relative;
   flex-grow: 1;
-  flex-basis: 80%;
+  flex-basis: 200%;
   z-index: 1;
 }
+@media (min-width: 992px) {
+  .home-image {
+    flex-basis: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  .home-image {
+    flex-basis: 70%;
+  }
+}
+
 .home-image img {
   width: 100%;
 }
@@ -266,7 +277,7 @@ header .container {
 }
 /* End Projects Section */
 
-/* Start Sclients Section */
+/* Start Clients Section */
 .clients-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -276,13 +287,49 @@ header .container {
 .clients-container img {
   max-width: 100%;
 }
-/* End Sclients Section */
+/* End Clients Section */
 
 /* Start Contact Section */
 .contact .special-title {
   background: var(--bs-light);
 }
 /* End Contact Section */
+
+/* Start CopyRight Section */
+pre {
+  font-family: "Cairo", sans-serif;
+  overflow: inherit;
+  white-space: pre-wrap;
+}
+/* End CopyRight Section */
+
+/* Start Model Design */
+.nav-link {
+  color: var(--bs-dark);
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background: var(--main-color);
+  color: white;
+}
+.image-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.image-container img {
+  width: 100px;
+  height: 100px;
+}
+.lg-backdrop.in,
+.lg-outer {
+  z-index: 9999;
+}
+.lg-backdrop.in {
+  opacity: 0.9;
+}
+/* End Model Design */
 
 /* Start Footer */
 footer i {
