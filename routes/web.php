@@ -74,6 +74,8 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
     Route::get('/View_services'    , [App\Http\Controllers\Admin\AdminController::class, 'services'])     ->name('admin.services');
         Route::post('/delete_service', [App\Http\Controllers\Admin\AdminController::class,'delete_service']) ->name('admin.delete.service');
         Route::post('/save_service', [App\Http\Controllers\Admin\AdminController::class,'save_service']) ->name('admin.save.service');
+        Route::post('/update_service', [App\Http\Controllers\Admin\AdminController::class,'update_service']) ->name('admin.update.services');
+        Route::post('/get_update_service', [App\Http\Controllers\Admin\AdminController::class,'get_update_service']) ->name('admin.get.update.services');
 
 
 });

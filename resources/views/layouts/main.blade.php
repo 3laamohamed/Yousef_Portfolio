@@ -26,41 +26,6 @@
     <script src="{{ asset('global/js/sweetalert2@10.js') }}"></script>
 </head>
 <body>
-<main>
-    <!-- Start Navbar -->
-    <nav class="navbar navbar-expand-md">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="./imgs/logo.png" alt="" width="80" height="50">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" href="#Home" data-scroll="Home">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#services" data-scroll="services">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#projects" data-scroll="projects">Projects</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#clients" data-scroll="clients">Clients</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
     @yield('content')
   <script src="{{ asset('global/js/main.js') }}"></script>
 </body>
