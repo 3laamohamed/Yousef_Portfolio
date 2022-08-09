@@ -77,23 +77,7 @@
             <div class="col-md-6">
               <ul class="nav nav-pills mb-3" id="details-tab" role="tablist"></ul>
               <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-sec1" role="tabpanel" tabindex="0">
-                  <div class="image-container" id="lightgallery">
-                    <a href="{{asset('Admin/Details/1659811039191.jpg')}}">
-                        <img src="{{asset('Admin/Details/1659811039191.jpg')}}">
-                    </a>
-                    <a href="{{asset('Admin/Details/1659986354987.jpg')}}">
-                        <img src="{{asset('Admin/Details/1659986354987.jpg')}}">
-                    </a>
-                    <a href="{{asset('Admin/Details/1659910817493.jpg')}}">
-                        <img src="{{asset('Admin/Details/1659910817493.jpg')}}">
-                    </a>
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="pills-sec2" role="tabpanel" tabindex="0">
-                </div>
-                <div class="tab-pane fade" id="pills-sec3" role="tabpanel" tabindex="0">
-                </div>
+                <div class="image-container" id="lightgallery"></div>
               </div>
             </div>
           </div>
@@ -304,13 +288,34 @@
             let pillList = document.getElementById('details-tab')
             data.sections.forEach(sec => {
               items += `<li class="nav-item">
-                <button class="nav-link" id="${sec.id}-tab" data-bs-toggle="pill" data-bs-target="#sec_${sec.id}"
-                  type="button">${sec.name}</button>
+                <button class="nav-link" data-id="${sec.id}" type="button">${sec.name}</button>
               </li>`;
             });
             pillList.innerHTML = items;
             pillList.querySelectorAll('.nav-link')[0].click();
+          }
+        }
+      });
+    });
 
+    $('body').on('click', "#details-tab .nav-link", function() {
+      let id = $(this).attr('data-id');
+      let images = '';
+      $.ajax({
+        url     :"{{route('get.sections')}}",
+        method  : 'post',
+        enctype : "multipart/form-data",
+        data:
+        {
+          _token,
+          id:projectId,
+        },
+        success: function (data) {
+          if (data.status === 'true') {
+            images += `<a href="{{asset('Admin/Details/1659811039191.jpg')}}">
+                        <img src="{{asset('Admin/Details/1659811039191.jpg')}}">
+            </a>`;
+            $('#lightgallery').html(images);
           }
         }
       });
