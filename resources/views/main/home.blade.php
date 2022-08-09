@@ -55,7 +55,7 @@
         </div>
       </div>
     </header>
-  </main>
+</main>
   <!-- Modal -->
   <div class="modal fade modal-xl" id="project_modal" tabindex="-1" aria-labelledby="project_modal_label"
     aria-hidden="true">
@@ -75,20 +75,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-sec1-tab" data-bs-toggle="pill" data-bs-target="#pills-sec1"
-                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-sec2-tab" data-bs-toggle="pill" data-bs-target="#pills-sec2"
-                    type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-sec3-tab" data-bs-toggle="pill" data-bs-target="#pills-sec3"
-                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
-                </li>
-              </ul>
+              <ul class="nav nav-pills mb-3" id="details-tab" role="tablist"></ul>
               <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-sec1" role="tabpanel" tabindex="0">
                   <div class="image-container" id="lightgallery">
@@ -312,7 +299,19 @@
         },
         success: function (data)
         {
+          if (data.status === 'true') {
+            let items = '';
+            let pillList = document.getElementById('details-tab')
+            data.sections.forEach(sec => {
+              items += `<li class="nav-item">
+                <button class="nav-link" id="${sec.id}-tab" data-bs-toggle="pill" data-bs-target="#sec_${sec.id}"
+                  type="button">${sec.name}</button>
+              </li>`;
+            });
+            pillList.innerHTML = items;
+            pillList.querySelectorAll('.nav-link')[0].click();
 
+          }
         }
       });
     });
