@@ -82,7 +82,7 @@ class AdminController extends Controller
 
     public function services(){
         $services = Services::orderBy('id', 'DESC')->get()->all();
-        return view('Admin.services',compact('services'));
+        return view('admin.services',compact('services'));
     }
 
     function ReturnSucsess($status , $msg){
