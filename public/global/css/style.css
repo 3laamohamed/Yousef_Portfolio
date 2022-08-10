@@ -279,13 +279,15 @@ header .container {
 
 /* Start Clients Section */
 .clients-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  display: flex;
   gap: 30px;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .clients-container img {
   max-width: 100%;
+  width: 100px;
 }
 /* End Clients Section */
 
@@ -319,8 +321,8 @@ pre {
   flex-wrap: wrap;
 }
 .image-container img {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
 }
 .lg-backdrop.in,
 .lg-outer {

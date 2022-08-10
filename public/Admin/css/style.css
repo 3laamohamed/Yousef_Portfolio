@@ -17,6 +17,18 @@ body {
 == Start Custom FrameWork ==
 ============================
 */
+.navbar {
+  background: rgba(255, 255, 255, 0.4);
+}
+.navbar-nav .dropdown-menu {
+  background: rgba(255, 255, 255, 0.6);
+}
+@media screen and (max-width: 767.98px) {
+  .nav-link {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
 label {
   font-size: 1rem !important;
 }

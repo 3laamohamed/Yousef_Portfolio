@@ -80,6 +80,7 @@
 </div>
 <script>
   let _token = $('input[name="_token"]').val();
+  let groupId = $('#group').find('option:first-child').attr('value');
   let rowId;
   $('#group').on('change',function (){
     let group = $('#group').val();
@@ -143,6 +144,7 @@
                   </tr>
           `;
           $('tbody').html(html);
+          $('#group').val(groupId).change();
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -174,6 +176,7 @@
           $('#update_project').addClass('d-none');
           document.getElementById('project_form').reset();
           $('.reset').click();
+          $('#group').val(groupId).change();
           Swal.fire({
             position: 'center',
             icon: 'success',
