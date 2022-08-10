@@ -214,10 +214,6 @@
     <a href="https://api.whatsapp.com/send?phone={{$social->whats}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
     @endif
     @if(isset($social->gmail))
-<<<<<<< HEAD
-=======
-
->>>>>>> 16e90e99302e08a53803d6237fc504426cc0a1d9
     <a href="mailto:{{$social->gmail}}" class="text-decoration-none"><i class="fa-solid fa-fw fa-at"></i></a>
     @endif
     @if(isset($social->linkedin))
