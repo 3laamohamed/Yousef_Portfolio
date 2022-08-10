@@ -136,17 +136,23 @@ class AdminController extends Controller
     #################### About Page ###########################
     public function save_about(Request $request){
         $data = About::get()->first();
+        if($data){
         $file  = $data->image;
         $logo = $data->logo;
+        }
         if ($request->image != null) {
+            if(isset($file)){
             $image_path = 'Admin/About/'.$file;
             File::delete($image_path);
+            }
             $file = new Filesystem;
             $file = $this->saveimage($request->image, 'Admin/About');
         }
         if ($request->logo != null) {
+            if(isset($logo)){
             $image_path = 'Admin/About/'.$logo;
             File::delete($image_path);
+            }
             $logo = new Filesystem;
             $logo = $this->saveimage($request->logo, 'Admin/About');
         }

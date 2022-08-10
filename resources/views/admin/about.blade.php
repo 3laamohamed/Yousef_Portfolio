@@ -34,7 +34,7 @@
           <!-- Upload Image -->
           <div class='text-center'>
             <i class="file-image">
-              <input autocomplete="off" id="image" name="image" type="file" onchange="readImage(this)" title="{{$data->image}}" />
+              <input autocomplete="off" id="image" name="image" type="file" onchange="readImage(this)" title="" />
               <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
               <div id='item-image'>
                 @if(!empty($data->image))
@@ -47,7 +47,7 @@
           </div>
           <div class='text-center'>
             <i class="file-image">
-              <input autocomplete="off" id="logo" name="logo" type="file" onchange="readImage(this)" title="{{$data->logo}}" />
+              <input autocomplete="off" id="logo" name="logo" type="file" onchange="readImage(this)" title="" />
               <i class="reset" onclick="resetImage(this.previousElementSibling)"></i>
               <div id='item-image'>
                 @if(!empty($data->logo))
