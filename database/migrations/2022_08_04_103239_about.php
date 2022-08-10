@@ -14,10 +14,10 @@ class About extends Migration
     public function up()
     {
         Schema::create('about', function (Blueprint $table) {
-            $table->string('name')->default(' ');
-            $table->text('disc')->default(' ');
-            $table->string('image')->default(' ');
-            $table->string('logo')->default(' ');
+            $table->string('name')->nullable();
+            $table->text('disc')->nullable();
+            $table->string('image')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

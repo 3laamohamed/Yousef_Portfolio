@@ -218,6 +218,7 @@ class AdminController extends Controller
     }
     ######################## Delete Project #########################
     public function delete_project(Request $request){
+        if(Section::where(['project_id'=>$request->project])->count() == 0){
         $project = Project::where(['id'=>$request->project])->select(['image'])->first();
         $image_path = 'Admin/Projects/'. $project->image;
         if(File::exists($image_path)){
@@ -225,6 +226,10 @@ class AdminController extends Controller
         }
         $save = Project::where(['id'=>$request->project])->delete();
         if($save){return $this->ReturnSucsess('true', 'Deleted Project');}
+        }else{
+            return $this->ReturnSucsess('wornning', 'Cannot Delete Project');
+
+        }
     }
 
     ######################### Delete Contact ############################
