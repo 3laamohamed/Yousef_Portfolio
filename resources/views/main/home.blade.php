@@ -1,5 +1,13 @@
 @extends('layouts.main')
 @section('content')
+<!-- Start Loader -->
+<div class="loading">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+<!-- End Loader -->
+
 <main>
     <!-- Start Navbar -->
     <nav class="navbar navbar-expand-md">
@@ -40,18 +48,17 @@
     <!-- End Navbar -->
     <header class="check-scroll" id='Home'>
       <div class="container">
-        <div class="home-content">
-          @if(isset($about->name))
-          <h1>I'm <span>{{$about->name}}</span></h1>
-          @endif
-          @if(isset($about->disc))
-          <p>{{$about->disc}}</p>
-          @endif
-        </div>
-        <div class="home-image">
-            @if(isset($about->image))
-            <img src="{{asset('Admin/About/' . $about->image)}}" alt="About">
-            @endif
+        <div class="row justify-content-center">
+          <div class="col-md-9 text-center">
+            <div class="text-contant">
+              @if(isset($about->name))
+              <h4>I'm {{$about->name}} </h4>
+              @endif
+              @if(isset($about->disc))
+              <h1>{{$about->disc}}</h1>
+              @endif
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -59,7 +66,7 @@
   <!-- Modal -->
   <div class="modal fade modal-xl" id="project_modal" tabindex="-1" aria-labelledby="project_modal_label"
     aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen-lg-down">
+    <div class="modal-dialog modal-fullscreen-lg-down modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modal_title"></h5>
@@ -68,7 +75,7 @@
         <div class="modal-body p-5">
           <div class="row">
             <div class="col-md-4">
-              <div class="discription text-center mt-5">
+              <div class="discription text-center">
                 <p id="project_disc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
                   dolor accusantium quia quo esse numquam placeat, ducimus dignissimos delectus ea optio molestiae
                   minima beatae inventore quae?</p>
@@ -82,20 +89,18 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
 
   <!-- Start Services -->
-  <section id="services" class="services pb-5 check-scroll">
+  <section id="services" class="services py-5 check-scroll">
     <h2 class="special-title">Services</h2>
     <div class="container">
-      <div class="row align-items-center">
+    <div id="servicesCarousel" class="carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
         @foreach($services as $service)
-        <div class="col-md-4">
+        <div class="carousel-item">
           <div class="service">
             <div class="image">
               <img src="{{asset('Admin/services/' . $service->image)}}" alt="">
@@ -105,13 +110,23 @@
           </div>
         </div>
         @endforeach
+
       </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
     </div>
   </section>
   <!-- End Services -->
 
   <!-- Start Projects -->
-  <section id='projects' class="projects pb-5 check-scroll">
+  <section id='projects' class="projects py-5 check-scroll">
     <h2 class="special-title">Projects</h2>
     <div class="container">
       <ul class="categories">
@@ -127,12 +142,12 @@
         @foreach($projects as $project)
         @php
         $newgroup = str_replace(' ','_',$project->groupname);
-        echo "<div data-id='$project->id' class='card mt-3 shadow-lg border-0 cards $newgroup' data-bs-toggle='modal' data-bs-target='#project_modal'>";
+        echo "<div data-id='$project->id' class='card shadow-lg cards $newgroup' data-bs-toggle='modal' data-bs-target='#project_modal'>";
         @endphp
           <div class="card-image">
             <img src="{{asset('Admin/Projects/' . $project->image)}}" class="card-img-top" alt="{{$project->image}}">
           </div>
-          <div class="card-body bg-dark">
+          <div class="card-body">
             <p class="card-text text-white">{{$project->title}}</p>
             <span class="d-none">{{$project->disc}}</span>
           </div>
@@ -144,20 +159,46 @@
   <!-- End Projects -->
 
   <!-- Start Clients -->
-  <section class="clients pb-5 check-scroll" id="clients">
+  <section class="clients py-5 check-scroll" id="clients">
     <h2 class="special-title">Clients</h2>
     <div class="container">
-      <div class="clients-container">
+          <div id="clientCarousel" class="carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{asset('Admin/Clients/1660401145115.png')}}" alt="">
+        </div>
         @foreach($clients as $client)
-        <img src="{{asset('Admin/Clients/'.$client->image)}}" alt="$client->image">
+        <div class="carousel-item">
+          <img src="{{asset('Admin/Clients/'.$client->image)}}" alt="$client->image">
+        </div>
         @endforeach
       </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#clientCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#clientCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
     </div>
   </section>
   <!-- End Clients -->
 
+  <!-- Start CopyRight -->
+  <section class="copyright py-5 check-scroll" id="copyright">
+    <h2 class="special-title">&copy; Copyright</h2>
+    <div class="container">
+        @if(isset($copyright->name))
+        <pre class="fs-5 text-center">{{$copyright->name}}</pre>
+        @endif
+    </div>
+  </section>
+  <!-- End CopyRight -->
+
   <!-- Start Contact -->
-  <section class="contact pb-5 bg-light check-scroll" id="contact">
+  <section class="contact py-5 bg-light check-scroll" id="contact">
     <h2 class="special-title">Contact</h2>
     <div class="container">
       <div class="row">
@@ -186,24 +227,13 @@
             <textarea class="form-control" id="message" rows="8" placeholder="please Enter Your Message"></textarea>
           </div>
         </div>
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-success clicked" id="save_message" type="button">Save</button>
+        <div class="d-grid gap-2 col-12 col-lg-4 col-md-6 mx-auto">
+            <button class="btn btn-primary clicked" id="save_message" type="button">Send</button>
         </div>
       </div>
     </div>
   </section>
   <!-- End Contact -->
-
-  <!-- Start CopyRight -->
-  <section class="copyright pb-5 check-scroll" id="copyright">
-    <h2 class="special-title">&copy; Copyright</h2>
-    <div class="container">
-        @if(isset($copyright->name))
-        <pre class="fs-5 text-center">{{$copyright->name}}</pre>
-        @endif
-    </div>
-  </section>
-  <!-- End CopyRight -->
 
   <!-- Start Footer -->
   <footer class="p-4 bg-dark text-center">
@@ -225,6 +255,12 @@
     @endif
   </footer>
   <!-- End Footer -->
+
+  <!-- Start Up Button -->
+  <button class="up">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+  <!-- End Up Button -->
 
   <script>
     let _token = $('input[name="_token"]').val();
