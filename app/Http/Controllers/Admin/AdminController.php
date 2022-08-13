@@ -82,7 +82,7 @@ class AdminController extends Controller
 
     public function services(){
         $services = Services::orderBy('id', 'DESC')->get()->all();
-        return view('Admin.services',compact('services'));
+        return view('admin.services',compact('services'));
     }
 
     function ReturnSucsess($status , $msg){
@@ -136,17 +136,23 @@ class AdminController extends Controller
     #################### About Page ###########################
     public function save_about(Request $request){
         $data = About::get()->first();
+        if($data){
         $file  = $data->image;
         $logo = $data->logo;
+        }
         if ($request->image != null) {
+            if(isset($file)){
             $image_path = 'Admin/About/'.$file;
             File::delete($image_path);
+            }
             $file = new Filesystem;
             $file = $this->saveimage($request->image, 'Admin/About');
         }
         if ($request->logo != null) {
+            if(isset($logo)){
             $image_path = 'Admin/About/'.$logo;
             File::delete($image_path);
+            }
             $logo = new Filesystem;
             $logo = $this->saveimage($request->logo, 'Admin/About');
         }
@@ -218,6 +224,7 @@ class AdminController extends Controller
     }
     ######################## Delete Project #########################
     public function delete_project(Request $request){
+        if(Section::where(['project_id'=>$request->project])->count() == 0){
         $project = Project::where(['id'=>$request->project])->select(['image'])->first();
         $image_path = 'Admin/Projects/'. $project->image;
         if(File::exists($image_path)){
@@ -225,6 +232,10 @@ class AdminController extends Controller
         }
         $save = Project::where(['id'=>$request->project])->delete();
         if($save){return $this->ReturnSucsess('true', 'Deleted Project');}
+        }else{
+            return $this->ReturnSucsess('wornning', 'Cannot Delete Project');
+
+        }
     }
 
     ######################### Delete Contact ############################
