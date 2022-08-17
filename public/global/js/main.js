@@ -48,6 +48,15 @@ $(document).ready(function () {
     });
   });
   getScroll();
+
+  // Open And Close Navbar In Mobile
+  const navbarMobile = document.getElementsByClassName("navbar-collapse")[0];
+  document.getElementById("open-nav").onclick = function () {
+    navbarMobile.classList.add("open");
+  };
+  document.getElementById("close-nav").onclick = function () {
+    navbarMobile.classList.remove("open");
+  };
   // ==================== End Navbar =====================
 
   // ==================== Start Button Up  =====================

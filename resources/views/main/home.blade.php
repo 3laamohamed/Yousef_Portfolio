@@ -17,12 +17,17 @@
             <img src="{{asset('Admin/About/' . $about->logo)}}" alt="" width="80" height="50">
             @endif
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button id="open-nav" class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <div class="navbar-collapse">
           <ul class="navbar-nav mb-2 mb-lg-0">
+            <div class="close-nav d-block d-md-none" id="close-nav">
+              <span></span>
+              <span></span>
+            </div>
             <li class="nav-item">
               <a class="nav-link active" href="#Home" data-scroll="Home">Home</a>
             </li>
@@ -36,10 +41,10 @@
               <a class="nav-link" href="#clients" data-scroll="clients">Clients</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
+              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
+              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
             </li>
           </ul>
         </div>
@@ -201,7 +206,7 @@
   <section class="contact py-5 bg-light check-scroll" id="contact">
     <h2 class="special-title">Contact</h2>
     <div class="container">
-      <div class="row">
+      <div class="row col-md-8 offset-md-2">
         <div class="col-12">
           <div class="mb-3">
             @csrf
