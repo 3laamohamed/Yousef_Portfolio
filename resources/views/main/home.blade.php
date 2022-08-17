@@ -81,9 +81,7 @@
           <div class="row">
             <div class="col-md-4">
               <div class="discription text-center">
-                <p id="project_disc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur blanditiis totam nemo possimus
-                  dolor accusantium quia quo esse numquam placeat, ducimus dignissimos delectus ea optio molestiae
-                  minima beatae inventore quae?</p>
+                <p id="project_disc"></p>
               </div>
             </div>
             <div class="col-md-8">
@@ -169,14 +167,36 @@
     <div class="container">
           <div id="clientCarousel" class="carousel" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="{{asset('Admin/Clients/1660401145115.png')}}" alt="">
-        </div>
-        @foreach($clients as $client)
-        <div class="carousel-item">
-          <img src="{{asset('Admin/Clients/'.$client->image)}}" alt="$client->image">
-        </div>
-        @endforeach
+        @php
+          $count_image = 1;
+          $count_head = 1;
+          $y = 1;
+          $x = 1;
+          $test = 2;
+        @endphp
+        
+        @for($y=1; $y<= $active ; $y++)
+          @if($y == 1)
+          <div class='carousel-item active'>
+            @for($x=1; $x <= 5 ; $x++)
+            <img src="{{asset('Admin/Clients/' . $new_client[$y .'_'. $x])}}" alt="">
+            @endfor
+          </div>
+          @else
+          @if($test != $y)
+           <div class='carousel-item'>
+          @endif
+            @for($x=1; $x <= 5 ; $x++)
+            @if($y==$active && $x==$counter_image)
+              @break
+            @else
+            <img src="{{asset('Admin/Clients/' . $new_client[$y .'_'. $x])}}" alt="">
+            @endif
+            @endfor
+          </div>
+          @endif
+          @php $test++; @endphp
+        @endfor
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#clientCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -203,23 +223,37 @@
   <!-- End CopyRight -->
 
   <!-- Start Contact -->
-  <section class="contact py-5 check-scroll" id="contact">
+  <section class="contact check-scroll" id="contact">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 stats">
-          <h2 class="special-title">Awesome Stats</h2>
-          <div class="box">
-            <i class="fa-solid fa-users"></i>
-            <h3 class="count-number">50</h3>
-            <h4 class="gradi-color">Users</h4>
+          @if($get_data->status_v == 1 || $get_data->status_p == 1)
+          <div class="col-md-6 stats py-5">
+            <h2 class="special-title">Awesome Stats</h2>
+            @if(asset($get_data->status_v))
+              @if($get_data->status_v == 1)
+              <div class="box">
+                <i class="fa-solid fa-users"></i>
+                <h3 class="count-number">{{$get_data->visitors + 1}}</h3>
+                <h4 class="gradi-color">Users</h4>
+              </div>
+              @endif
+            @endif
+            @if(asset($get_data->status_p))
+              @if($get_data->status_p == 1)
+            <div class="box">
+              <i class="fa-solid fa-gears"></i>
+              <h3 class="count-number">{{$get_data->projects}}</h3>
+              <h4 class="gradi-color">Projects</h4>
+            </div>
+              @endif
+            @endif
           </div>
-          <div class="box">
-            <i class="fa-solid fa-gears"></i>
-            <h3 class="count-number">50</h3>
-            <h4 class="gradi-color">Projects</h4>
-          </div>
-        </div>
-        <div class="col-md-6">
+          @endif
+        @if($get_data->status_v == 1 || $get_data->status_p == 1)
+        <div class="col-md-6 py-5">
+        @else
+        <div class="col-md-8 offset-md-2 py-5">
+        @endif
           <div class="row">
             <h2 class="special-title">Contact</h2>
             <div class="col-12">
@@ -343,10 +377,13 @@
         {
           if (data.status === 'true') {
             let items = '';
+            items += `<li class="nav-item">
+                <button class="nav-link" projectid='${projectId}' data-id="all" type="button"  data-bs-toggle="pill" >all</button>
+              </li>`;
             let pillList = document.getElementById('details-tab')
             data.sections.forEach(sec => {
               items += `<li class="nav-item">
-                <button class="nav-link" data-id="${sec.id}" type="button"  data-bs-toggle="pill" >${sec.name}</button>
+                <button class="nav-link" projectid='${projectId}' data-id="${sec.id}" type="button"  data-bs-toggle="pill" >${sec.name}</button>
               </li>`;
             });
             pillList.innerHTML = items;
@@ -358,6 +395,7 @@
 
     $('body').on('click', "#details-tab .nav-link", function() {
       let id = $(this).attr('data-id');
+      let pro = $(this).attr('projectid');
       let images = '';
       $.ajax({
         url     :"{{route('get.details')}}",
@@ -367,6 +405,7 @@
         {
           _token,
           id,
+          pro
         },
         success: function (data) {
           if (data.status === 'true') {
