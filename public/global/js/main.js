@@ -18,6 +18,7 @@ $(document).ready(function () {
       .siblings()
       .find(".nav-link")
       .removeClass("active");
+    $("#close-nav").click();
   });
 
   function getScroll() {
@@ -50,13 +51,13 @@ $(document).ready(function () {
   getScroll();
 
   // Open And Close Navbar In Mobile
-  const navbarMobile = document.getElementsByClassName("navbar-collapse")[0];
-  document.getElementById("open-nav").onclick = function () {
-    navbarMobile.classList.add("open");
-  };
-  document.getElementById("close-nav").onclick = function () {
-    navbarMobile.classList.remove("open");
-  };
+  const navbarMobile = $(".navbar-collapse");
+  $("#open-nav").on("click", function () {
+    navbarMobile.addClass("open");
+  });
+  $("#close-nav").on("click", function () {
+    navbarMobile.removeClass("open");
+  });
   // ==================== End Navbar =====================
 
   // ==================== Start Button Up  =====================
