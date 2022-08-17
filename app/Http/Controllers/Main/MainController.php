@@ -11,6 +11,7 @@ use App\Models\Details;
 use App\Models\Social;
 use App\Models\Client;
 use App\Models\Services;
+use App\Models\DataSheet;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,6 +19,10 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function home(){
+        $get_data = DataSheet::get()->first();
+        $update_data = DataSheet::where(['id'=>$get_data->id])->update([
+            'visitors'=>$get_data->visitors + 1,
+        ]);
         $about    = About::get()->first();
         $services = Services::get()->all();
         $groups   = Group::get()->all();

@@ -79,5 +79,8 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
         Route::post('/update_service', [App\Http\Controllers\Admin\AdminController::class,'update_service']) ->name('admin.update.services');
         Route::post('/get_update_service', [App\Http\Controllers\Admin\AdminController::class,'get_update_service']) ->name('admin.get.update.services');
 
+    Route::get('/ViewData',[App\Http\Controllers\Admin\AdminController::class,'View_data']) ->name('admin.View_data');
+        Route::post('/save_datasheet', [App\Http\Controllers\Admin\AdminController::class,'save_datasheet']) ->name('admin.save_datasheet');
+
 
 });

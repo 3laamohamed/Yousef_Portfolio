@@ -3,6 +3,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\DataSheet;
 
 class UserSeeder extends Seeder
 {
@@ -17,6 +18,13 @@ class UserSeeder extends Seeder
             'name'            => 'Admin',
             'email'           => 'admin',
             'password' => Hash::make('01140404211'),
+        ]);
+
+        $data = DataSheet::create([
+            'visitors'=>0,
+            'projects'=>0,
+            'status_v'=>0,
+            'ststus_p'=>0
         ]);
     }
 }

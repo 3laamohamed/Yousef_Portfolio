@@ -59,6 +59,7 @@
                       <li class="nav-item"><a class="nav-link" href="{{Route('admin.general')}}"> Social </a></li>
                       <li class="nav-item"><a class="nav-link" href="{{Route('admin.about')}}"> about </a></li>
                       <li class="nav-item"><a class="nav-link" href="{{Route('admin.services')}}"> services </a></li>
+                      <li class="nav-item"><a class="nav-link" href="{{Route('admin.View_data')}}"> view data </a></li>
                       <li class="nav-item"><a class="nav-link" href="{{Route('admin.reg')}}"> register </a></li>
                     </ul>
 

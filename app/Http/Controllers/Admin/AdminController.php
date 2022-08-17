@@ -14,6 +14,7 @@ use App\Models\Details;
 use App\Models\Social;
 use App\Models\Client;
 use App\Models\Services;
+use App\Models\DataSheet;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 
@@ -90,6 +91,11 @@ class AdminController extends Controller
             'status' => $status ,
             'msg'    => $msg ,
         ]);
+    }
+
+    function View_data(){
+        $data = DataSheet::get()->first();
+        return view('admin.datasheet',compact('data'));
     }
 
     function saveimage($photo , $folder)
@@ -182,6 +188,10 @@ class AdminController extends Controller
             'image'     => $file
         ]);
         if($save_project){
+            $get_data = DataSheet::get()->first();
+            $update_data = DataSheet::where(['id'=>$get_data->id])->update([
+                'projects'=>$get_data->projects + 1,
+            ]);
             return $this->ReturnSucsess('true', $save_project->id);
         }
     }
@@ -421,5 +431,19 @@ class AdminController extends Controller
     public function get_update_service(Request $request){
         $service = Services::limit(1)->where(['id'=>$request->id])->first();
         if($service){return $this->ReturnSucsess('true', $service);}
+    }
+    ######################## save_datasheet #####################
+    public function save_datasheet(Request $request){
+        $projects = 0;
+        $visitors = 0;
+        $data = DataSheet::get()->first();
+        if($request->project =='on'){$projects=1;}
+        if($request->visitors =='on'){$visitors=1;}
+        $update = DataSheet::where(['id'=>$data->id])->update([
+            'status_p'=>$projects,
+            'status_v'=>$visitors,
+        ]);
+        if($update){return $this->ReturnSucsess('true', 'Saved Data');}
+
     }
 }
