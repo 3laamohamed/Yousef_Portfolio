@@ -17,12 +17,17 @@
             <img src="{{asset('Admin/About/' . $about->logo)}}" alt="" width="80" height="50">
             @endif
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button id="open-nav" class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <div class="navbar-collapse">
           <ul class="navbar-nav mb-2 mb-lg-0">
+            <div class="close-nav d-block d-md-none" id="close-nav">
+              <span></span>
+              <span></span>
+            </div>
             <li class="nav-item">
               <a class="nav-link active" href="#Home" data-scroll="Home">Home</a>
             </li>
@@ -36,10 +41,10 @@
               <a class="nav-link" href="#clients" data-scroll="clients">Clients</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
+              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#copyright" data-scroll="copyright">Copyright</a>
+              <a class="nav-link" href="#contact" data-scroll="contact">Contact</a>
             </li>
           </ul>
         </div>
@@ -198,37 +203,54 @@
   <!-- End CopyRight -->
 
   <!-- Start Contact -->
-  <section class="contact py-5 bg-light check-scroll" id="contact">
-    <h2 class="special-title">Contact</h2>
+  <section class="contact py-5 check-scroll" id="contact">
     <div class="container">
       <div class="row">
-        <div class="col-12">
-          <div class="mb-3">
-            @csrf
-            <label for="user_name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="user_name" placeholder="please Enter Your Name">
+        <div class="col-md-6 stats">
+          <h2 class="special-title">Awesome Stats</h2>
+          <div class="box">
+            <i class="fa-solid fa-users"></i>
+            <h3 class="count-number">50</h3>
+            <h4 class="gradi-color">Users</h4>
+          </div>
+          <div class="box">
+            <i class="fa-solid fa-gears"></i>
+            <h3 class="count-number">50</h3>
+            <h4 class="gradi-color">Projects</h4>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="mb-3">
-            <label for="user_email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="user_email" placeholder="please Enter Your Email">
+          <div class="row">
+            <h2 class="special-title">Contact</h2>
+            <div class="col-12">
+              <div class="mb-3">
+                @csrf
+                <label for="user_name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="user_name" placeholder="please Enter Your Name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="user_email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="user_email" placeholder="please Enter Your Email">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="user_phone" class="form-label">Phone</label>
+                <input type="text" maxlength="11" class="form-control" id="user_phone" placeholder="please Enter Your Phone">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" rows="8" placeholder="please Enter Your Message"></textarea>
+              </div>
+            </div>
+            <div class="d-grid gap-2 col-12 col-lg-4 col-md-6 mx-auto">
+                <button class="btn btn-primary clicked" id="save_message" type="button">Send</button>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <label for="user_phone" class="form-label">Phone</label>
-            <input type="text" maxlength="11" class="form-control" id="user_phone" placeholder="please Enter Your Phone">
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="8" placeholder="please Enter Your Message"></textarea>
-          </div>
-        </div>
-        <div class="d-grid gap-2 col-12 col-lg-4 col-md-6 mx-auto">
-            <button class="btn btn-primary clicked" id="save_message" type="button">Send</button>
         </div>
       </div>
     </div>

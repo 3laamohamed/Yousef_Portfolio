@@ -119,6 +119,22 @@ nav.navbar.nav-fixed {
   padding: 0 30px;
   border-bottom: 1px solid #eee;
 }
+nav .navbar-toggler,
+nav .navbar-toggler:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+nav .navbar-toggler span {
+  display: block;
+  width: 45px;
+  height: 1px;
+  background: #8c8c8c;
+  margin-top: 7px;
+}
+nav .navbar-collapse {
+  justify-content: flex-end;
+}
 nav .nav-link {
   color: white;
   font-size: 14px;
@@ -144,6 +160,96 @@ nav.navbar.nav-fixed .nav-link {
 nav.navbar.nav-fixed .nav-link:hover,
 nav.navbar.nav-fixed .nav-link.active {
   color: var(--main-color);
+}
+@media (max-width: 767.98px) {
+  .navbar-collapse {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    background: rgb(0 0 0 / 90%);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2;
+  }
+  .navbar-collapse.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .navbar-collapse .navbar-nav {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar-collapse .navbar-nav .close-nav {
+    position: absolute;
+    top: 20px;
+    right: -100%;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    transition: right 0.5s ease-in-out;
+  }
+  .navbar-collapse.open .close-nav {
+    right: 60px;
+  }
+  .navbar-collapse .navbar-nav .close-nav span {
+    display: block;
+    background: white;
+    width: 45px;
+    height: 1px;
+  }
+  .navbar-collapse .navbar-nav .close-nav span:first-child {
+    transform: translateY(22px) rotate(45deg);
+  }
+  .navbar-collapse .navbar-nav .close-nav span:last-child {
+    transform: translateY(22px) rotate(-45deg);
+  }
+  nav .navbar-collapse .nav-link,
+  nav.navbar.nav-fixed .nav-link {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    color: white;
+  }
+  nav .navbar-collapse.open .nav-item {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    animation: navEffect 0.35s ease-in-out forwards;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(1) {
+    animation-delay: 0s;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(2) {
+    animation-delay: 0.2s;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(3) {
+    animation-delay: 0.4s;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(4) {
+    animation-delay: 0.6s;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(5) {
+    animation-delay: 0.8s;
+  }
+  nav .navbar-collapse.open .nav-item:nth-of-type(6) {
+    animation-delay: 1s;
+  }
+  @keyframes navEffect {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
 }
 @media (max-width: 575.98px) {
   .navbar-collapse {
@@ -321,11 +427,45 @@ main .text-contant h1 {
 }
 /* End Clients Section */
 
-/* Start Contact Section */
-.contact .special-title {
-  background: var(--bs-light);
+/* Start Contact & Stats Section */
+.contact {
+  background-image: linear-gradient(
+    to right,
+    var(--main-color) 0%,
+    var(--main-color) 48%,
+    var(--bs-light) 48%
+  );
 }
-/* End Contact Section */
+@media screen and (max-width: 767.98px) {
+  .contact {
+    background-image: linear-gradient(
+      to bottom,
+      var(--main-color) 0%,
+      var(--main-color) 46%,
+      var(--bs-light) 46%
+    );
+  }
+}
+.stats .box {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+.stats .box i {
+  font-size: 3em;
+}
+.stats .box h3 {
+  font-size: 2.5em;
+  margin: 10px auto;
+}
+.stats .box h4 {
+  font-size: 2em;
+}
+/* End Contact & Stats Section */
 
 /* Start CopyRight Section */
 .copyright {
@@ -334,7 +474,7 @@ main .text-contant h1 {
   background-size: cover;
   color: white;
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 .copyright::after {
   background: rgba(23, 23, 30, 0.6);
@@ -353,7 +493,6 @@ pre {
   white-space: pre-wrap;
 }
 /* End CopyRight Section */
-
 /* Start Model Design */
 .modal-body {
   position: relative;
