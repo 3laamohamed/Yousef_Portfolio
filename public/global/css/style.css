@@ -427,11 +427,45 @@ main .text-contant h1 {
 }
 /* End Clients Section */
 
-/* Start Contact Section */
-.contact .special-title {
-  background: var(--bs-light);
+/* Start Contact & Stats Section */
+.contact {
+  background-image: linear-gradient(
+    to right,
+    var(--main-color) 0%,
+    var(--main-color) 48%,
+    var(--bs-light) 48%
+  );
 }
-/* End Contact Section */
+@media screen and (max-width: 767.98px) {
+  .contact {
+    background-image: linear-gradient(
+      to bottom,
+      var(--main-color) 0%,
+      var(--main-color) 46%,
+      var(--bs-light) 46%
+    );
+  }
+}
+.stats .box {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+.stats .box i {
+  font-size: 3em;
+}
+.stats .box h3 {
+  font-size: 2.5em;
+  margin: 10px auto;
+}
+.stats .box h4 {
+  font-size: 2em;
+}
+/* End Contact & Stats Section */
 
 /* Start CopyRight Section */
 .copyright {
@@ -459,7 +493,6 @@ pre {
   white-space: pre-wrap;
 }
 /* End CopyRight Section */
-
 /* Start Model Design */
 .modal-body {
   position: relative;
