@@ -23,31 +23,6 @@
       </div>
   </div>
   <script>
-    let _token           = $('input[name="_token"]').val();
-    $('#save_copy_right').on('click', function() {
-        let copy =$('#copy_right').val();
-        $.ajax({
-            url     :"{{route('admin.save.copyright')}}",
-            method  : 'post',
-            enctype : "multipart/form-data",
-            data:
-            {
-              _token,
-              copy,
-            },
-            success: function (data)
-            {
-            if(data.status == 'true'){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: data.msg,
-                showConfirmButton: false,
-                timer: 1500
-              })
-          }
-            }
-        });
-    });
+let _token=$('input[name="_token"]').val();$("#save_copy_right").on("click",function(){var t=$("#copy_right").val();$.ajax({url:"{{route('admin.save.copyright')}}",method:"post",enctype:"multipart/form-data",data:{_token:_token,copy:t},success:function(t){"true"==t.status&&Swal.fire({position:"center",icon:"success",title:t.msg,showConfirmButton:!1,timer:1500})}})});
 </script>
 @stop

@@ -56,40 +56,6 @@
   </div>
 </div>
 <script>
-  let _token = $('input[name="_token"]').val();
-  $('#save_social').on('click', function() {
-    let facebook  =$('#facebook').val();
-    let gmail     =$('#gmail').val();
-    let linked_in =$('#linked_in').val();
-    let whatsapp  =$('#whatsapp').val();
-    let twitter   =$('#twitter').val();
-    $.ajax({
-        url     :"{{route('admin.save.social')}}",
-        method  : 'post',
-        enctype : "multipart/form-data",
-        data:
-        {
-          _token,
-          facebook,
-          gmail,
-          linked_in,
-          whatsapp,
-          twitter,
-          
-        },
-        success: function (data)
-        {
-          if(data.status == 'true'){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: data.msg,
-                showConfirmButton: false,
-                timer: 1500
-              })
-          }
-        }
-    });
-  });
+let _token=$("input[name=\"_token\"]").val();$("#save_social").on("click",function(){let a=$("#facebook").val(),b=$("#gmail").val(),c=$("#linked_in").val(),d=$("#whatsapp").val(),e=$("#twitter").val();$.ajax({url:"{{route('admin.save.social')}}",method:"post",enctype:"multipart/form-data",data:{_token,facebook:a,gmail:b,linked_in:c,whatsapp:d,twitter:e},success:function(a){"true"==a.status&&Swal.fire({position:"center",icon:"success",title:a.msg,showConfirmButton:!1,timer:1500})}})});
 </script>
 @stop

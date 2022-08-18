@@ -68,29 +68,6 @@
   </div>
 </div>
 <script>
-    // let _token           = $('input[name="_token"]').val();
-    $('#save_copy_right').on('click', function() {
-      let formData      = new FormData($('#form_save_item')[0]);
-      $.ajax({
-        url:"{{route('admin.save.about')}}",
-        method:'post',
-        enctype:"multipart/form-data",
-        processData:false,
-        cache : false,
-        contentType:false,
-        'data' : formData,
-        success: function (data) {
-          if(data.status == 'true'){
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: data.msg,
-                showConfirmButton: false,
-                timer: 1500
-              })
-          }
-        }
-      });
-    });
+  $("#save_copy_right").on("click",function(){let a=new FormData($("#form_save_item")[0]);$.ajax({url:"{{route('admin.save.about')}}",method:"post",enctype:"multipart/form-data",processData:!1,cache:!1,contentType:!1,data:a,success:function(a){"true"==a.status&&Swal.fire({position:"center",icon:"success",title:a.msg,showConfirmButton:!1,timer:1500})}})});
 </script>
 @stop

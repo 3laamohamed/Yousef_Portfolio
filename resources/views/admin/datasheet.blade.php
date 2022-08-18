@@ -36,28 +36,6 @@
   </div>
 </div>
 <script>
-  $('#save_data').on('click', function(e) {
-    e.preventDefault();
-    let formData = new FormData($('#save_form')[0]);
-    $.ajax({
-      url:"{{route('admin.save_datasheet')}}",
-      method:'post',
-      enctype:"multipart/form-data",
-      processData:false,
-      cache : false,
-      contentType:false,
-      'data' : formData,
-      success: function (data)
-      {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: data.msg,
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }
-    });
-  });
+$("#save_data").on("click",function(t){t.preventDefault();t=new FormData($("#save_form")[0]);$.ajax({url:"{{route('admin.save_datasheet')}}",method:"post",enctype:"multipart/form-data",processData:!1,cache:!1,contentType:!1,data:t,success:function(t){Swal.fire({position:"center",icon:"success",title:t.msg,showConfirmButton:!1,timer:1500})}})});
 </script>
 @stop

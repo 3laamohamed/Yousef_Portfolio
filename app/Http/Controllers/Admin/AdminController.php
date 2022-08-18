@@ -373,12 +373,9 @@ class AdminController extends Controller
     public function delete_client(Request $request){
         $client = Client::where(['id'=>$request->client])->first();
         $image_path = 'Admin/Clients/'. $client->image;
-        if(File::exists($image_path)){
             File::delete($image_path);
             $delclient = Client::where(['id'=>$request->client])->delete();
             if($delclient){return $this->ReturnSucsess('true', 'Deleted Client');}
-
-        }
 
     }
     ########################## Save Service ###################
