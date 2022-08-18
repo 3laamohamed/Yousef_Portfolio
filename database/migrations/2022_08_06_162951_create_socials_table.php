@@ -15,11 +15,11 @@ class CreateSocialsTable extends Migration
     {
         Schema::create('socials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('facebook')->default(' ');
-            $table->string('gmail')->default(' ');
-            $table->string('linkedin')->default(' ');
-            $table->string('whats')->default(' ');
-            $table->string('twitter')->default(' ');
+            $table->string('facebook')->nullable();
+            $table->string('gmail')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('whats')->nullable();
+            $table->string('twitter')->nullable();
             $table->timestamps();
         });
     }
