@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'visitors'=>0,
             'projects'=>0,
             'status_v'=>0,
-            'ststus_p'=>0
+            'status_p'=>0
         ]);
     }
 }
