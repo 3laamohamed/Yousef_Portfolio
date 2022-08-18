@@ -17,17 +17,17 @@ Route::get('/home', function () {
     return redirect()->route('admin.general');
     // return redirect('/Admin/Project');
 });
-Route::get('/login', function () {
-    return redirect('/home');
-    // return redirect('/Admin/Project');
-});
+// Route::get('/login', function () {
+//     return redirect('/home');
+//     // return redirect('/Admin/Project');
+// });
 Route::get('/home'     , [App\Http\Controllers\Admin\AdminController::class, 'project']);
 
 Auth::routes();
-Route::get('/', function () {
-    return redirect('/main');
-});
-Route::get('/main'         , [App\Http\Controllers\Main\MainController::class, 'home'])      ->name('home');
+// Route::get('/', function () {
+//     return redirect('/main');
+// });
+Route::get('/'         , [App\Http\Controllers\Main\MainController::class, 'home'])      ->name('home');
 Route::post('/save_message', [App\Http\Controllers\Main\MainController::class,'save_message']) ->name('save.message');
 Route::post('/get_sections', [App\Http\Controllers\Main\MainController::class,'get_sections']) ->name('get.sections');
 Route::post('/get_details', [App\Http\Controllers\Main\MainController::class,'get_details']) ->name('get.details');
