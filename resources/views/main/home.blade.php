@@ -7,13 +7,14 @@
   <div class="dot"></div>
 </div>
 <!-- End Loader -->
-
-<main>
+@if(isset($about->image))
+<main style="background-image: url({{asset('Admin/About/' . $about->image)}})">
+@endif
     <!-- Start Navbar -->
     <nav class="navbar navbar-expand-md">
       <div class="container">
         <a class="navbar-brand" href="#">
-            @if(isset($about->image))
+            @if(isset($about->logo))
             <img src="{{asset('Admin/About/' . $about->logo)}}" alt="" width="80" height="50">
             @endif
         </a>
@@ -167,36 +168,19 @@
     <div class="container">
           <div id="clientCarousel" class="carousel" data-bs-ride="carousel">
       <div class="carousel-inner">
-        @php
-          $count_image = 1;
-          $count_head = 1;
-          $y = 1;
-          $x = 1;
-          $test = 2;
+        @php 
+          $active = 0;
         @endphp
-
-        @for($y=1; $y<= $active ; $y++)
-          @if($y == 1)
+        @foreach($clients as $client)
+          @if($active == 0)
           <div class='carousel-item active'>
-            @for($x=1; $x <= 5 ; $x++)
-            <img src="{{asset('Admin/Clients/' . $new_client[$y .'_'. $x])}}" alt="">
-            @endfor
-          </div>
+          @php $active = 1 ; @endphp
           @else
-          @if($test != $y)
-           <div class='carousel-item'>
+          <div class='carousel-item'>
           @endif
-            @for($x=1; $x <= 5 ; $x++)
-            @if($y==$active && $x==$counter_image)
-              @break
-            @else
-            <img src="{{asset('Admin/Clients/' . $new_client[$y .'_'. $x])}}" alt="">
-            @endif
-            @endfor
+            <img src="{{asset('Admin/Clients/' . $client->image)}}" alt="">
           </div>
-          @endif
-          @php $test++; @endphp
-        @endfor
+        @endforeach
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#clientCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -296,7 +280,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <p>Copyright &copy; YOUSEF GAAFER | Designed by Ibrahim &amp; Alaa</p>
+          <p>Copyright &copy; @if(isset($about->name)){{$about->name}}@endif</p>
         </div>
         <div class="col-md-6">
           <div class="right-footer">

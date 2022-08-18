@@ -94,7 +94,6 @@ section {
 main {
   height: 100vh;
   position: relative;
-  background-image: url(./../../Admin/About/main.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -257,17 +256,11 @@ nav.navbar.nav-fixed .nav-link.active {
   }
   .navbar-nav {
     padding-left: 20px;
-    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
-    box-shadow: 2px 2px 10px #bebebe;
     margin-top: 10px;
   }
   .navbar-nav .nav-link {
     transition: transform 0.2s ease-in-out;
-  }
-  .navbar-nav .nav-link:hover,
-  .navbar-nav .nav-link.active {
-    transform: translateX(10px);
   }
 }
 header .container {
@@ -425,22 +418,49 @@ main .text-contant h1 {
 /* End Projects Section */
 
 /* Start Clients Section */
-.clients img {
-  max-width: 100%;
-  width: 150px;
-  height: 150px;
+@media (max-width: 767px) {
+.clients .carousel-inner .carousel-item>div {
+  display: none;
 }
-@media screen and (max-width: 767.98px) {
-  .clients img {
-    width: 70px;
-    height: 70px;
-  }
+
+.clients .carousel-inner .carousel-item>div:first-child {
+  display: block;
 }
-.clients .carousel-item.active {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
 }
+
+.clients .carousel-inner .carousel-item.active,
+.clients .carousel-inner .carousel-item-next,
+.clients .carousel-inner .carousel-item-prev {
+display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+
+.clients .carousel-inner .carousel-item-end.active,
+.clients .carousel-inner .carousel-item-next {
+  transform: translateX(25%);
+}
+
+.clients .carousel-inner .carousel-item-start.active,
+.clients .carousel-inner .carousel-item-prev {
+  transform: translateX(-25%);
+}
+
+
+.clients .carousel-item {
+  justify-content: space-between;
+}
+}
+
+@media (max-width: 767px) {
+}
+
+.clients .carousel-inner .carousel-item-end,
+.clients .carousel-inner .carousel-item-start {
+transform: translateX(0);
+}
+
 .clients .carousel-control-next,
 .clients .carousel-control-prev {
   width: 50px;
