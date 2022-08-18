@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Support\Facades\URL;
+
 
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         if(env('APP_ENV') !== 'local'){
             URL::forcesScheme('https');
+        }else{
+            URL::forcesScheme('http');
         }
     }
 }
