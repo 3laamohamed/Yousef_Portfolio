@@ -107,7 +107,7 @@
         <div class="carousel-item">
           <div class="service">
             <div class="image">
-              <img src="{{asset('Admin/services/' . $service->image)}}" alt="">
+              <img src="{{asset('Admin/Services/' . $service->image)}}" alt="">
             </div>
             <h3>{{$service->title}}</h3>
             <p>{{$service->disc}}</p>
