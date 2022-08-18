@@ -17,6 +17,10 @@ Route::get('/home', function () {
     return redirect()->route('admin.general');
     // return redirect('/Admin/Project');
 });
+Route::get('/login', function () {
+    return redirect()->route('admin.general');
+    // return redirect('/Admin/Project');
+});
 Route::get('/home'     , [App\Http\Controllers\Admin\AdminController::class, 'project']);
 
 Auth::routes();
