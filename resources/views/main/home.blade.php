@@ -98,39 +98,28 @@
   </div>
 
   <!-- Start Services -->
-  <section id="services" class="services py-5 check-scroll">
+  <section id="services" class="services check-scroll">
     <h2 class="special-title">Services</h2>
     <div class="container">
-    <div id="servicesCarousel" class="carousel" data-bs-ride="carousel">
-      <div class="carousel-inner">
+      <div class="owl-carousel services-carousel">
         @foreach($services as $service)
-        <div class="carousel-item">
-          <div class="service">
-            <div class="image">
-              <img src="{{asset('Admin/Services/' . $service->image)}}" alt="">
+          <div class="item">
+            <div class="service">
+              <div class="image">
+                <img src="{{asset('Admin/Services/' . $service->image)}}" alt="">
+              </div>
+              <h3>{{$service->title}}</h3>
+              <p>{{$service->disc}}</p>
             </div>
-            <h3>{{$service->title}}</h3>
-            <p>{{$service->disc}}</p>
           </div>
-        </div>
         @endforeach
-
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
     </div>
   </section>
   <!-- End Services -->
 
   <!-- Start Projects -->
-  <section id='projects' class="projects py-5 check-scroll">
+  <section id='projects' class="projects  check-scroll">
     <h2 class="special-title">Projects</h2>
     <div class="container">
       <ul class="categories">
@@ -163,26 +152,22 @@
   <!-- End Projects -->
 
   <!-- Start Clients -->
-  <section class="clients py-5 check-scroll" id="clients">
+  <section class="clients  check-scroll" id="clients">
     <h2 class="special-title">Clients</h2>
     <div class="container">
-    <div class="slider">
-        <div class="slider__wrapper">
-          @foreach($clients as $client)
-          <div class="slider__item">
-            <img src="{{asset('Admin/Clients/' .$client->image)}}" alt="{{$client->image}}">
-          </div>
-          @endforeach
+      <div class="owl-carousel clients-carousel">
+        @foreach($clients as $client)
+        <div class="item">
+          <img src="{{asset('Admin/Clients/' .$client->image)}}" alt="{{$client->image}}">
         </div>
-        <a class="slider__control slider__control_left" href="#" role="button"></a>
-        <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
+        @endforeach
       </div>
     </div>
   </section>
   <!-- End Clients -->
 
   <!-- Start CopyRight -->
-  <section class="copyright py-5 check-scroll" id="copyright">
+  <section class="copyright  check-scroll" id="copyright">
     <h2 class="special-title">&copy; Copyright</h2>
     <div class="container">
         @if(isset($copyright->name))
@@ -196,29 +181,6 @@
   <section class="contact check-scroll" id="contact">
     <div class="container">
       <div class="row">
-          @if($get_data->status_v == 1 || $get_data->status_p == 1)
-          <div class="col-md-6 stats py-5">
-            <h2 class="special-title">Awesome Stats</h2>
-            @if(asset($get_data->status_v))
-              @if($get_data->status_v == 1)
-              <div class="box">
-                <i class="fa-solid fa-users"></i>
-                <h3 class="count-number">{{$get_data->visitors + 1}}</h3>
-                <h4 class="gradi-color">Users</h4>
-              </div>
-              @endif
-            @endif
-            @if(asset($get_data->status_p))
-              @if($get_data->status_p == 1)
-            <div class="box">
-              <i class="fa-solid fa-gears"></i>
-              <h3 class="count-number">{{$get_data->projects}}</h3>
-              <h4 class="gradi-color">Projects</h4>
-            </div>
-              @endif
-            @endif
-          </div>
-          @endif
         @if($get_data->status_v == 1 || $get_data->status_p == 1)
         <div class="col-md-6 py-5">
         @else
@@ -256,6 +218,29 @@
             </div>
           </div>
         </div>
+        @if($get_data->status_v == 1 || $get_data->status_p == 1)
+        <div class="col-md-6 stats py-5">
+          <h2 class="special-title">Awesome Stats</h2>
+          @if(asset($get_data->status_v))
+            @if($get_data->status_v == 1)
+            <div class="box">
+              <i class="fa-solid fa-users"></i>
+              <h3 class="count-number">{{$get_data->visitors + 1}}</h3>
+              <h4 class="gradi-color">Users</h4>
+            </div>
+            @endif
+          @endif
+          @if(asset($get_data->status_p))
+            @if($get_data->status_p == 1)
+          <div class="box">
+            <i class="fa-solid fa-gears"></i>
+            <h3 class="count-number">{{$get_data->projects}}</h3>
+            <h4 class="gradi-color">Projects</h4>
+          </div>
+            @endif
+          @endif
+        </div>
+        @endif
       </div>
     </div>
   </section>
@@ -265,10 +250,10 @@
   <footer class="py-5">
     <div class="container">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-6 left-footer">
           <p>Copyright &copy; @if(isset($about->name)){{$about->name}}@endif</p>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <div class="right-footer">
             @if(isset($social->facebook))
             <a href="{{$social->facebook}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
@@ -305,6 +290,6 @@ let _token=$("input[name=\"_token\"]").val();$("body").on("click","#save_message
                 <button class="nav-link" projectid='${e}' data-id="${a.id}" type="button"  data-bs-toggle="pill" >${a.name}</button>
               </li>`}),c.innerHTML=b,c.querySelectorAll(".nav-link")[0].click()}}})}),$("body").on("click","#details-tab .nav-link",function(){let a=$(this).attr("data-id"),b=$(this).attr("projectid"),c="";$.ajax({url:"{{route('get.details')}}",method:"post",enctype:"multipart/form-data",data:{_token,id:a,pro:b},success:function(a){if("true"===a.status){for(let b=0;b<a.details.length;b++)c+=`<a href="{{asset('Admin/Details/${a.details[b].image}')}}">
                         <img src="{{asset('Admin/Details/${a.details[b].image}')}}">
-            </a>`;$("#lightgallery").html(c),lightGallery(document.getElementById("lightgallery"))}}})}),projectModal.addEventListener("hidden.bs.modal",()=>{document.getElementById("lightgallery").innerHTML=""});let multiItemSlider=function(){return function(a){let b=document.querySelector(a),c=b.querySelector(".slider__wrapper"),d=b.querySelectorAll(".slider__item"),e=b.querySelectorAll(".slider__control"),f=b.querySelector(".slider__control_left"),g=b.querySelector(".slider__control_right"),h=parseFloat(getComputedStyle(c).width),i=parseFloat(getComputedStyle(d[0]).width),j=0,k=0,l=100*(i/h),m=[];d.forEach(function(a,b){m.push({item:a,position:b,transform:0})});let n={getItemMin:function(){let a=0;return m.forEach(function(b,c){b.position<m[a].position&&(a=c)}),a},getItemMax:function(){let a=0;return m.forEach(function(b,c){b.position>m[a].position&&(a=c)}),a},getMin:function(){return m[n.getItemMin()].position},getMax:function(){return m[n.getItemMax()].position}},o=function(a){let b;"right"===a&&(j++,j+h/i-1>n.getMax()&&(b=n.getItemMin(),m[b].position=n.getMax()+1,m[b].transform+=100*m.length,m[b].item.style.transform="translateX("+m[b].transform+"%)"),k-=l),"left"===a&&(j--,j<n.getMin()&&(b=n.getItemMax(),m[b].position=n.getMin()-1,m[b].transform-=100*m.length,m[b].item.style.transform="translateX("+m[b].transform+"%)"),k+=l),c.style.transform="translateX("+k+"%)"},p=function(a){let b=this.classList.contains("slider__control_right")?"right":"left";a.preventDefault(),o(b)};return function(){e.forEach(function(a){a.addEventListener("click",p)})}(),{right:function(){o("right")},left:function(){o("left")}}}}(),slider=multiItemSlider(".slider");
+            </a>`;$("#lightgallery").html(c),lightGallery(document.getElementById("lightgallery"))}}})}),projectModal.addEventListener("hidden.bs.modal",()=>{document.getElementById("lightgallery").innerHTML=""});let clinetOwl=$(".clients-carousel");clinetOwl.owlCarousel({loop:!0,margin:10,autoplay:!0,autoplayTimeout:2e3,autoplayHoverPause:!0,nav:!0,responsive:{0:{items:1},576:{items:2},768:{items:4},992:{items:5}}});
   </script>
   @stop

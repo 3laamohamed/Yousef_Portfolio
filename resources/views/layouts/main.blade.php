@@ -15,11 +15,13 @@
 
   <link rel="stylesheet" href="{{ asset('global/css/lightgallery-bundle.min.css')}}">
   <link rel="stylesheet" href="{{ asset('global/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('global/css/owl.carousel.min.css')}}">
   <link rel="stylesheet" href="{{ asset('global/css/style.css')}}">
 
   <!-- JavaScript Bundle with Popper -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('global/js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('global/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('global/js/lightgallery.min.js') }}"></script>
 
     <script src="{{ asset('global/js/sweetalert2@10.js') }}"></script>
