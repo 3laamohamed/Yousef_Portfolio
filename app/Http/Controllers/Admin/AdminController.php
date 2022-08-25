@@ -18,6 +18,7 @@ use App\Models\DataSheet;
 use App\Models\counter_visitor;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
@@ -450,13 +451,39 @@ class AdminController extends Controller
     #################### search_counter ######################
     public function search_counter(Request $request){
         date_default_timezone_set("Africa/Cairo");
-        $today = date("Y-m-d");
+        $today     = date("Y-m-d");
+        $lastday   = date("Y-m-d", strtotime("-1 days"));
+        $lastWeek  = date("Y-m-d", strtotime("-7 days"));
+        $lastWeek_2  = date("Y-m-d", strtotime("-14 days"));
+        $lastmonth = date("Y-m-d", strtotime("-30 days"));
+        $lasyear   = date("Y-m-d", strtotime("-365 days"));
         switch($request->type){
             case'custom':{
                 $data = counter_visitor::whereBetween('date', array($request->from, $request->to))->orderBy('id', 'DESC')->get();
             }break;
             case'today':{
                 $data = counter_visitor::where(['date'=>$today])->orderBy('id', 'DESC')->get();
+            }break;
+            case 'yesterday':{
+                $data = counter_visitor::where(['date'=>$lastday])->orderBy('id', 'DESC')->get();
+            }break;
+            case 'this-week':{
+                $data = counter_visitor::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->orderBy('id', 'DESC')->get();
+            }break;
+            case 'last-week':{
+                $data = counter_visitor::whereBetween('created_at',[Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()])->orderBy('id', 'DESC')->get();
+            }break;
+            case 'this-month':{
+                $data = counter_visitor::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->orderBy('id', 'DESC')->get();            
+            }break;
+            case 'last-month':{
+                $data = counter_visitor::whereBetween('created_at',[Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()])->orderBy('id', 'DESC')->get();
+            }break;
+            case 'this-year':{
+                $data = counter_visitor::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                    ->orderBy('id', 'DESC')->get();            
             }break;
         }
         return $this->ReturnSucsess('true', $data);
