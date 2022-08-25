@@ -59,7 +59,7 @@
             <th>Device</th>
             <th>OS</th>
             <th>Browser</th>
-            <th>Data &amp; Time</th>
+            <th>Date &amp; Time</th>
         </tr>
     </thead>
     <tbody class="table-light">
@@ -86,6 +86,8 @@ $('.filter-btn').on('click', function() {
     let type = $(this).data('value');
     let from = $('#from').val();
     let to   = $('#to').val();
+    let tableContent = ''
+    $('tbody').html(tableContent)
     $.ajax({
       url: "{{route('admin.search.vis')}}",
       method: 'post',
@@ -99,7 +101,17 @@ $('.filter-btn').on('click', function() {
       success: function (data) {
         if(data.status == 'true')
         {
-          console.log('data Is Send')
+          for (let i = 0; i < data.msg.length; i++) {
+            let myDate = new Date(data.msg[i].created_at)
+            tableContent += `<tr>
+              <td>${data.msg[i].mac}</td>
+              <td>${data.msg[i].device}</td>
+              <td>${data.msg[i].os}</td>
+              <td>${data.msg[i].browser}</td>
+              <td>${myDate.toLocaleString().replace(',' , ' ')}</td>
+              </tr>`;
+          }
+          $('tbody').html(tableContent)
         }
       }
     });

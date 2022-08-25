@@ -449,8 +449,16 @@ class AdminController extends Controller
     }
     #################### search_counter ######################
     public function search_counter(Request $request){
-        $counter= 0;
-        $counter = counter_visitor::whereBetween('date', array($request->from, $request->to))->count();
-        return $this->ReturnSucsess('true', $counter);
+        date_default_timezone_set("Africa/Cairo");
+        $today = date("Y-m-d");
+        switch($request->type){
+            case'custom':{
+                $data = counter_visitor::whereBetween('date', array($request->from, $request->to))->orderBy('id', 'DESC')->get();
+            }break;
+            case'today':{
+                $data = counter_visitor::where(['date'=>$today])->orderBy('id', 'DESC')->get();
+            }break;
+        }
+        return $this->ReturnSucsess('true', $data);
     }
 }
