@@ -27,7 +27,6 @@ class MainController extends Controller
         $getos      = VisitorController::get_os();
         $getip      = VisitorController::get_ip();
         $data      = VisitorController::get_user_agent();
-        dd($data);
 
         date_default_timezone_set("Africa/Cairo");
         $date = date("Y-m-d");
@@ -42,7 +41,7 @@ class MainController extends Controller
             'browser'   =>$getbrowser,
             'os'        =>$getos,
         ]);
-        
+
         $about    = About::get()->first();
         $services = Services::get()->all();
         $groups   = Group::get()->all();
@@ -64,8 +63,8 @@ class MainController extends Controller
 
     public function save_message(Request $request){
         $data = Contact::create([
-            'name'  => $request->name,   
-            'email' => $request->email, 
+            'name'  => $request->name,
+            'email' => $request->email,
             'phone' => $request->phone,
             'disc'  => $request->message,
         ]);

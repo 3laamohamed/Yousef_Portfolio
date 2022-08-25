@@ -23,7 +23,7 @@
       @if(isset($data->status_p))
         @if($data->status_p == 0)
           <input class="form-check-input" name="project" type="checkbox" id="project">
-        @else 
+        @else
           <input class="form-check-input" name="project" type="checkbox" id="project" checked>
         @endif
         <label class="form-check-label" for="project"><span style="font-size:25px">Counter Projects</span><span style="color:#ffa500;font-size:25px"> | {{$data->projects}}</span></label>
@@ -34,37 +34,76 @@
   <div class="d-grid gap-2 col-6 mx-auto pt-lg-5 pl-lg-4">
     <button class="btn btn-success" type="button" id="save_data">Save</button>
   </div>
-  <div class="input-group mb-3 mt-5">
-  <span class="input-group-text">From</span>
-  <input type="date" class="form-control" id="from">
-  <span class="input-group-text">To</span>
-  <input type="date" id="to" class="form-control">
-  <button class="btn btn-primary" type="button" id="search">Search</button>
-</div>
-<div class="mt-5"><label class="form-check-label"><span style="font-size:25px">Counter Visitors</span><span style="color:#ffa500;font-size:25px"> | <span id='new_count'>{{$counter}}</span></span></label></div>
-</div>
+  <hr>
+  <div class="buttons-filter">
+    <button class='btn btn-light filter-btn' data-value='today'>today</button>
+    <button class='btn btn-light filter-btn' data-value='yesterday'>yesterday</button>
+    <button class='btn btn-light filter-btn' data-value='this-week'>this week</button>
+    <button class='btn btn-light filter-btn' data-value='last-week'>last week</button>
+    <button class='btn btn-light filter-btn' data-value='this-month'>this month</button>
+    <button class='btn btn-light filter-btn' data-value='last-month'>last month</button>
+    <button class='btn btn-light filter-btn' data-value='this-year'>this year</button>
+    <button class='btn btn-light filter-btn filter-custom'>custom</button>
+    <div class="input-group mb-3 mt-5 d-none">
+      <span class="input-group-text">From</span>
+      <input type="date" class="form-control" id="from">
+      <span class="input-group-text">To</span>
+      <input type="date" id="to" class="form-control">
+      <button class="btn btn-primary filter-btn" data-value='custom' type="button" id="search">Search</button>
+    </div>
+  </div>
+  <table class="table mt-4 text-center shadow-lg">
+    <thead class="table-dark">
+        <tr>
+            <th>IP</th>
+            <th>Device</th>
+            <th>OS</th>
+            <th>Browser</th>
+            <th>Data &amp; Time</th>
+        </tr>
+    </thead>
+    <tbody class="table-light">
+      @foreach($counter as $vis)
+        <tr>
+            <td>{{$vis->mac}}</td>
+            <td>{{$vis->device}}</td>
+            <td>{{$vis->os}}</td>
+            <td>{{$vis->browser}}</td>
+            <td>{{$vis->created_at}}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 <script>
   let _token=$("input[name=\"_token\"]").val();
 $("#save_data").on("click",function(t){t.preventDefault();t=new FormData($("#save_form")[0]);$.ajax({url:"{{route('admin.save_datasheet')}}",method:"post",enctype:"multipart/form-data",processData:!1,cache:!1,contentType:!1,data:t,success:function(t){Swal.fire({position:"center",icon:"success",title:t.msg,showConfirmButton:!1,timer:1500})}})});
-$("#search").on("click",function(){
-  let from = $('#from').val();
-  let to   = $('#to').val();
-  $.ajax({
+$('.filter-btn').on('click', function() {
+  $(this).addClass('btn-primary').removeClass('btn-light').siblings('.btn').removeClass('btn-primary').addClass('btn-light');
+  if ($(this).hasClass('filter-custom')) {
+    $(this).next('.input-group').removeClass('d-none');
+  } else {
+    $(this).siblings('.input-group').addClass('d-none');
+    let type = $(this).data('value');
+    let from = $('#from').val();
+    let to   = $('#to').val();
+    $.ajax({
       url: "{{route('admin.search.vis')}}",
       method: 'post',
       enctype: "multipart/form-data",
       data: {
         _token,
+        type,
         from,
         to
       },
       success: function (data) {
         if(data.status == 'true')
         {
-          $('#new_count').text(data.msg)
+          console.log('data Is Send')
         }
       }
-    })
-})
+    });
+  }
+});
 </script>
 @stop

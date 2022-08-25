@@ -97,7 +97,7 @@ class AdminController extends Controller
     function View_data(){
         date_default_timezone_set("Africa/Cairo");
         $date = date("Y-m-d");
-        $counter = counter_visitor::where(['date'=>$date])->count();
+        $counter = counter_visitor::where(['date'=>$date])->orderBy('id', 'DESC')->get();
         $data = DataSheet::get()->first();
         return view('admin.datasheet',compact('data','counter'));
     }
@@ -291,7 +291,7 @@ class AdminController extends Controller
 
     ################# update_image_details ####################
     public function update_image_details(Request $request){
-        // update Section 
+        // update Section
         $update_section = Section::limit(1)->where(['id'=>$request->section_id])->update([
             'name'=>$request->label,
         ]);
