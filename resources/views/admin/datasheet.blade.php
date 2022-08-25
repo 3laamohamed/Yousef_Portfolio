@@ -34,8 +34,37 @@
   <div class="d-grid gap-2 col-6 mx-auto pt-lg-5 pl-lg-4">
     <button class="btn btn-success" type="button" id="save_data">Save</button>
   </div>
+  <div class="input-group mb-3 mt-5">
+  <span class="input-group-text">From</span>
+  <input type="date" class="form-control" id="from">
+  <span class="input-group-text">To</span>
+  <input type="date" id="to" class="form-control">
+  <button class="btn btn-primary" type="button" id="search">Search</button>
+</div>
+<div class="mt-5"><label class="form-check-label"><span style="font-size:25px">Counter Visitors</span><span style="color:#ffa500;font-size:25px"> | <span id='new_count'>{{$counter}}</span></span></label></div>
 </div>
 <script>
+  let _token=$("input[name=\"_token\"]").val();
 $("#save_data").on("click",function(t){t.preventDefault();t=new FormData($("#save_form")[0]);$.ajax({url:"{{route('admin.save_datasheet')}}",method:"post",enctype:"multipart/form-data",processData:!1,cache:!1,contentType:!1,data:t,success:function(t){Swal.fire({position:"center",icon:"success",title:t.msg,showConfirmButton:!1,timer:1500})}})});
+$("#search").on("click",function(){
+  let from = $('#from').val();
+  let to   = $('#to').val();
+  $.ajax({
+      url: "{{route('admin.search.vis')}}",
+      method: 'post',
+      enctype: "multipart/form-data",
+      data: {
+        _token,
+        from,
+        to
+      },
+      success: function (data) {
+        if(data.status == 'true')
+        {
+          $('#new_count').text(data.msg)
+        }
+      }
+    })
+})
 </script>
 @stop

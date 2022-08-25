@@ -87,6 +87,7 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
 
     Route::get('/ViewData',[App\Http\Controllers\Admin\AdminController::class,'View_data']) ->name('admin.View_data');
         Route::post('/save_datasheet', [App\Http\Controllers\Admin\AdminController::class,'save_datasheet']) ->name('admin.save_datasheet');
+        Route::post('/search_counter', [App\Http\Controllers\Admin\AdminController::class,'search_counter']) ->name('admin.search.vis');
 
 
 });

@@ -12,17 +12,37 @@ use App\Models\Social;
 use App\Models\Client;
 use App\Models\Services;
 use App\Models\DataSheet;
+use App\Models\counter_visitor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\VisitorController;
+
 class MainController extends Controller
 {
     public function home(){
+        $getbrowser = VisitorController::get_browsers();
+        $getdevice  = VisitorController::get_device();
+        $getos      = VisitorController::get_os();
+        $getip      = VisitorController::get_ip();
+        $data      = VisitorController::get_user_agent();
+        dd($data);
+
+        date_default_timezone_set("Africa/Cairo");
+        $date = date("Y-m-d");
         $get_data = DataSheet::get()->first();
         $update_data = DataSheet::where(['id'=>$get_data->id])->update([
             'visitors'=>$get_data->visitors + 1,
         ]);
+        $save_vis = counter_visitor::create([
+            'date'      =>$date,
+            'mac'       =>$getip,
+            'device'    =>$getdevice,
+            'browser'   =>$getbrowser,
+            'os'        =>$getos,
+        ]);
+        
         $about    = About::get()->first();
         $services = Services::get()->all();
         $groups   = Group::get()->all();

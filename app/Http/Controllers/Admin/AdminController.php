@@ -15,6 +15,7 @@ use App\Models\Social;
 use App\Models\Client;
 use App\Models\Services;
 use App\Models\DataSheet;
+use App\Models\counter_visitor;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 
@@ -94,8 +95,11 @@ class AdminController extends Controller
     }
 
     function View_data(){
+        date_default_timezone_set("Africa/Cairo");
+        $date = date("Y-m-d");
+        $counter = counter_visitor::where(['date'=>$date])->count();
         $data = DataSheet::get()->first();
-        return view('admin.datasheet',compact('data'));
+        return view('admin.datasheet',compact('data','counter'));
     }
 
     function saveimage($photo , $folder)
@@ -442,5 +446,11 @@ class AdminController extends Controller
         ]);
         if($update){return $this->ReturnSucsess('true', 'Saved Data');}
 
+    }
+    #################### search_counter ######################
+    public function search_counter(Request $request){
+        $counter= 0;
+        $counter = counter_visitor::whereBetween('date', array($request->from, $request->to))->count();
+        return $this->ReturnSucsess('true', $counter);
     }
 }
