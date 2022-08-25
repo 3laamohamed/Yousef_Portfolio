@@ -55,6 +55,7 @@
   <table class="table mt-4 text-center shadow-lg">
     <thead class="table-dark">
         <tr>
+            <th>#</th>
             <th>IP</th>
             <th>Device</th>
             <th>OS</th>
@@ -63,14 +64,17 @@
         </tr>
     </thead>
     <tbody class="table-light">
+      @php $count=1; @endphp
       @foreach($counter as $vis)
         <tr>
+            <td>{{$count}}</td>
             <td>{{$vis->mac}}</td>
             <td>{{$vis->device}}</td>
             <td>{{$vis->os}}</td>
             <td>{{$vis->browser}}</td>
             <td>{{$vis->created_at}}</td>
         </tr>
+        @php $count++; @endphp
         @endforeach
     </tbody>
 </table>
@@ -101,9 +105,12 @@ $('.filter-btn').on('click', function() {
       success: function (data) {
         if(data.status == 'true')
         {
+          let count = 0
           for (let i = 0; i < data.msg.length; i++) {
             let myDate = new Date(data.msg[i].created_at)
+            count++
             tableContent += `<tr>
+              <td>${count}</td>
               <td>${data.msg[i].mac}</td>
               <td>${data.msg[i].device}</td>
               <td>${data.msg[i].os}</td>
