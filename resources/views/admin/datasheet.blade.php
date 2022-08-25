@@ -6,32 +6,36 @@
 @section('content')
 <div class="container">
   <h2 class="title">View Data</h2>
-  <div class="cards-grid mt-3 pt-lg-5 pl-lg-4 col-md-8 offset-md-2" >
-  <form  id="save_form" action=" " method="POST" multiple enctype="multipart/form-data">
+  <form class="d-flex align-items-center justify-content-center view-form" id="save_form" action=" " method="POST" multiple enctype="multipart/form-data">
     <div class="form-check form-switch" style="font-size:25px">
       @csrf
       @if(isset($data->status_v))
         @if($data->status_v == 0)
-          <input class="form-check-input" name="visitors" type="checkbox" id="visitors" vlaue='0'>
+        <input class="form-check-input" name="visitors" type="checkbox" id="visitors" vlaue='0'>
         @else
-          <input class="form-check-input" name="visitors" type="checkbox" id="visitors"  vlaue='1' checked>
+        <input class="form-check-input" name="visitors" type="checkbox" id="visitors"  vlaue='1' checked>
         @endif
-        <label class="form-check-label" for="visitors"><span style="font-size:25px">Counter Visitors</span><span style="color:#ffa500;font-size:25px"> | {{$data->visitors}}</span></label>
+        <label class="form-check-label" for="visitors">
+          <span style="font-size:25px">Counter Visitors</span>
+          <span style="color:#ffa500;font-size:25px"> | {{$data->visitors}}</span>
+        </label>
       @endif
     </div>
     <div class="form-check form-switch" style="font-size:25px">
       @if(isset($data->status_p))
         @if($data->status_p == 0)
-          <input class="form-check-input" name="project" type="checkbox" id="project">
+        <input class="form-check-input" name="project" type="checkbox" id="project">
         @else
-          <input class="form-check-input" name="project" type="checkbox" id="project" checked>
+        <input class="form-check-input" name="project" type="checkbox" id="project" checked>
         @endif
-        <label class="form-check-label" for="project"><span style="font-size:25px">Counter Projects</span><span style="color:#ffa500;font-size:25px"> | {{$data->projects}}</span></label>
+        <label class="form-check-label" for="project">
+          <span style="font-size:25px">Counter Projects</span>
+          <span style="color:#ffa500;font-size:25px"> | {{$data->projects}}</span>
+        </label>
       @endif
     </div>
-  </div>
   </form>
-  <div class="d-grid gap-2 col-6 mx-auto pt-lg-5 pl-lg-4">
+  <div class="d-grid gap-2 col-6 mx-auto my-3">
     <button class="btn btn-success" type="button" id="save_data">Save</button>
   </div>
   <hr>
@@ -44,40 +48,52 @@
     <button class='btn btn-light filter-btn' data-value='last-month'>last month</button>
     <button class='btn btn-light filter-btn' data-value='this-year'>this year</button>
     <button class='btn btn-light filter-btn filter-custom'>custom</button>
-    <div class="input-group mb-3 mt-5 d-none">
-      <span class="input-group-text">From</span>
-      <input type="date" class="form-control" id="from">
-      <span class="input-group-text">To</span>
-      <input type="date" id="to" class="form-control">
-      <button class="btn btn-primary filter-btn" data-value='custom' type="button" id="search">Search</button>
+    <div class="input-group mb-3 mt-1 d-none">
+      <div class="d-flex align-items-center justify-content-center gap-2 w-100">
+        <div class="d-flex">
+          <span class="input-group-text">From</span>
+          <input type="date" class="form-control" id="from">
+        </div>
+        <div class="d-flex">
+          <span class="input-group-text">To</span>
+          <input type="date" id="to" class="form-control">
+        </div>
+        <button class="btn btn-primary filter-btn d-flex align-items-center justify-content-center gap-2 " data-value='custom' type="button" id="search">
+          <ion-icon class="fs-4" name="search-outline"></ion-icon>
+          <span> Search </span>
+        </button>
+      </div>
     </div>
   </div>
-  <table class="table mt-4 text-center shadow-lg">
-    <thead class="table-dark">
+  <div class="view-table table-responsive-md">
+    <table class="table m-0 text-center shadow-lg">
+      <thead class="table-dark">
         <tr>
-            <th>#</th>
-            <th>IP</th>
-            <th>Device</th>
-            <th>OS</th>
-            <th>Browser</th>
-            <th>Date &amp; Time</th>
+          <th>#</th>
+          <th>IP</th>
+          <th>Device</th>
+          <th>OS</th>
+          <th>Browser</th>
+          <th>Date &amp; Time</th>
         </tr>
-    </thead>
-    <tbody class="table-light">
-      @php $count=1; @endphp
-      @foreach($counter as $vis)
-        <tr>
+      </thead>
+      <tbody class="table-light">
+        @php $count=1; @endphp
+        @foreach($counter as $vis)
+          <tr>
             <td>{{$count}}</td>
             <td>{{$vis->mac}}</td>
             <td>{{$vis->device}}</td>
             <td>{{$vis->os}}</td>
             <td>{{$vis->browser}}</td>
             <td>{{$vis->created_at}}</td>
-        </tr>
-        @php $count++; @endphp
+          </tr>
+          @php $count++; @endphp
         @endforeach
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+</div>
 <script>
   let _token=$("input[name=\"_token\"]").val();
 $("#save_data").on("click",function(t){t.preventDefault();t=new FormData($("#save_form")[0]);$.ajax({url:"{{route('admin.save_datasheet')}}",method:"post",enctype:"multipart/form-data",processData:!1,cache:!1,contentType:!1,data:t,success:function(t){Swal.fire({position:"center",icon:"success",title:t.msg,showConfirmButton:!1,timer:1500})}})});

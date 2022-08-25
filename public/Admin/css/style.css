@@ -205,7 +205,37 @@ tr {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
   text-align: center;
   margin: 15px 0;
+}
+.buttons-filter .filter-btn {
+  min-width: 100px;
+}
+.view-form {
+  gap: 25px;
+}
+@media (max-width: 767.98px) {
+  .view-form {
+    flex-direction: column;
+    gap: 15;
+  }
+}
+.view-table {
+  max-height: 350px;
+  overflow-y: auto;
+}
+.view-table::-webkit-scrollbar {
+  width: 5px;
+}
+.view-table::-webkit-scrollbar-thumb {
+  background-color: var(--bs-dark);
+}
+.view-table th {
+  position: sticky;
+  top: 0;
+}
+.table > :not(caption) > * > * {
+  white-space: nowrap;
 }
