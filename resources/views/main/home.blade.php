@@ -256,19 +256,19 @@
         <div class="col-sm-6">
           <div class="right-footer">
             @if(isset($social->facebook))
-            <a href="{{$social->facebook}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
+            <a href="{{$social->facebook}}" target="_blank" class="text-decoration-none"><i class="fa-brands fa-fw fa-facebook-f"></i></a>
             @endif
             @if(isset($social->whats))
-            <a href="https://api.whatsapp.com/send?phone={{$social->whats}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
+            <a href="https://api.whatsapp.com/send?phone={{$social->whats}}" target="_blank" class="text-decoration-none"><i class="fa-brands fa-fw fa-whatsapp"></i></a>
             @endif
             @if(isset($social->gmail))
-            <a href="mailto:{{$social->gmail}}" class="text-decoration-none"><i class="fa-brands fa-google-plus-g"></i></a>
+            <a href="mailto:{{$social->gmail}}" target="_blank" class="text-decoration-none"><i class="fa-brands fa-google-plus-g"></i></a>
             @endif
             @if(isset($social->linkedin))
-            <a href="{{$social->linkedin}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-linkedin-in"></i></a>
+            <a href="{{$social->linkedin}}" target="_blank" class="text-decoration-none"><i class="fa-brands fa-fw fa-linkedin-in"></i></a>
             @endif
             @if(isset($social->twitter))
-            <a href="{{$social->twitter}}" class="text-decoration-none"><i class="fa-brands fa-fw fa-twitter"></i></a>
+            <a href="{{$social->twitter}}" target="_blank" class="text-decoration-none"><i class="fa-brands fa-fw fa-twitter"></i></a>
             @endif
           </div>
         </div>

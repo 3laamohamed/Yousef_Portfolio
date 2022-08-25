@@ -267,6 +267,13 @@ main .text-contant h1 {
 }
 .owl-carousel {
   position: relative;
+  z-index: 0;
+}
+.owl-carousel .owl-item img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin: auto;
 }
 .owl-nav button {
   position: absolute;
@@ -310,6 +317,8 @@ main .text-contant h1 {
   max-width: 100%;
   margin-bottom: 10px;
   border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .services .service h3 {
   font-weight: 600;
@@ -346,6 +355,7 @@ main .text-contant h1 {
 .cards-container .card img {
   height: 100%;
   border-radius: 0;
+  object-fit: cover;
   transition: transform 0.4s ease-in-out;
 }
 .cards-container .card:hover .card-image img {
@@ -480,6 +490,7 @@ pre {
 .image-container img {
   width: 200px;
   height: 200px;
+  object-fit: cover;
 }
 .lg-backdrop.in,
 .lg-outer {
