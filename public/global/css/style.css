@@ -470,8 +470,21 @@ pre {
 .modal-body .nav-pills {
   background: #fff;
   top: -48px;
+  row-gap: 5px;
+}
+@media (max-width: 991.98px) {
+  .modal-body .nav-pills .nav-item {
+    flex-basis: calc(100% / 3);
+  }
+}
+@media (max-width: 575.98px) {
+  .modal-body .nav-pills .nav-item {
+    flex-basis: 100%;
+  }
 }
 .modal-body .nav-pills .nav-link {
+  display: block;
+  width: 100%;
   border-radius: 0;
   color: white;
   background-color: rgba(23, 23, 23, 0.6);
@@ -487,9 +500,13 @@ pre {
   gap: 10px;
   flex-wrap: wrap;
 }
+.image-container a {
+  flex: 1;
+}
 .image-container img {
-  width: 200px;
-  height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+  width: 100%;
   object-fit: cover;
 }
 .lg-backdrop.in,
