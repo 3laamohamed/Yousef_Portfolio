@@ -25,6 +25,8 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="{{ asset('global/js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('Admin/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('Admin/js/touch.js') }}"></script>
     <script src="{{ asset('global/js/sweetalert2@10.js') }}"></script>
 
     <!-- Fonts -->
@@ -34,6 +36,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('Admin/css/jquery-ui.min.css') }}" rel="stylesheet">
     <link href="{{ asset('Admin/css/style.css') }}" rel="stylesheet">
 </head>
 
