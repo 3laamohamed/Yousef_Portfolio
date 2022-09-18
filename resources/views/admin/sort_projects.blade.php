@@ -12,7 +12,7 @@
           @foreach ($projects as $project)
           <li class="ui-state-default" data-id="{{$project->id}}">
             <img src="{{asset('Admin/Projects/' . $project->image)}}"/>
-            <h1>{{$project->title}}</h1>
+            <p>{{$project->title}}</p>
           </li>
           @endforeach
         </ul>
@@ -33,7 +33,18 @@
         $('#sortable li').each(function () {
             sortArr.push($(this).attr('data-id'));
         });
-        console.log(sortArr)
+        $.ajax({
+            url:"{{route('save.reservation')}}",
+            method:'post',
+            enctype:"multipart/form-data",
+            processData:false,
+            cache : false,
+            contentType:false,
+            'data' : sortArr,
+            success: function (data) {
+              console.log(sortArr)
+            }
+        });
       });
   });
 </script>
