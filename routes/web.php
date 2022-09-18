@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('alaa',function (){
-  return 'Alaa';
-});
-
 Route::get('/home', function () {
     return redirect()->route('admin.general');
     // return redirect('/Admin/Project');
@@ -91,6 +87,9 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
     Route::get('/ViewData',[App\Http\Controllers\Admin\AdminController::class,'View_data']) ->name('admin.View_data');
         Route::post('/save_datasheet', [App\Http\Controllers\Admin\AdminController::class,'save_datasheet']) ->name('admin.save_datasheet');
         Route::post('/search_counter', [App\Http\Controllers\Admin\AdminController::class,'search_counter']) ->name('admin.search.vis');
+
+    Route::get('/View_SortProjects',[App\Http\Controllers\Admin\AdminController::class,'View_sort_projects']) ->name('admin.View_sort_projects');
+
 
 
 });

@@ -87,6 +87,11 @@ class AdminController extends Controller
         $services = Services::orderBy('id', 'DESC')->get()->all();
         return view('admin.services',compact('services'));
     }
+    public function View_sort_projects(){
+      $projects = Project::select(['id','title','image'])->get()->all();
+
+      return view('admin.sort_projects',compact('projects'));
+    }
 
     function ReturnSucsess($status , $msg){
         return response()->json([
@@ -181,6 +186,7 @@ class AdminController extends Controller
 
     ################################ SAve Project ################################
     public function save_project(Request $request){
+        $last_sort = Project::max('sort_project') + 1;
         // get Group
         $group = Group::where(['id'=>$request->group])->first();
         if ($request->thumbnail != null) {
@@ -192,7 +198,8 @@ class AdminController extends Controller
             'disc'      => $request->disc,
             'groupid'   => $group->id,
             'groupname' => $group->group,
-            'image'     => $file
+            'image'     => $file,
+            'sort_project'=>$last_sort
         ]);
         if($save_project){
             $get_data = DataSheet::get()->first();
@@ -478,14 +485,14 @@ class AdminController extends Controller
             }break;
             case 'this-month':{
                 $data = counter_visitor::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->orderBy('id', 'DESC')->get();            
+                    ->orderBy('id', 'DESC')->get();
             }break;
             case 'last-month':{
                 $data = counter_visitor::whereBetween('created_at',[Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()])->orderBy('id', 'DESC')->get();
             }break;
             case 'this-year':{
                 $data = counter_visitor::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
-                    ->orderBy('id', 'DESC')->get();            
+                    ->orderBy('id', 'DESC')->get();
             }break;
         }
         return $this->ReturnSucsess('true', $data);
