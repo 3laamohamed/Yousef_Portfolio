@@ -20,6 +20,8 @@ class Project extends Migration
             $table->text('image')->default(' ');
             $table->text('groupid')->default(' ');
             $table->text('groupname')->default(' ');
+            $table->text('sort_project')->nullable();
+            $table->string('activation')->default('0');
             $table->timestamps();
         });
     }

@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,20 +17,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::group(['middleware' => ['auth']], function() {
+  Route::resource('roles', RoleController::class);
+  Route::resource('users', UserController::class);
+});
+
 Route::get('/home', function () {
     return redirect()->route('admin.general');
-    // return redirect('/Admin/Project');
 });
-// Route::get('/login', function () {
-//     return redirect('/home');
-//     // return redirect('/Admin/Project');
-// });
+
 Route::get('/home'     , [App\Http\Controllers\Admin\AdminController::class, 'project']);
 
 Auth::routes();
-// Route::get('/', function () {
-//     return redirect('/main');
-// });
 Route::get('/'         , [App\Http\Controllers\Main\MainController::class, 'home'])      ->name('home');
 Route::post('/save_message', [App\Http\Controllers\Main\MainController::class,'save_message']) ->name('save.message');
 Route::post('/get_sections', [App\Http\Controllers\Main\MainController::class,'get_sections']) ->name('get.sections');
@@ -89,7 +94,10 @@ Route::group(['prefix' => 'Admin' , 'namespace' => 'Admin'] ,function()
         Route::post('/search_counter', [App\Http\Controllers\Admin\AdminController::class,'search_counter']) ->name('admin.search.vis');
 
     Route::get('/View_SortProjects',[App\Http\Controllers\Admin\AdminController::class,'View_sort_projects']) ->name('admin.View_sort_projects');
+        Route::post('/save_sort_project', [App\Http\Controllers\Admin\AdminController::class,'save_sort_project']) ->name('admin.save_sort_project');
 
+    Route::get('/update_user/user={id}',[AdminController::class,'update_user'])->name('update_user');
+      Route::post('/update_user_now',[AdminController::class,'update_user_now'])->name('update_user_now');
 
 
 });

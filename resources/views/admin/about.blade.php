@@ -5,7 +5,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h2 class="title">About<h2>
+  <h2 class="title">About</h2>
   <div class="row mt-3">
     <div class="col-md-10 offset-md-1">
     <form id="form_save_item" action=" " method="POST" multiple enctype="multipart/form-data">

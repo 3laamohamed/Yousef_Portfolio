@@ -48,7 +48,7 @@ class MainController extends Controller
         $clients  = Client::inRandomOrder()->get()->all();
         $copyright= CopyRight::get()->first();
         $social   = Social::get()->first();
-        $projects = Project::get()->all();
+        $projects = Project::where(['activation'=>'1'])->orderBy("sort_project")->get();
         return view('main.home',compact([
             'about',
             'services',

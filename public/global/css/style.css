@@ -1,7 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Kanit:wght@100;300;400;700&display=swap";
 :root {
   --main-color: #9bb2e1;
-  --red-color: #efa8b0;
 }
 * {
   margin: 0;
@@ -123,15 +122,13 @@ nav .navbar-collapse {
 }
 nav .nav-link {
   color: white;
-  font-size: 14px;
-  font-weight: 300;
   text-transform: uppercase;
   transition: all 0.4s ease-in-out;
-  padding: 35px 19px !important;
+  padding: 35px 15px !important;
 }
 nav.navbar.nav-fixed .nav-link {
   color: #333;
-  padding: 25px 17px !important;
+  padding: 25px 13px !important;
 }
 .navbar-nav .nav-link.active,
 .navbar-nav .show > .nav-link,
@@ -272,7 +269,7 @@ main .text-contant h1 {
 .owl-carousel .owl-item img {
   width: 150px;
   height: 150px;
-  object-fit: contain;
+  object-fit: cover;
   margin: auto;
 }
 .owl-nav button {
@@ -324,9 +321,18 @@ main .text-contant h1 {
   font-weight: 600;
 }
 .services .service p {
-  font-size: 0.9em;
-  line-height: 1.6;
   color: #777;
+  text-align: left;
+  overflow: hidden;
+  display: -webkit-box;
+  align-items: center;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  margin-bottom: 0;
+}
+.services .service:hover  p{
+  display: block;
 }
 .projects {
   position: relative;
@@ -503,7 +509,8 @@ pre {
 .image-container a {
   flex: 1;
 }
-.image-container img {
+.image-container img,
+.image-container video {
   min-width: 200px;
   min-height: 200px;
   width: 100%;

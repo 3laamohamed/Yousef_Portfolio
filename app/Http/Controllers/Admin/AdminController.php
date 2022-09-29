@@ -9,6 +9,7 @@ use App\Models\CopyRight;
 use App\Models\About;
 use App\Models\Project;
 use App\Models\Contact;
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Details;
 use App\Models\Social;
@@ -19,29 +20,54 @@ use App\Models\counter_visitor;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class AdminController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     public function viewabout(){
         $data = About::get()->first();
-        return view('admin.about',compact('data'));
+        $user = Auth::user();
+        if($user->can('about')){
+          return view('admin.about',compact('data'));
+        }else{
+          return abort(404,'User Not Access');
+        }
     }
     public function clients(){
         $clients = Client::orderBy('id', 'DESC')->get()->all();
-        return view('admin.clients',compact('clients'));
+        $user = Auth::user();
+        if($user->can('clients')){
+          return view('admin.clients',compact('clients'));
+        }else{
+          return abort(404,'User Not Access');
+        }
     }
     public function contact(){
         $contacts = Contact::orderBy('id', 'DESC')->get()->all();
-        return view('admin.contact',compact('contacts'));
+        $user = Auth::user();
+        if($user->can('contact')){
+          return view('admin.contact',compact('contacts'));
+        }else{
+          return abort(404,'User Not Access');
+        }
     }
     public function copyright(){
         $data = CopyRight::get()->all();
-        return view('admin.copyright',compact(['data']));
+      $user = Auth::user();
+        if($user->can('copyright')){
+          return view('admin.copyright',compact(['data']));
+        }else{
+          return abort(404,'User Not Access');
+        }
     }
     public function general(){
         if(Social::get()->count() > 0){
@@ -49,7 +75,12 @@ class AdminController extends Controller
         }else{
             $social = [];
         }
-        return view('admin.general',compact('social'));
+        $user = Auth::user();
+        if($user->can('social')){
+          return view('admin.general',compact('social'));
+        }else{
+          return abort(404,'User Not Access');
+        }
     }
     public function group(){
         $counter = 1;
@@ -57,7 +88,13 @@ class AdminController extends Controller
         if(!empty($groups)){
           $counter = Group::max('id') + 1;
         }
-        return view('admin.group',compact('groups','counter'));
+        $user = Auth::user();
+        if($user->can('groups')){
+          return view('admin.group',compact('groups','counter'));
+        }else{
+          return abort(404,'User Not Access');
+        }
+
     }
     public function project(){
         $groups = Group::get()->all();
@@ -66,7 +103,12 @@ class AdminController extends Controller
         }else{
             $projects =[];
         }
-        return view('admin.project',compact('groups','projects'));
+        $user = Auth::user();
+        if($user->can('projects')){
+          return view('admin.project',compact('groups','projects'));
+        }else{
+          return abort(404,'User Not Access');
+        }
 
     }
     public function details(){
@@ -76,21 +118,33 @@ class AdminController extends Controller
         }else{
             $sections = [];
         }
-        return view('admin.details_project',compact('projects','sections'));
-    }
 
-    public function reg(){
-        return view('auth.register');
+      $user = Auth::user();
+      if($user->can('details')){
+        return view('admin.details_project',compact('projects','sections'));
+      }else{
+        return abort(404,'User Not Access');
+      }
     }
 
     public function services(){
         $services = Services::orderBy('id', 'DESC')->get()->all();
+
+      $user = Auth::user();
+      if($user->can('services')){
         return view('admin.services',compact('services'));
+      }else{
+        return abort(404,'User Not Access');
+      }
     }
     public function View_sort_projects(){
-      $projects = Project::select(['id','title','image'])->get()->all();
-
-      return view('admin.sort_projects',compact('projects'));
+      $projects = Project::select(['id','title','image'])->orderBy("sort_project")->get();
+      $user = Auth::user();
+      if($user->can('sort_projects')){
+        return view('admin.sort_projects',compact('projects'));
+      }else{
+        return abort(404,'User Not Access');
+      }
     }
 
     function ReturnSucsess($status , $msg){
@@ -105,7 +159,12 @@ class AdminController extends Controller
         $date = date("Y-m-d");
         $counter = counter_visitor::where(['date'=>$date])->orderBy('id', 'DESC')->get();
         $data = DataSheet::get()->first();
+      $user = Auth::user();
+      if($user->can('view_data')){
         return view('admin.datasheet',compact('data','counter'));
+      }else{
+        return abort(404,'User Not Access');
+      }
     }
 
     function saveimage($photo , $folder)
@@ -187,6 +246,10 @@ class AdminController extends Controller
     ################################ SAve Project ################################
     public function save_project(Request $request){
         $last_sort = Project::max('sort_project') + 1;
+        $active = 0;
+        if(isset($request->project_active) == 'on'){
+          $active = 1;
+        }
         // get Group
         $group = Group::where(['id'=>$request->group])->first();
         if ($request->thumbnail != null) {
@@ -199,7 +262,8 @@ class AdminController extends Controller
             'groupid'   => $group->id,
             'groupname' => $group->group,
             'image'     => $file,
-            'sort_project'=>$last_sort
+            'sort_project'=>$last_sort,
+            'activation'=>$active,
         ]);
         if($save_project){
             $get_data = DataSheet::get()->first();
@@ -223,11 +287,16 @@ class AdminController extends Controller
 
     ########################## Update Project ######################
     public function update_project(Request $request){
+        $active = 0;
+        if(isset($request->project_active) == 'on'){
+          $active = 1;
+        }
         $project = Project::limit(1)->where(['id'=>$request->project_id])->first();
         if($request->thumbnail == null){
             $update = Project::limit(1)->where(['id'=>$request->project_id])->update([
                 'title' => $request->label,
                 'disc' => $request->disc,
+                'activation'=>$active,
             ]);
             if($update){return $this->ReturnSucsess('true', 'Updated Project');}
         }else{
@@ -240,7 +309,8 @@ class AdminController extends Controller
             $update = Project::limit(1)->where(['id'=>$request->project_id])->update([
                 'title' => $request->label,
                 'disc' => $request->disc,
-                'image' =>$file
+                'image' =>$file,
+                'activation'=>$active,
             ]);
             if($update){return $this->ReturnSucsess('true', 'Updated Service');}
         }
@@ -496,5 +566,44 @@ class AdminController extends Controller
             }break;
         }
         return $this->ReturnSucsess('true', $data);
+    }
+    ######################## save_sort_project ########################
+    public function save_sort_project(Request $request){
+      $counter = 1;
+      foreach ($request->projects as $project){
+        $update_project = Project::where(['id'=>$project])->update([
+          'sort_project'=>$counter
+        ]);
+        $counter++;
+      }
+      if($update_project){return $this->ReturnSucsess('true', 'Saved Sort');}
+    }
+
+    public function update_user($id){
+      if($id != Auth::user()->id){
+          return redirect('home');
+      }else{
+        $user_update = User::where(['id'=>$id])->get()->first();
+        return view('auth.register',compact('user_update'));
+      }
+    }
+    public function update_user_now(Request $request){
+      if($request->password == $request->password_confirmation){
+          if($request->password == null){
+            $update = User::where(['id'=>$request->id])->update([
+              'name' => $request->name,
+              'email' => $request->email,
+            ]);
+          }else{
+            $update = User::where(['id'=>$request->id])->update([
+              'name' => $request->name,
+              'email' => $request->email,
+              'password' => Hash::make($request->password),
+            ]);
+          }
+        if($update){return $this->ReturnSucsess('true', 'Update User');}
+      }else{
+        return abort(404,'This is password not equal confirmation');
+      }
     }
 }
